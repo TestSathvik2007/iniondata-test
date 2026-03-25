@@ -1,91 +1,88 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
-const navLinks = [
-  { label: "Home",         page: "home" },
-  { label: "About Us",     page: "about" },
-  { label: "Our Services", page: "services" },
-  { label: "Contact Us",   page: "contact" },
-  { label: "Careers",      page: "careers" },
+const links = [
+  { to: "/", label: "Home" },
+  { to: "/about", label: "About" },
+  { to: "/services", label: "Services" },
+  { to: "/careers", label: "Careers" },
+  { to: "/contact", label: "Contact" },
 ];
 
-export default function Navbar({ currentPage, navigate }) {
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const go = (page) => { navigate(page); setMenuOpen(false); };
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
-    <nav className="navbar" style={{ padding: scrolled ? "0.6rem 1.5rem" : "1.25rem 1.5rem" }}>
-      <div className="navbar-pill" style={{ boxShadow: scrolled ? "0 6px 28px rgba(0,0,0,0.1)" : "0 2px 16px rgba(0,0,0,0.06)" }}>
+    <header className={`nav ${scrolled ? "nav--scrolled" : ""}`}>
+      <div className="container nav__inner">
+        <Link to="/" className="brand" onClick={() => setOpen(false)} aria-label="Go to home">
+          <span className="brand__mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+              <path d="M9.2 12.2l1.9 1.9 3.7-4.1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="brand__text">Inion<span>Data</span></span>
+        </Link>
 
-        {/* Logo */}
-        <button className="navbar-logo" onClick={() => go("home")}>
-          <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
-            <rect width="32" height="32" rx="8" fill="#0D9488"/>
-            <path d="M8 22V14a2 2 0 012-2h3.5L16 8l2.5 4H22a2 2 0 012 2v8" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            <circle cx="16" cy="18" r="3" fill="white" opacity="0.9"/>
-          </svg>
-          <span className="navbar-logo-text">Inion<span>Data</span></span>
-        </button>
-
-        {/* Desktop links */}
-        <ul className="navbar-links">
-          {navLinks.map(l => (
-            <li key={l.page} style={{ listStyle: "none" }}>
-              <button
-                className={`nav-btn ${currentPage === l.page ? "active" : ""}`}
-                onClick={() => go(l.page)}
-              >
-                {l.label}
-              </button>
-            </li>
+        <nav className="nav__links" aria-label="Primary">
+          {links.map((l) => (
+            <NavLink
+              key={l.to}
+              to={l.to}
+              className={({ isActive }) => `navlink ${isActive ? "navlink--active" : ""}`}
+            >
+              {l.label}
+            </NavLink>
           ))}
-        </ul>
+        </nav>
 
-        {/* CTA */}
-        <button className="navbar-cta-btn" onClick={() => go("contact")}>
-          Get In Touch
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
+        <div className="nav__actions">
+          <Link to="/contact" className="btn btn--primary" onClick={() => setOpen(false)}>
+            Get in touch
+          </Link>
 
-        {/* Hamburger */}
-        <button
-          className="hamburger"
-          style={{ transform: menuOpen ? "rotate(0)" : "none" }}
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <span style={{ transform: menuOpen ? "rotate(45deg) translate(5px,5px)" : "none" }} />
-          <span style={{ opacity: menuOpen ? 0 : 1 }} />
-          <span style={{ transform: menuOpen ? "rotate(-45deg) translate(5px,-5px)" : "none" }} />
-        </button>
+          <button className="iconbtn nav__burger" onClick={() => setOpen((v) => !v)} aria-expanded={open} aria-label="Menu">
+            <span className="burger" aria-hidden="true" data-open={open ? "true" : "false"} />
+          </button>
+        </div>
       </div>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="mobile-menu">
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {navLinks.map(l => (
-              <li key={l.page}>
-                <button
-                  className={`mobile-nav-btn ${currentPage === l.page ? "active" : ""}`}
-                  onClick={() => go(l.page)}
-                >
-                  {l.label}
-                </button>
-              </li>
+      {open && (
+        <div className="nav__mobile">
+          <div className="container nav__mobileInner">
+            {links.map((l) => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                onClick={() => setOpen(false)}
+                className={({ isActive }) => `mobilelink ${isActive ? "mobilelink--active" : ""}`}
+              >
+                {l.label}
+              </NavLink>
             ))}
-          </ul>
-          <button className="mobile-cta-btn" onClick={() => go("contact")}>Get In Touch</button>
+            <Link to="/contact" className="btn btn--primary btn--full" onClick={() => setOpen(false)}>
+              Talk to us
+            </Link>
+          </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 }
