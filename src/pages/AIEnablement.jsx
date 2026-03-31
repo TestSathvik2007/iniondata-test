@@ -2,85 +2,56 @@ import { Link } from "react-router-dom";
 import { useReveal, ANIM_CSS } from "../animations";
 import { useEffect, useRef, useState } from "react";
 
-/* ✅ IMPORT IMAGES */
-import service1 from "../assets/images/app_development.png";
-import service2 from "../assets/images/application_integration.png";
-import service3 from "../assets/images/application_management.png";
-import service4 from "../assets/images/application_maintenance.png";
-import service5 from "../assets/images/project_management.png";
-import service6 from "../assets/images/consulting_services.png";
-import service7 from "../assets/images/teams_application.png";
-import service8 from "../assets/images/operational_efficiency.png";
-import service9 from "../assets/images/fast_growth.png";
+// ── DATA ─────────────────────────────────────────────────────────────────────
 
-/* ── DATA ───────────────────────────────── */
-
-const offerings = [
+const services = [
   {
-    title: "Application Design & Development",
-    desc: "Full-cycle development from requirements to release.",
-    bullets: ["Requirements gathering", "UI/UX design", "QA testing"],
-    image: service1,
-    slug: "/services/app-development",   // ← detail page
+    num: "01",
+    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v5c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 10v5c0 1.66 4 3 9 3s9-1.34 9-3v-5"/></svg>),
+    title: "Data Services",
+    desc: "End-to-end data services designed to power high-performance AI systems.",
+    bullets: ["Data annotation & labeling","Image, text, speech & video","Segmentation & curation","Scalable data pipelines"],
+    lottieUrl: "https://assets2.lottiefiles.com/packages/lf20_DMgKk1.json",
+    lottieBg: "transparent",
   },
   {
-    title: "Application Integration",
-    desc: "Seamless connectivity between systems.",
-    bullets: ["API integration", "Data flow", "Third-party linking"],
-    image: service2,
+    num: "02",
+    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>),
+    title: "Human Augmentation",
+    desc: "Human-in-the-Loop validation that keeps your models accurate and reliable.",
+    bullets: ["Continuous human feedback","Model accuracy improvement","Clean training data","GIGO prevention"],
+    lottieUrl: "https://assets4.lottiefiles.com/packages/lf20_ynrqns8t.json",
+    lottieBg: "#F0FDF4",
   },
   {
-    title: "Application Management",
-    desc: "Keep apps running reliably.",
-    bullets: ["Bug fixing", "Monitoring", "Support"],
-    image: service3,
+    num: "03",
+    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>),
+    title: "Managed Services",
+    desc: "Fully managed data operations so your teams can focus on core innovation.",
+    bullets: ["Large-scale annotation ops","Multi-layer quality checks","Bias-free datasets","Production-ready delivery"],
+    lottieUrl: "https://assets6.lottiefiles.com/packages/lf20_u4yrau.json",
+    lottieBg: "#FFF7ED",
   },
   {
-    title: "Application Maintenance",
-    desc: "Performance & health optimization.",
-    bullets: ["Performance tuning", "Monitoring", "Upgrades"],
-    image: service4,
-  },
-  {
-    title: "Project Management",
-    desc: "End-to-end delivery management.",
-    bullets: ["Planning", "Tracking", "Risk handling"],
-    image: service5,
-  },
-  {
-    title: "Consulting Services",
-    desc: "Strategic technical guidance.",
-    bullets: ["Feasibility", "Architecture", "Scalability"],
-    image: service6,
-  },
-  {
-    title: "Teams Integration",
-    desc: "Microsoft Teams solutions.",
-    bullets: ["Bots", "Extensions", "Automation"],
-    image: service7,
-  },
-  {
-    title: "Operational Efficiency",
-    desc: "Modernize legacy systems.",
-    bullets: ["Optimization", "Security", "Cost reduction"],
-    image: service8,
-  },
-  {
-    title: "Fast Growth",
-    desc: "Boost growth by reinventing your applications.",
-    bullets: [
-      "Accelerate development cycles",
-      "Reduce maintenance overhead",
-      "Modernize legacy systems",
-      "Improve scalability",
-    ],
-    image: service9,
+    num: "04",
+    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>),
+    title: "Model Testing & Validation",
+    desc: "Industry-specific testing to ensure your AI performs in the real world.",
+    bullets: ["Real-time workflow testing","Performance optimisation","Bug detection","Production standards audit"],
+    lottieUrl: "https://assets8.lottiefiles.com/packages/lf20_ydo1amjm.json",
+    lottieBg: "#FDF2F8",
   },
 ];
 
-const metrics     = [["92%","Delivery clarity"],["88%","Code quality avg"],["90%","Security posture"],["10×","Faster releases"]];
-const clientLogos = ["Accenture","Deloitte","ThoughtWorks","KPMG","McKinsey","Bain & Co","BCG","PwC"];
-const fomoLeads   = ["A SaaS team in Austin just got in touch.","A fintech startup booked a discovery call.","An e-commerce company requested a proposal.","A logistics firm just reached out."];
+const pillars = [
+  { label: "Our Value",   body: "We act as strategic partners, delivering data-driven solutions that address complex challenges in AI, data, and security — helping your business stay competitive and future-ready." },
+  { label: "Our Vision",  body: "To build a strong ecosystem of advanced technologies, industry expertise, and delivery excellence, supported by world-class professionals." },
+  { label: "Our Mission", body: "To drive innovation through intelligent solutions, accelerate digital transformation, and deliver secure, scalable systems that empower businesses." },
+];
+
+const stats       = [["98%","Annotation accuracy"],["10×","Faster pipeline delivery"],["50+","Enterprise clients"],["24/7","Managed operations"]];
+const clientLogos = ["OpenAI","Anthropic","Google DeepMind","Hugging Face","Scale AI","Cohere","Mistral","Stability AI"];
+const fomoLeads   = ["An AI lab just kicked off a data project.","A computer vision team started a call.","An NLP startup requested annotation support.","A healthcare AI firm just got in touch."];
 
 // ── STYLES ────────────────────────────────────────────────────────────────────
 
@@ -227,38 +198,28 @@ const pageStyles = `
   .fomo-toast.exiting{animation:toastOut .3s ease-in forwards}
   .fomo-dot{width:8px;height:8px;border-radius:50%;background:#10b981;flex-shrink:0;box-shadow:0 0 0 3px rgba(16,185,129,.2)}
 
-  .card-lift{transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease}
-  .card-lift:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .ai-hero-banner{position:relative;border-radius:20px;overflow:hidden;margin-top:40px;aspect-ratio:21/7;box-shadow:0 16px 48px rgba(0,0,0,.16)}
+  .ai-hero-banner img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.7) brightness(.8)}
+  .ai-hero-banner-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(13,148,136,.45) 0%,rgba(0,0,0,.2) 100%);pointer-events:none}
+  .ai-hero-banner-text{position:absolute;left:28px;bottom:22px;color:#fff}
+  .ai-hero-banner-text h3{font-size:18px;font-weight:800;margin:0 0 4px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+  .ai-hero-banner-text p{font-size:13px;margin:0;opacity:.85}
 
-  .svc-hero-img{width:100%;border-radius:16px;overflow:hidden;aspect-ratio:21/7;margin-top:40px;position:relative;box-shadow:0 12px 40px rgba(0,0,0,.14)}
-  .svc-hero-img img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.8) brightness(.85)}
-  .svc-hero-img-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,148,136,.3) 0%,transparent 60%);pointer-events:none}
-  .svc-hero-img-label{position:absolute;left:24px;bottom:20px;color:#fff;font-size:13px;font-weight:700;letter-spacing:.04em;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .ai-partner-img{border-radius:16px;overflow:hidden;aspect-ratio:4/3;margin-top:24px;box-shadow:0 8px 32px rgba(0,0,0,.12)}
+  .ai-partner-img img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.85);transition:transform .6s ease}
+  .ai-partner-img:hover img{transform:scale(1.03)}
 
-  .offerings-bento{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;gap:12px}
-  .offering-cell{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;position:relative;transition:border-color .25s ease,background .25s ease}
-  .offering-cell:hover{border-color:rgba(20,184,166,.22);background:rgba(255,255,255,.06)}
-  .offering-cell::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(130deg,transparent 0%,rgba(20,184,166,.22) 50%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .45s ease;pointer-events:none}
-  .offering-cell:hover::before{opacity:1}
-  .offering-cell__body{padding:20px;display:flex;flex-direction:column;flex:1}
-  .offering-cell__head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-  .offering-cell__footer{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.07)}
+  .ai-svc-bento{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;gap:12px}
+  .ai-svc-cell{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;position:relative;transition:border-color .25s ease,background .25s ease}
+  .ai-svc-cell:hover{border-color:rgba(20,184,166,.22);background:rgba(255,255,255,.06)}
+  .ai-svc-cell::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(130deg,transparent 0%,rgba(20,184,166,.22) 50%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .45s ease;pointer-events:none}
+  .ai-svc-cell:hover::before{opacity:1}
+  .ai-svc-cell:hover lottie-player{transform:scale(1.08)}
+  .ai-svc-cell__body{padding:20px;display:flex;flex-direction:column;flex:1}
+  .ai-svc-cell__head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .ai-svc-cell__footer{display:flex;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.07)}
 
-  /* ── "Has detail page" badge on linkable cards ── */
-  .offering-cell--linked .offering-cell-img-wrap::after {
-    content: 'View details →';
-    position: absolute; bottom: 10px; right: 12px;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
-    color: var(--teal-2);
-    background: rgba(7,16,14,0.80);
-    border: 1px solid rgba(20,184,166,0.28);
-    border-radius: 999px; padding: 3px 10px;
-    opacity: 0; transition: opacity .2s;
-  }
-  .offering-cell--linked:hover .offering-cell-img-wrap::after { opacity: 1; }
-  .offering-cell-img-wrap { position: relative; }
-
-  @media(max-width:768px){.offerings-bento{grid-template-columns:1fr}}
+  @media(max-width:768px){.ai-svc-bento{grid-template-columns:1fr}}
 `;
 
 // ── HOOKS ─────────────────────────────────────────────────────────────────────
@@ -290,9 +251,24 @@ function useFomoToast() {
   return toast;
 }
 
+function LottieIcon({ url, bg }) {
+  useEffect(() => {
+    if (customElements.get("lottie-player") || document.querySelector("#lottie-player-script")) return;
+    const s = document.createElement("script");
+    s.id  = "lottie-player-script";
+    s.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js";
+    document.head.appendChild(s);
+  }, []);
+  return (
+    <div style={{ width: "100%", height: 200, background: bg, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", borderBottom: "1px solid rgba(255,255,255,0.06)", transition: "background .3s ease" }}>
+      <lottie-player autoplay loop mode="normal" src={url} style={{ width: 160, height: 160, transition: "transform .4s cubic-bezier(.34,1.56,.64,1)" }} />
+    </div>
+  );
+}
+
 // ── COMPONENT ─────────────────────────────────────────────────────────────────
 
-export default function Services() {
+export default function AIEnablement() {
   useReveal();
   const barRef = useRef(null);
   useBarFillOnScroll(barRef);
@@ -313,21 +289,28 @@ export default function Services() {
       {/* ── HERO ── */}
       <section className="section">
         <div className="container">
-          <div className="ha ha-1"><span className="kicker">Services</span></div>
-          <h1 className="h1 ha ha-2" style={{ fontSize: "clamp(2.2rem,4.5vw,3.2rem)", lineHeight: 1.1, marginTop: 10, maxWidth: "18ch" }}>Application development, end to end.</h1>
-          <p className="lead ha ha-3" style={{ marginTop: 16, maxWidth: "60ch" }}>Enterprise organisations are moving from rigid heritage portfolios to agile, modular systems. We help you get there — faster releases, smarter automation, and experiences your customers notice.</p>
-          <div className="ha ha-4" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginTop: 36 }}>
-            {metrics.map(([v, l]) => (
-              <div key={l} className="card card-i" style={{ padding: "20px 16px", borderRadius: 14, textAlign: "center" }}>
+          <div className="ha ha-1"><span className="kicker">AI Enablement</span></div>
+          <h1 className="h1 ha ha-2" style={{ fontSize: "clamp(2.2rem,4.5vw,3.4rem)", lineHeight: 1.1, marginTop: 10, maxWidth: "20ch" }}>Powering the intelligence behind your AI.</h1>
+          <p className="lead ha ha-3" style={{ marginTop: 16, maxWidth: "58ch" }}>End-to-end data and AI services built for accuracy, scale, and speed — from raw annotation to validated models.</p>
+          <div className="ha ha-4" style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 24 }}>
+            <Link to="/contact" className="btn btn--primary">Start a project</Link>
+            <Link to="/services" className="btn btn--ghost">View all services</Link>
+          </div>
+          <div className="ha ha-5" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginTop: 40 }}>
+            {stats.map(([v, l]) => (
+              <div key={l} className="card card-i" style={{ padding: "20px 14px", borderRadius: 14, textAlign: "center" }}>
                 <div className="stat-num">{v}</div>
                 <div className="lead" style={{ fontSize: 12, marginTop: 6 }}>{l}</div>
               </div>
             ))}
           </div>
-          <div className="svc-hero-img ha ha-5">
-            <img className="ken-burns" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1400&auto=format&fit=crop&q=80" alt="Developer writing code" loading="lazy" />
-            <div className="svc-hero-img-overlay" />
-            <div className="svc-hero-img-label">Full-lifecycle application delivery</div>
+          <div className="ai-hero-banner ha ha-6">
+            <img className="ken-burns" src="https://images.unsplash.com/photo-1677756119517-756a188d2d94?w=1400&auto=format&fit=crop&q=80" alt="AI neural network visualization" loading="lazy" />
+            <div className="ai-hero-banner-overlay" />
+            <div className="ai-hero-banner-text">
+              <h3>From raw data to production-ready models</h3>
+              <p>Annotation · Validation · Managed Operations</p>
+            </div>
           </div>
         </div>
       </section>
@@ -337,12 +320,12 @@ export default function Services() {
         <div className="container grid grid-2" style={{ alignItems: "start", gap: 24 }}>
           <div ref={barRef} className="card card__p rv">
             <div className="accent-bar" />
-            <div className="kicker">Engagement health</div>
-            <div className="h2" style={{ fontSize: 18, marginTop: 6 }}>Predictable delivery metrics</div>
-            <p className="lead" style={{ marginTop: 8, fontSize: 14 }}>We aim for clear ownership and measurable outcomes on every engagement.</p>
+            <div className="kicker">How we work</div>
+            <div className="h2" style={{ fontSize: 18, marginTop: 6 }}>AI pipeline health</div>
+            <p className="lead" style={{ marginTop: 8, fontSize: 14 }}>Every engagement is measured against the outcomes that matter.</p>
             <div style={{ marginTop: 20, display: "grid", gap: 14 }}>
-              {[["Clarity",92],["Quality",88],["Security",90]].map(([l, v]) => (
-                <div key={l} style={{ display: "grid", gridTemplateColumns: "90px 1fr 42px", gap: 12, alignItems: "center" }}>
+              {[["Data Quality",96],["Model Accuracy",94],["Delivery Speed",91]].map(([l, v]) => (
+                <div key={l} style={{ display: "grid", gridTemplateColumns: "120px 1fr 42px", gap: 12, alignItems: "center" }}>
                   <div style={{ fontWeight: 700, fontSize: 13, color: "var(--text)" }}>{l}</div>
                   <div className="bar-track"><div className="bar-fill-js" data-target-width={`${v}%`} /></div>
                   <div style={{ fontWeight: 800, fontSize: 13, color: "var(--muted-2)", textAlign: "right" }}>{v}%</div>
@@ -354,9 +337,9 @@ export default function Services() {
           <div className="card card__p rv">
             <div className="accent-bar" />
             <div className="kicker">What you get</div>
-            <div className="h2" style={{ fontSize: 18, marginTop: 6 }}>Every engagement includes</div>
+            <div className="h2" style={{ fontSize: 18, marginTop: 6 }}>Built-in quality assurance</div>
             <div className="grid grid-2" style={{ marginTop: 16, gap: 10 }}>
-              {[["Agile delivery","Weeks to release, not months."],["Fast growth","Reinvent apps, boost velocity."],["Clean handover","Docs + knowledge transfer."],["Confidentiality","NDA-ready, least-access ops."]].map(([t, d]) => (
+              {[["High accuracy","Rigorous QA at every stage."],["Full coverage","Image, text, audio & video."],["Clean handover","Structured, production-ready data."],["Confidentiality","NDA-ready with least-access ops."]].map(([t, d]) => (
                 <div key={t} className="card card-i" style={{ padding: 14, borderRadius: 14 }}>
                   <div style={{ fontWeight: 800, fontSize: 13, color: "var(--text)", marginBottom: 5 }}>{t}</div>
                   <div className="lead" style={{ fontSize: 12 }}>{d}</div>
@@ -368,14 +351,14 @@ export default function Services() {
         </div>
       </section>
 
-      {/* ── OFFERINGS BENTO ── */}
+      {/* ── 4 SERVICE PILLARS ── */}
       <section className="section">
         <div className="container">
           <div className="rv" style={{ marginBottom: 28 }}>
             <div className="accent-bar" />
-            <div className="kicker">Offerings</div>
-            <h2 className="h2" style={{ fontSize: "clamp(1.8rem,3vw,2.2rem)", marginTop: 8 }}>Choose what you need</h2>
-            <p className="lead" style={{ marginTop: 10, maxWidth: "58ch" }}>From initial consulting through to ongoing maintenance — we cover the full application lifecycle.</p>
+            <div className="kicker">Our services</div>
+            <h2 className="h2" style={{ fontSize: "clamp(1.8rem,3vw,2.2rem)", marginTop: 8 }}>Four pillars of AI enablement</h2>
+            <p className="lead" style={{ marginTop: 10, maxWidth: "58ch" }}>A complete stack — from raw data to validated models.</p>
           </div>
 
           <div className="marquee-wrap rv" style={{ marginBottom: 24, padding: "8px 0" }}>
@@ -386,74 +369,28 @@ export default function Services() {
             </div>
           </div>
 
-          <div className="offerings-bento rv-group">
-            {offerings.map((o) => (
-              <div
-                key={o.title}
-                className={`offering-cell rv${o.slug ? " offering-cell--linked" : ""}`}
-              >
-                {/* Image wrapper — gets the "View details →" pill on hover for linked cards */}
-                <div
-                  className="offering-cell-img-wrap"
-                  style={{ width: "100%", height: 200, overflow: "hidden", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-                >
-                  {o.slug ? (
-                    <Link to={o.slug} style={{ display: "block", width: "100%", height: "100%" }}>
-                      <img
-                        src={o.image}
-                        alt={o.title}
-                        loading="lazy"
-                        style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .45s var(--ease)" }}
-                      />
-                    </Link>
-                  ) : (
-                    <img
-                      src={o.image}
-                      alt={o.title}
-                      loading="lazy"
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                    />
-                  )}
-                </div>
-
-                <div className="offering-cell__body">
-                  <div className="offering-cell__head">
-                    <div className="icon-badge">{o.icon}</div>
-                    {/* Title is a link for cards that have a detail page */}
-                    {o.slug ? (
-                      <Link
-                        to={o.slug}
-                        className="h2"
-                        style={{ fontSize: 17, color: "inherit", transition: "color .2s" }}
-                        onMouseEnter={(e) => { e.currentTarget.style.color = "var(--teal-2)"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.color = "inherit"; }}
-                      >
-                        {o.title}
-                      </Link>
-                    ) : (
-                      <div className="h2" style={{ fontSize: 17 }}>{o.title}</div>
-                    )}
+          <div className="ai-svc-bento rv-group">
+            {services.map((s) => (
+              <div key={s.title} className="ai-svc-cell rv">
+                <LottieIcon url={s.lottieUrl} bg={s.lottieBg} />
+                <div className="ai-svc-cell__body">
+                  <div className="ai-svc-cell__head">
+                    <div className="icon-badge">{s.icon}</div>
+                    <div>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: "var(--teal)", letterSpacing: "0.06em", textTransform: "uppercase" }}>{s.num}</div>
+                      <div className="h2" style={{ fontSize: 17, lineHeight: 1.2 }}>{s.title}</div>
+                    </div>
                   </div>
-
-                  <p className="lead" style={{ fontSize: 13, marginBottom: 14 }}>{o.desc}</p>
-
+                  <p className="lead" style={{ fontSize: 13, marginBottom: 14 }}>{s.desc}</p>
                   <ul style={{ paddingLeft: 0, listStyle: "none", display: "grid", gap: 6, flex: 1 }}>
-                    {o.bullets.map((b) => (
+                    {s.bullets.map((b) => (
                       <li key={b} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--muted)" }}>
                         <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--teal)", flexShrink: 0 }} />{b}
                       </li>
                     ))}
                   </ul>
-
-                  <div className="offering-cell__footer">
-                    {/* Primary action: detail page if available, else contact */}
-                    <Link
-                      className="btn btn--primary"
-                      to={o.slug ?? "/contact"}
-                      style={{ fontSize: 13, padding: "8px 16px" }}
-                    >
-                      {o.slug ? "Learn more" : "Enquire"}
-                    </Link>
+                  <div className="ai-svc-cell__footer">
+                    <Link className="btn" to="/contact" style={{ fontSize: 13, padding: "8px 16px" }}>Enquire</Link>
                     <Link className="btn btn--ghost" to="/about" style={{ fontSize: 13, padding: "8px 16px" }}>How we work</Link>
                   </div>
                 </div>
@@ -463,17 +400,44 @@ export default function Services() {
         </div>
       </section>
 
-      {/* ── CTA ── */}
+      {/* ── VALUE / VISION / MISSION ── */}
       <section className="section section--alt">
+        <div className="container grid grid-2" style={{ alignItems: "start", gap: 48 }}>
+          <div className="rv">
+            <div className="accent-bar" />
+            <div className="kicker">Who we are</div>
+            <h2 className="h2" style={{ fontSize: "clamp(1.8rem,3vw,2.2rem)", marginTop: 8, lineHeight: 1.2 }}>More than a vendor.<br />A strategic partner.</h2>
+            <p className="lead" style={{ marginTop: 12, maxWidth: "40ch" }}>We embed ourselves in your AI roadmap — aligning every deliverable to real business outcomes.</p>
+            <div style={{ marginTop: 24 }}><Link to="/contact" className="btn btn--primary">Talk to us</Link></div>
+            <div className="ai-partner-img">
+              <img className="ken-burns" src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=700&auto=format&fit=crop&q=80" alt="Strategic partnership at a whiteboard" loading="lazy" />
+            </div>
+          </div>
+          <div className="rv-group" style={{ display: "grid" }}>
+            {pillars.map((p, i) => (
+              <div key={p.label} className="rv" style={{ padding: "24px 0", borderBottom: "1px solid var(--border)", borderTop: i === 0 ? "1px solid var(--border)" : "none", display: "grid", gridTemplateColumns: "32px 1fr", gap: 16, alignItems: "start" }}>
+                <div style={{ fontWeight: 800, fontSize: 11, color: "var(--teal)", paddingTop: 3, letterSpacing: "0.06em" }}>0{i + 1}</div>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 15, color: "var(--text)", marginBottom: 6 }}>{p.label}</div>
+                  <p className="lead" style={{ fontSize: 14 }}>{p.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="section">
         <div className="container rv">
           <div className="cta-band">
             <div>
-              <h2 className="cta-band__title">Ready to modernise your applications?</h2>
+              <h2 className="cta-band__title">Ready to enable smarter AI?</h2>
               <p className="cta-band__sub">Tell us about your project and we'll scope a solution within 48 hours.</p>
             </div>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <Link className="btn cta-band__btn" to="/contact">Get in touch</Link>
-              <Link className="btn" to="/about" style={{ background: "rgba(255,255,255,.15)", color: "#fff", border: "1px solid rgba(255,255,255,.3)" }}>How we work</Link>
+              <Link className="btn" to="/services" style={{ background: "rgba(255,255,255,.15)", color: "#fff", border: "1px solid rgba(255,255,255,.3)" }}>All services</Link>
             </div>
           </div>
         </div>
