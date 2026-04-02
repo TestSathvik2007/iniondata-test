@@ -8,6 +8,9 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import AIEnablement from "./pages/AIEnablement";
 import AppDevelopment from "./pages/AppDevelopment";
+import ApplicationIntegration from "./pages/Services/ApplicationIntegration";
+import ApplicationManagement from "./pages/Services/ApplicationManagement";
+import ApplicationMaintainance from "./pages/Services/ApplicationMaintainance";
 
 const pageTransitionStyles = `
   @keyframes pageIn {
@@ -38,6 +41,9 @@ function AnimatedRoutes() {
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
         <Route path="/services/app-development" element={<AppDevelopment />} />
+        <Route path="/services/app-integration" element={<ApplicationIntegration />} />
+        <Route path="/services/app-management" element={<ApplicationManagement />} />
+        <Route path="/services/app-maintenance" element={<ApplicationMaintainance />} />
         <Route path="/ai-enablement" element={<AIEnablement />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<Navigate to="/" replace />} />

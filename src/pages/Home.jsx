@@ -15,36 +15,36 @@ import service9 from "../assets/images/fast_growth.png";
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
 const offerings = [
-  { title: "Application Design & Development", desc: "Full-cycle development from requirements to release.", badge: "Core",          image: service1 },
-  { title: "Application Integration",          desc: "Seamless connectivity between systems.",              badge: "Integration",   image: service2 },
-  { title: "Application Management",           desc: "Keep apps running reliably.",                         badge: "Support",       image: service3 },
-  { title: "Application Maintenance",          desc: "Performance & health optimisation.",                  badge: "Maintenance",   image: service4 },
-  { title: "Project Management",               desc: "End-to-end delivery management.",                     badge: "Delivery",      image: service5 },
-  { title: "Consulting Services",              desc: "Strategic technical guidance.",                       badge: "Advisory",      image: service6 },
-  { title: "Teams Integration",                desc: "Microsoft Teams solutions.",                          badge: "Collaboration", image: service7 },
-  { title: "Operational Efficiency",           desc: "Modernise legacy systems.",                           badge: "Optimisation",  image: service8 },
-  { title: "Fast Growth",                      desc: "Boost growth by reinventing your applications.",      badge: "Growth",        image: service9 },
+  { title: "Application Design & Development", desc: "Full-cycle development from requirements to release.", badge: "Core", image: service1 },
+  { title: "Application Integration", desc: "Seamless connectivity between systems.", badge: "Integration", image: service2 },
+  { title: "Application Management", desc: "Keep apps running reliably.", badge: "Support", image: service3 },
+  { title: "Application Maintenance", desc: "Performance & health optimisation.", badge: "Maintenance", image: service4 },
+  { title: "Project Management", desc: "End-to-end delivery management.", badge: "Delivery", image: service5 },
+  { title: "Consulting Services", desc: "Strategic technical guidance.", badge: "Advisory", image: service6 },
+  { title: "Teams Integration", desc: "Microsoft Teams solutions.", badge: "Collaboration", image: service7 },
+  { title: "Operational Efficiency", desc: "Modernise legacy systems.", badge: "Optimisation", image: service8 },
+  { title: "Fast Growth", desc: "Boost growth by reinventing your applications.", badge: "Growth", image: service9 },
 ];
 
 const trust = [
   {
     title: "Confidential by default",
-    desc:  "NDA-ready engagements, least-privilege access, and clean handoffs.",
+    desc: "NDA-ready engagements, least-privilege access, and clean handoffs.",
     lottie: "https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json",
   },
   {
     title: "Clear delivery",
-    desc:  "Milestones, weekly updates, and measurable outcomes — no surprises.",
+    desc: "Milestones, weekly updates, and measurable outcomes — no surprises.",
     lottie: "https://assets4.lottiefiles.com/packages/lf20_tno6cg2w.json",
   },
   {
     title: "Culture-aligned teams",
-    desc:  "We adapt to your working style, time zones, and communication norms.",
+    desc: "We adapt to your working style, time zones, and communication norms.",
     lottie: "https://assets1.lottiefiles.com/packages/lf20_kkflmtur.json",
   },
 ];
 
-const clientLogos = ["Accenture","Deloitte","ThoughtWorks","KPMG","McKinsey","Bain & Co","BCG","PwC"];
+const clientLogos = ["Accenture", "Deloitte", "ThoughtWorks", "KPMG", "McKinsey", "Bain & Co", "BCG", "PwC"];
 
 const fomoLeads = [
   "A SaaS team in Austin just got in touch.",
@@ -57,17 +57,17 @@ const fomoLeads = [
 const TW_WORDS = ["data pipelines.", "cloud infra.", "product teams."];
 
 // ── CAROUSEL CONSTANTS ────────────────────────────────────────────────────────
-const CARD_W      = 300;
-const GAP         = 20;
-const STEP        = CARD_W + GAP;
-const N           = offerings.length;
+const CARD_W = 300;
+const GAP = 20;
+const STEP = CARD_W + GAP;
+const N = offerings.length;
 const CLONE_COUNT = 3;
-const TOTAL       = CLONE_COUNT + N + CLONE_COUNT;
+const TOTAL = CLONE_COUNT + N + CLONE_COUNT;
 
 const allItems = [
   ...offerings.slice(N - CLONE_COUNT).map((s, i) => ({ ...s, _key: `ct-${i}`, _real: N - CLONE_COUNT + i })),
-  ...offerings.map((s, i)            => ({ ...s, _key: `r-${i}`,  _real: i })),
-  ...offerings.slice(0, CLONE_COUNT).map((s, i)  => ({ ...s, _key: `ch-${i}`, _real: i })),
+  ...offerings.map((s, i) => ({ ...s, _key: `r-${i}`, _real: i })),
+  ...offerings.slice(0, CLONE_COUNT).map((s, i) => ({ ...s, _key: `ch-${i}`, _real: i })),
 ];
 
 // ── STYLES ────────────────────────────────────────────────────────────────────
@@ -169,20 +169,12 @@ const pageStyles = `
   /* ── Cards ── */
   .card {
     position:relative; border-radius:var(--radius);
-    border:1px solid var(--border); background:rgba(255,255,255,0.03);
-    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border:1px solid var(--border); background:rgba(255,255,255,0.05);
     box-shadow:var(--shadow-soft);
     transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease),border-color var(--dur) var(--ease);
   }
-  .card:hover { transform:translateY(-4px); box-shadow:var(--shadow); border-color:rgba(20,184,166,0.18) }
-  .card::before {
-    content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
-    background:linear-gradient(130deg,transparent 0%,rgba(20,184,166,0.28) 50%,transparent 100%);
-    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-    -webkit-mask-composite:xor; mask-composite:exclude;
-    opacity:0; transition:opacity var(--dur-slow) var(--ease); pointer-events:none;
-  }
-  .card:hover::before { opacity:1 }
+  .card::before { display:none }
+  .card:hover { transform:translateY(-4px); box-shadow:var(--shadow); border-color:rgba(20,184,166,0.28) }
   .card__p { padding:24px }
   .card-i { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:var(--radius-sm) }
   .card-lift { transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease }
@@ -225,8 +217,6 @@ const pageStyles = `
   .marquee-track:hover { animation-play-state:paused }
   .marquee-wrap {
     overflow:hidden;
-    mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);
-    -webkit-mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);
   }
 
   @keyframes toastIn  { from{opacity:0;transform:translateY(16px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
@@ -280,27 +270,72 @@ const pageStyles = `
   .svc-track { display:flex; gap:20px; will-change:transform }
 
   .svc-card {
-    width:300px; flex-shrink:0; border-radius:18px; overflow:hidden;
-    background:rgba(255,255,255,0.035); border:1px solid rgba(255,255,255,0.07);
-    cursor:pointer; opacity:0.40;
-    transform:scale(0.84) rotateY(16deg) translateZ(-60px);
-    transition:
-      opacity     0.46s cubic-bezier(0.22,1,0.36,1),
-      transform   0.46s cubic-bezier(0.22,1,0.36,1),
-      box-shadow  0.46s cubic-bezier(0.22,1,0.36,1),
-      border-color 0.3s ease;
-    transform-style:preserve-3d; position:relative;
-  }
-  .svc-card.pos-center {
-    opacity:1; transform:scale(1) rotateY(0deg) translateZ(0);
-    border-color:rgba(20,184,166,0.42);
-    box-shadow:0 28px 70px rgba(0,0,0,0.52),0 0 0 1px rgba(20,184,166,0.22);
-    z-index:10;
-  }
-  .svc-card.pos-l1 { opacity:0.78; transform:scale(0.92) rotateY(13deg)  translateZ(-26px); z-index:5 }
-  .svc-card.pos-l2 { opacity:0.48; transform:scale(0.83) rotateY(21deg)  translateZ(-72px); z-index:3 }
-  .svc-card.pos-r1 { opacity:0.78; transform:scale(0.92) rotateY(-13deg) translateZ(-26px); z-index:5 }
-  .svc-card.pos-r2 { opacity:0.48; transform:scale(0.83) rotateY(-21deg) translateZ(-72px); z-index:3 }
+  width:300px;
+  flex-shrink:0;
+  border-radius:18px;
+  overflow:hidden;
+
+  /* 🔥 FIX: solid background instead of rgba */
+  background:#0c1a16;
+  border:1px solid rgba(255,255,255,0.07);
+
+  cursor:pointer;
+
+  /* 🔥 FIX: remove opacity */
+  opacity:1;
+
+  /* 🔥 FIX: remove rotateY (3D) */
+  transform:scale(0.84) translateX(0);
+
+  transition:
+    transform   0.55s cubic-bezier(0.16,1,0.3,1),
+    box-shadow  0.55s cubic-bezier(0.16,1,0.3,1),
+    border-color 0.35s ease,
+    filter 0.4s ease;
+
+  /* 🔥 stability */
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  transform-style:preserve-3d;
+  will-change:transform;
+
+  position:relative;
+}
+
+/* CENTER */
+.svc-card.pos-center {
+  transform:scale(1) translateX(0);
+  border-color:rgba(20,184,166,0.42);
+  box-shadow:0 28px 70px rgba(0,0,0,0.52),0 0 0 1px rgba(20,184,166,0.22);
+  z-index:10;
+  filter:none;
+}
+
+/* LEFT */
+.svc-card.pos-l1 {
+  transform:scale(0.92) translateX(-20px);
+  z-index:5;
+  filter:brightness(0.75);
+}
+
+.svc-card.pos-l2 {
+  transform:scale(0.83) translateX(-40px);
+  z-index:3;
+  filter:brightness(0.55);
+}
+
+/* RIGHT */
+.svc-card.pos-r1 {
+  transform:scale(0.92) translateX(20px);
+  z-index:5;
+  filter:brightness(0.75);
+}
+
+.svc-card.pos-r2 {
+  transform:scale(0.83) translateX(40px);
+  z-index:3;
+  filter:brightness(0.55);
+}
 
   .svc-card-img {
     width:100%; height:190px; overflow:hidden;
@@ -382,7 +417,7 @@ function useLottieScript() {
   useEffect(() => {
     if (customElements.get("lottie-player") || document.getElementById("lottie-cdn")) return;
     const s = document.createElement("script");
-    s.id  = "lottie-cdn";
+    s.id = "lottie-cdn";
     s.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js";
     document.head.appendChild(s);
   }, []);
@@ -391,7 +426,7 @@ function useLottieScript() {
 function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll(".reveal");
-    const io  = new IntersectionObserver(
+    const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } }),
       { threshold: 0.12 }
     );
@@ -418,13 +453,13 @@ function useBarFillOnScroll(ref) {
 }
 
 function useTypewriter() {
-  const [display, setDisplay]     = useState("");
-  const [wordIdx, setWordIdx]     = useState(0);
+  const [display, setDisplay] = useState("");
+  const [wordIdx, setWordIdx] = useState(0);
   const [isDeleting, setDeleting] = useState(false);
   useEffect(() => {
     const word = TW_WORDS[wordIdx % TW_WORDS.length];
     if (!isDeleting && display === word) { const t = setTimeout(() => setDeleting(true), 1800); return () => clearTimeout(t); }
-    if (isDeleting && display === "")   { setDeleting(false); setWordIdx((i) => i + 1); return; }
+    if (isDeleting && display === "") { setDeleting(false); setWordIdx((i) => i + 1); return; }
     const next = isDeleting ? word.slice(0, display.length - 1) : word.slice(0, display.length + 1);
     const t = setTimeout(() => setDisplay(next), isDeleting ? 35 : 55);
     return () => clearTimeout(t);
@@ -444,7 +479,7 @@ function useFomoToast() {
       setTimeout(() => setToast(null), 3900);
     };
     const first = setTimeout(show, 4000);
-    const iv    = setInterval(show, 7000);
+    const iv = setInterval(show, 7000);
     return () => { clearTimeout(first); clearInterval(iv); };
   }, []);
   return toast;
@@ -453,18 +488,19 @@ function useFomoToast() {
 // ── 3D INFINITE CAROUSEL ──────────────────────────────────────────────────────
 
 function ServicesCarousel() {
-  const stageRef        = useRef(null);
-  const trackRef        = useRef(null);
-  const autoRef         = useRef(null);
-  const offsetRef       = useRef(0);
-  const itemIdxRef      = useRef(CLONE_COUNT);
-  const dragRef         = useRef({ active: false, startX: 0, startOffset: 0 });
-  const teleportRef     = useRef(false);
-  const wheelAccumRef   = useRef(0);
-  const wheelTmrRef     = useRef(null);
+  const stageRef = useRef(null);
+  const trackRef = useRef(null);
+  const autoRef = useRef(null);
+  const offsetRef = useRef(0);
+  const itemIdxRef = useRef(CLONE_COUNT);
+  const dragRef = useRef({ active: false, startX: 0, startOffset: 0 });
+  const teleportRef = useRef(false);
+  const wheelTmrRef = useRef(null);
+  // Momentum scroll state
+  const momentumRef = useRef({ velocity: 0, target: 0, rafId: null, active: false });
 
   const [centerIdx, setCenterIdx] = useState(0);
-  const [padX, setPadX]           = useState(0);
+  const [padX, setPadX] = useState(0);
 
   const pxFor = (iIdx) => iIdx * STEP;
 
@@ -501,7 +537,7 @@ function ServicesCarousel() {
         teleportIfClone(clamped);
       };
       track.addEventListener("transitionend", onEnd);
-      track.style.transition = "transform 0.52s cubic-bezier(0.22,1,0.36,1)";
+      track.style.transition = "transform 0.68s cubic-bezier(0.16,1,0.3,1)";
     } else {
       trackRef.current.style.transition = "none";
       teleportIfClone(clamped);
@@ -510,13 +546,13 @@ function ServicesCarousel() {
   };
 
   const snapToReal = (realIdx) => snapToItem(CLONE_COUNT + ((realIdx % N) + N) % N);
-  const snapStep   = (delta)   => {
+  const snapStep = (delta) => {
     const next = Math.max(0, Math.min(TOTAL - 1, itemIdxRef.current + delta));
     snapToItem(next);
   };
 
   const startAuto = () => { clearInterval(autoRef.current); autoRef.current = setInterval(() => snapStep(1), 3400); };
-  const stopAuto  = () => clearInterval(autoRef.current);
+  const stopAuto = () => clearInterval(autoRef.current);
 
   /* Padding: centre first card in viewport */
   useEffect(() => {
@@ -548,7 +584,7 @@ function ServicesCarousel() {
     };
 
     const onMouseDown = (e) => {
-      if (teleportRef.current) return;
+      if (teleportRef.current) return;  
       stopAuto();
       if (trackRef.current) trackRef.current.style.transition = "none";
       dragRef.current = { active: true, startX: e.clientX, startOffset: offsetRef.current };
@@ -580,26 +616,69 @@ function ServicesCarousel() {
       startAuto();
     };
 
+    const runMomentum = () => {
+      const m = momentumRef.current;
+      if (!m.active) return;
+
+      // Decay velocity smoothly (friction)
+      m.velocity *= 0.82;
+      m.target += m.velocity;
+
+      // Apply the continuous offset while momentum is live
+      if (!teleportRef.current && trackRef.current) {
+        trackRef.current.style.transition = "none";
+        applyOffset(m.target);
+        // Teleport at clone boundaries mid-scroll
+        const nearest = Math.round(m.target / STEP);
+        const clamped = Math.max(0, Math.min(TOTAL - 1, nearest));
+        const isHead = clamped >= CLONE_COUNT + N;
+        const isTail = clamped < CLONE_COUNT;
+        if (isHead || isTail) {
+          const realIIdx = isHead ? clamped - N : clamped + N;
+          teleportRef.current = true;
+          applyOffset(pxFor(realIIdx));
+          m.target = pxFor(realIIdx);
+          itemIdxRef.current = realIIdx;
+          requestAnimationFrame(() => requestAnimationFrame(() => { teleportRef.current = false; }));
+        }
+      }
+
+      if (Math.abs(m.velocity) > 0.4) {
+        m.rafId = requestAnimationFrame(runMomentum);
+      } else {
+        // Momentum died — snap to nearest card
+        m.active = false;
+        const nearest = Math.round(offsetRef.current / STEP);
+        const clamped = Math.max(CLONE_COUNT, Math.min(CLONE_COUNT + N - 1, nearest));
+        snapToItem(clamped);
+        wheelTmrRef.current = setTimeout(startAuto, 1600);
+      }
+    };
+
     const onWheel = (e) => {
       e.preventDefault();
       if (teleportRef.current) return;
       stopAuto();
-      wheelAccumRef.current += e.deltaY;
-      if (Math.abs(wheelAccumRef.current) > 120) {
-        snapStep(wheelAccumRef.current > 0 ? 1 : -1);
-        wheelAccumRef.current = 0;
-      }
       clearTimeout(wheelTmrRef.current);
-      wheelTmrRef.current = setTimeout(startAuto, 2000);
+      cancelAnimationFrame(momentumRef.current.rafId);
+
+      const m = momentumRef.current;
+      // Accumulate velocity — trackpads fire many small events, mice fire a few big ones.
+      // Cap per-event contribution so a single large tick doesn't overshoot.
+      const contribution = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY) * 0.55, 18);
+      m.velocity = (m.active ? m.velocity : 0) + contribution;
+      m.target = offsetRef.current;
+      m.active = true;
+      m.rafId = requestAnimationFrame(runMomentum);
     };
 
     const onTilt = (e) => {
       if (dragRef.current.active) return;
       const card = trackRef.current?.querySelector(".svc-card.pos-center");
       if (!card) return;
-      const r  = stage.getBoundingClientRect();
-      const mx = (e.clientX - r.left) / r.width  - 0.5;
-      const my = (e.clientY - r.top)  / r.height - 0.5;
+      const r = stage.getBoundingClientRect();
+      const mx = (e.clientX - r.left) / r.width - 0.5;
+      const my = (e.clientY - r.top) / r.height - 0.5;
       card.style.transform = `scale(1) translateZ(0) rotateY(${mx * -7}deg) rotateX(${my * 4}deg)`;
     };
     const onTiltLeave = () => {
@@ -607,25 +686,25 @@ function ServicesCarousel() {
       if (card) card.style.transform = "scale(1) rotateY(0deg) rotateX(0deg) translateZ(0)";
     };
 
-    stage.addEventListener("mousedown",  onMouseDown);
+    stage.addEventListener("mousedown", onMouseDown);
     window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup",   onMouseUp);
-    stage.addEventListener("touchstart", onTouchStart,  { passive: true });
-    stage.addEventListener("touchmove",  onTouchMove,   { passive: true });
-    stage.addEventListener("touchend",   onTouchEnd);
-    stage.addEventListener("wheel",      onWheel,       { passive: false });
-    stage.addEventListener("mousemove",  onTilt);
+    window.addEventListener("mouseup", onMouseUp);
+    stage.addEventListener("touchstart", onTouchStart, { passive: true });
+    stage.addEventListener("touchmove", onTouchMove, { passive: true });
+    stage.addEventListener("touchend", onTouchEnd);
+    stage.addEventListener("wheel", onWheel, { passive: false });
+    stage.addEventListener("mousemove", onTilt);
     stage.addEventListener("mouseleave", onTiltLeave);
 
     return () => {
-      stage.removeEventListener("mousedown",  onMouseDown);
+      stage.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup",   onMouseUp);
+      window.removeEventListener("mouseup", onMouseUp);
       stage.removeEventListener("touchstart", onTouchStart);
-      stage.removeEventListener("touchmove",  onTouchMove);
-      stage.removeEventListener("touchend",   onTouchEnd);
-      stage.removeEventListener("wheel",      onWheel);
-      stage.removeEventListener("mousemove",  onTilt);
+      stage.removeEventListener("touchmove", onTouchMove);
+      stage.removeEventListener("touchend", onTouchEnd);
+      stage.removeEventListener("wheel", onWheel);
+      stage.removeEventListener("mousemove", onTilt);
       stage.removeEventListener("mouseleave", onTiltLeave);
       clearTimeout(wheelTmrRef.current);
     };
@@ -633,13 +712,13 @@ function ServicesCarousel() {
 
   const posClass = (realIdx) => {
     let d = realIdx - centerIdx;
-    if (d >  N / 2) d -= N;
+    if (d > N / 2) d -= N;
     if (d < -N / 2) d += N;
-    if (d ===  0) return "svc-card pos-center";
+    if (d === 0) return "svc-card pos-center";
     if (d === -1) return "svc-card pos-l1";
     if (d === -2) return "svc-card pos-l2";
-    if (d ===  1) return "svc-card pos-r1";
-    if (d ===  2) return "svc-card pos-r2";
+    if (d === 1) return "svc-card pos-r1";
+    if (d === 2) return "svc-card pos-r2";
     return "svc-card";
   };
 
@@ -709,7 +788,7 @@ export default function Home() {
   useReveal();
   useLottieScript();           // ← loads lottie-player for trust cards
   const twWord = useTypewriter();
-  const toast  = useFomoToast();
+  const toast = useFomoToast();
   const ctaRef = useRef(null);
   useBarFillOnScroll(ctaRef);
 
@@ -743,12 +822,12 @@ export default function Home() {
             </p>
             <div className="h-anim-4" style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 24 }}>
               <Link className="btn btn--primary" to="/contact">Get in touch</Link>
-              <Link className="btn btn--ghost"   to="/services">View services</Link>
+              <Link className="btn btn--ghost" to="/services">View services</Link>
             </div>
             <div className="grid grid-3 h-anim-5" style={{ marginTop: 24 }}>
-              {[["24–48h","First response"],["Weekly","Delivery updates"],["NDA","Ready"]].map(([a, b]) => (
+              {[["24–48h", "First response"], ["Weekly", "Delivery updates"], ["NDA", "Ready"]].map(([a, b]) => (
                 <div key={a} className="card card__p card-lift" style={{ textAlign: "center" }}>
-                  <div style={{ fontFamily:"var(--font)", fontWeight:800, fontSize:20, color:"var(--text)" }}>{a}</div>
+                  <div style={{ fontFamily: "var(--font)", fontWeight: 800, fontSize: 20, color: "var(--text)" }}>{a}</div>
                   <div className="lead" style={{ fontSize: 13, marginTop: 4 }}>{b}</div>
                 </div>
               ))}
@@ -764,8 +843,8 @@ export default function Home() {
                 alt="Team working on data dashboards"
                 onError={(e) => { e.currentTarget.style.display = "none"; }}
               />
-              <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(0,0,0,.45) 0%,transparent 60%)", pointerEvents:"none" }} />
-              <span style={{ position:"absolute", bottom:12, left:14, background:"rgba(255,255,255,.92)", color:"#1a1a1a", fontSize:11, fontWeight:600, padding:"3px 10px", borderRadius:20, letterSpacing:"0.04em" }}>
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top,rgba(0,0,0,.45) 0%,transparent 60%)", pointerEvents: "none" }} />
+              <span style={{ position: "absolute", bottom: 12, left: 14, background: "rgba(255,255,255,.92)", color: "#1a1a1a", fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20, letterSpacing: "0.04em" }}>
                 Delivery health
               </span>
             </div>
@@ -773,9 +852,9 @@ export default function Home() {
             <div className="card" style={{ padding: 22 }}>
               <div className="kicker" style={{ marginBottom: 14 }}>Snapshot</div>
               <div className="card card-i" style={{ padding: 16, borderRadius: 14 }}>
-                <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
                   <div>
-                    <div style={{ fontWeight:800, fontSize:16, color:"var(--text)" }}>On-time trend</div>
+                    <div style={{ fontWeight: 800, fontSize: 16, color: "var(--text)" }}>On-time trend</div>
                     <div className="lead" style={{ fontSize: 13 }}>On-time / on-budget</div>
                   </div>
                   <svg width="96" height="36" viewBox="0 0 96 36" fill="none" aria-hidden="true">
@@ -785,10 +864,10 @@ export default function Home() {
                 </div>
               </div>
               <div className="grid grid-2" style={{ marginTop: 12 }}>
-                {[["Quality","Review-led","PR checks + handover docs"],["Security","Least access","Tight scopes & auditability"]].map(([k, v, d]) => (
+                {[["Quality", "Review-led", "PR checks + handover docs"], ["Security", "Least access", "Tight scopes & auditability"]].map(([k, v, d]) => (
                   <div key={k} className="card card-i card-lift" style={{ padding: 14, borderRadius: 14 }}>
                     <div className="kicker" style={{ marginBottom: 6 }}>{k}</div>
-                    <div style={{ fontWeight:800, fontSize:17, color:"var(--text)" }}>{v}</div>
+                    <div style={{ fontWeight: 800, fontSize: 17, color: "var(--text)" }}>{v}</div>
                     <div className="lead" style={{ fontSize: 12, marginTop: 4 }}>{d}</div>
                   </div>
                 ))}
@@ -808,22 +887,22 @@ export default function Home() {
 
           <div className="reveal" style={{ marginTop: 24, borderRadius: 16, overflow: "hidden", height: 170, position: "relative" }}>
             <img
-              style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }}
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=75"
               alt="Collaborative team" loading="lazy"
               onError={(e) => { e.currentTarget.style.display = "none"; }}
             />
-            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to right,rgba(0,0,0,.58) 0%,transparent 65%)", pointerEvents:"none" }} />
-            <div style={{ position:"absolute", bottom:18, left:22, color:"#fff" }}>
-              <div style={{ fontSize:13, opacity:0.8, marginBottom:4 }}>Trusted by distributed teams across 12+ industries</div>
-              <div style={{ fontSize:18, fontWeight:600 }}>Culture-aligned. Outcome-focused.</div>
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(0,0,0,.58) 0%,transparent 65%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: 18, left: 22, color: "#fff" }}>
+              <div style={{ fontSize: 13, opacity: 0.8, marginBottom: 4 }}>Trusted by distributed teams across 12+ industries</div>
+              <div style={{ fontSize: 18, fontWeight: 600 }}>Culture-aligned. Outcome-focused.</div>
             </div>
           </div>
 
           <div className="marquee-wrap reveal" style={{ marginTop: 24, padding: "8px 0" }}>
             <div className="marquee-track">
               {[...clientLogos, ...clientLogos].map((name, i) => (
-                <span key={i} style={{ fontSize:13, fontWeight:600, letterSpacing:"0.07em", textTransform:"uppercase", color:"var(--muted)", whiteSpace:"nowrap", userSelect:"none" }}>
+                <span key={i} style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--muted)", whiteSpace: "nowrap", userSelect: "none" }}>
                   {name}
                 </span>
               ))}
@@ -871,27 +950,27 @@ export default function Home() {
               </p>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 22 }}>
                 <Link className="btn btn--primary" to="/contact">Contact</Link>
-                <Link className="btn btn--ghost"   to="/about">About us</Link>
+                <Link className="btn btn--ghost" to="/about">About us</Link>
               </div>
             </div>
             <div ref={ctaRef} style={{ position: "relative", minHeight: 240, overflow: "hidden" }}>
               <img
-                style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=700&q=75"
                 alt="Team collaborating" loading="lazy"
                 onError={(e) => { e.currentTarget.style.display = "none"; }}
               />
-              <div style={{ position:"absolute", inset:0, background:"linear-gradient(to left,transparent 35%,rgba(7,16,14,0.96) 100%)", pointerEvents:"none" }} />
-              <div className="card" style={{ position:"absolute", bottom:16, right:16, padding:"14px 18px", minWidth:176, backdropFilter:"blur(8px)", WebkitBackdropFilter:"blur(8px)" }}>
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to left,transparent 35%,rgba(7,16,14,0.96) 100%)", pointerEvents: "none" }} />
+              <div className="card" style={{ position: "absolute", bottom: 16, right: 16, padding: "14px 18px", minWidth: 176, backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}>
                 <div className="kicker" style={{ marginBottom: 10 }}>Timeline</div>
                 <div style={{ display: "grid", gap: 9 }}>
-                  {[["Discovery",24],["Plan",48],["Deliver",72]].map(([label, pct]) => (
-                    <div key={label} style={{ display:"grid", gridTemplateColumns:"68px 1fr 38px", alignItems:"center", gap:8, fontSize:12 }}>
-                      <div style={{ fontWeight:600, color:"var(--text)" }}>{label}</div>
+                  {[["Discovery", 24], ["Plan", 48], ["Deliver", 72]].map(([label, pct]) => (
+                    <div key={label} style={{ display: "grid", gridTemplateColumns: "68px 1fr 38px", alignItems: "center", gap: 8, fontSize: 12 }}>
+                      <div style={{ fontWeight: 600, color: "var(--text)" }}>{label}</div>
                       <div className="bar-track">
                         <div className="bar-fill-js" data-target-width={`${pct}%`} />
                       </div>
-                      <div style={{ fontWeight:800, color:"var(--muted)", textAlign:"right" }}>{pct}h</div>
+                      <div style={{ fontWeight: 800, color: "var(--muted)", textAlign: "right" }}>{pct}h</div>
                     </div>
                   ))}
                 </div>

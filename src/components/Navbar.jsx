@@ -8,19 +8,19 @@ const links = [
     to: "/services",
     label: "Services",
     dropdown: [
-      { to: "/services/app-development",        label: "Application Design & Development" },
-      { to: "/services/app-integration",         label: "Application Integration" },
-      { to: "/services/app-management",          label: "Application Management" },
-      { to: "/services/app-maintenance",         label: "Application Maintenance" },
-      { to: "/services/project-management",      label: "Project Management" },
-      { to: "/services/consulting",              label: "Consulting Services" },
-      { to: "/services/teams-integration",       label: "Teams Integration" },
-      { to: "/services/operational-efficiency",  label: "Operational Efficiency" },
-      { to: "/services/fast-growth",             label: "Fast Growth" },
+      { to: "/services/app-development", label: "Application Design & Development" },
+      { to: "/services/app-integration", label: "Application Integration" },
+      { to: "/services/app-management", label: "Application Management" },
+      { to: "/services/app-maintenance", label: "Application Maintenance" },
+      { to: "/services/project-management", label: "Project Management" },
+      { to: "/services/consulting", label: "Consulting Services" },
+      { to: "/services/teams-integration", label: "Teams Integration" },
+      { to: "/services/operational-efficiency", label: "Operational Efficiency" },
+      { to: "/services/fast-growth", label: "Fast Growth" },
     ],
   },
   { to: "/ai-enablement", label: "AI Enablement" },
-  { to: "/contact",       label: "Contact" },
+  { to: "/contact", label: "Contact" },
 ];
 
 const navStyles = `
@@ -95,7 +95,7 @@ const navStyles = `
   /* ── Dropdown panel ── */
   .nav-dropdown {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 3px);
     left: 50%;
     transform: translateX(-50%);
     width: 280px;
@@ -276,7 +276,7 @@ const navStyles = `
 function ChevronDown() {
   return (
     <svg width="13" height="13" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-      <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -299,10 +299,10 @@ function ServicesDropdown({ items, onClose }) {
       <div className="nav-dropdown-divider" />
       <NavLink to="/services" onClick={onClose} className="nav-dropdown-footer">
         <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
-          <rect x="1" y="1" width="4" height="4" rx="1" fill="currentColor" opacity=".6"/>
-          <rect x="7" y="1" width="4" height="4" rx="1" fill="currentColor" opacity=".6"/>
-          <rect x="1" y="7" width="4" height="4" rx="1" fill="currentColor" opacity=".6"/>
-          <rect x="7" y="7" width="4" height="4" rx="1" fill="currentColor"/>
+          <rect x="1" y="1" width="4" height="4" rx="1" fill="currentColor" opacity=".6" />
+          <rect x="7" y="1" width="4" height="4" rx="1" fill="currentColor" opacity=".6" />
+          <rect x="1" y="7" width="4" height="4" rx="1" fill="currentColor" opacity=".6" />
+          <rect x="7" y="7" width="4" height="4" rx="1" fill="currentColor" />
         </svg>
         All services overview
       </NavLink>
@@ -311,8 +311,8 @@ function ServicesDropdown({ items, onClose }) {
 }
 
 export default function Navbar() {
-  const [scrolled,     setScrolled]     = useState(false);
-  const [open,         setOpen]         = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
@@ -360,7 +360,7 @@ export default function Navbar() {
           <Link to="/" className="brand" onClick={() => { setOpen(false); setDropdownOpen(false); }} aria-label="Go to home">
             <span className="brand__mark" aria-hidden="true">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+                <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" stroke="currentColor" strokeWidth="1.8" stfrokeLinejoin="round" />
                 <path d="M9.2 12.2l1.9 1.9 3.7-4.1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
@@ -372,12 +372,17 @@ export default function Navbar() {
             {links.map((l) =>
               l.dropdown ? (
                 // Services with dropdown
-                <div key={l.to} className="nav-dropdown-wrap" ref={dropdownRef}>
+                <div
+                  key={l.to}
+                  className="nav-dropdown-wrap"
+                  ref={dropdownRef}
+                  onMouseEnter={() => setDropdownOpen(true)}
+                  onMouseLeave={() => setDropdownOpen(false)}
+                >
                   <button
                     className={`nav-dropdown-trigger${dropdownOpen ? " active" : ""}`}
                     aria-expanded={dropdownOpen}
                     aria-haspopup="menu"
-                    onClick={() => setDropdownOpen((v) => !v)}
                     onMouseEnter={() => setDropdownOpen(true)}
                   >
                     {l.label}
@@ -411,14 +416,14 @@ export default function Navbar() {
             >
               Get in touch
             </Link>
-            <button
+            {/* <button
               className="iconbtn nav__burger"
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-label="Menu"
             >
               <span className="burger" aria-hidden="true" data-open={open ? "true" : "false"} />
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -463,7 +468,7 @@ export default function Navbar() {
                         width="10" height="10" viewBox="0 0 12 12" fill="none"
                         style={{ transform: mobileServicesOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }}
                       >
-                        <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                       {mobileServicesOpen ? "Hide" : "Show"} all services
                     </button>

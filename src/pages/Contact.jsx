@@ -340,9 +340,9 @@ export default function Contact() {
                   </div>
                 ))}
               </div>
-              <div className="contact-loc-img">
+              {/* <div className="contact-loc-img">
                 <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=700&auto=format&fit=crop&q=80" alt="Richmond VA" loading="lazy" />
-              </div>
+              </div> */}
             </div>
 
             <div className="card card__p rv">
@@ -399,7 +399,7 @@ export default function Contact() {
           </div>
 
           <div style={{ position: "relative" }}>
-            <div style={{ position: "absolute", top: 22, left: "12.5%", right: "12.5%", height: 2, background: "linear-gradient(90deg,var(--teal),var(--teal-2))", opacity: 0.2, borderRadius: 2, zIndex: 0 }} />
+            {/* <div style={{ position: "absolute", top: 22, left: "12.5%", right: "12.5%", height: 2, background: "linear-gradient(90deg,var(--teal),var(--teal-2))", opacity: 0.2, borderRadius: 2, zIndex: 0 }} /> */}
             <div className="grid grid-4 rv-group" style={{ position: "relative", zIndex: 1 }}>
               {flowSteps.map((t) => (
                 <div key={t.step} className="card card__p card-i rv" style={{ display: "flex", flexDirection: "column" }}>
