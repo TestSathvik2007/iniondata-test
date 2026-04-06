@@ -11,6 +11,11 @@ import AppDevelopment from "./pages/AppDevelopment";
 import ApplicationIntegration from "./pages/Services/ApplicationIntegration";
 import ApplicationManagement from "./pages/Services/ApplicationManagement";
 import ApplicationMaintainance from "./pages/Services/ApplicationMaintainance";
+import ProjectManagement from "./pages/Services/ProjectManagement";
+import ConsultingServices from "./pages/Services/ConsultingServices";
+import TeamsIntegration from "./pages/Services/TeamsIntegration";
+import FastGrowth from "./pages/Services/FastGrowth";
+import OperationalEfficiency from "./pages/Services/OperationalEfficiency";
 
 const pageTransitionStyles = `
   @keyframes pageIn {
@@ -44,6 +49,11 @@ function AnimatedRoutes() {
         <Route path="/services/app-integration" element={<ApplicationIntegration />} />
         <Route path="/services/app-management" element={<ApplicationManagement />} />
         <Route path="/services/app-maintenance" element={<ApplicationMaintainance />} />
+        <Route path="/services/project-management" element={<ProjectManagement />} />
+        <Route path="/services/consulting" element={<ConsultingServices />} />
+        <Route path="/services/teams-integration" element={<TeamsIntegration />} />
+        <Route path="/services/fast-growth" element={<FastGrowth />} />
+        <Route path="/services/operational-efficiency" element={<OperationalEfficiency />} />
         <Route path="/ai-enablement" element={<AIEnablement />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -839,7 +839,7 @@ export default function Home() {
             <div style={{ height: 210, borderRadius: 16, overflow: "hidden", position: "relative" }}>
               <img
                 className="img-cover ken-burns"
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=75"
+                src="https://www.iniondata.com/images/3.png"
                 alt="Team working on data dashboards"
                 onError={(e) => { e.currentTarget.style.display = "none"; }}
               />
