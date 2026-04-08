@@ -7,32 +7,32 @@ import { useEffect, useRef } from "react";
 const points = [
   {
     icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>),
-    title: "Trust & confidentiality",
-    desc: "We treat security, privacy, and access as first-class requirements — not afterthoughts.",
+    title: "Deep domain expertise",
+    desc: "Seasoned professionals with deep industry knowledge across Data, SAP, Guidewire, Testing, and enterprise application delivery — in Financial Services, Healthcare, Retail, Manufacturing, and more.",
     lottieUrl: "https://assets2.lottiefiles.com/packages/lf20_qp1q7mct.json",
     lottieBg: "transparent",
   },
   {
     icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>),
-    title: "Clarity & accountability",
-    desc: "Clear ownership, clear milestones, and visible progress at every stage.",
+    title: "AI-driven innovation",
+    desc: "Vision AI, test automation, risk-based testing, self-healing tests, and performance optimisation — embedded into every engagement to accelerate outcomes and reduce risk.",
     lottieUrl: "https://assets9.lottiefiles.com/packages/lf20_w51pcehl.json",
     lottieBg: "transparent",
   },
   {
     icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>),
-    title: "Cultural alignment",
-    desc: "We adapt to how your team works — not the other way around.",
+    title: "Customisation & flexibility",
+    desc: "Personalised solutions tailored to your unique business needs — from greenfield migrations to brownfield upgrades to post-Go-Live support. Scale teams up or down to fit your project.",
     lottieUrl: "https://assets3.lottiefiles.com/packages/lf20_obhph3t0.json",
     lottieBg: "transparent",
   },
 ];
 
 const timeline = [
-  { step: "01", title: "Discovery", desc: "Understand domain realities, success metrics, and constraints.", detail: "Stakeholder interviews, technical audit, scope definition." },
-  { step: "02", title: "Design",    desc: "Define the simplest architecture that fits the goal.",            detail: "Solution blueprint, tech stack selection, risk mapping." },
-  { step: "03", title: "Deliver",   desc: "Ship in increments with reviews and measurable outcomes.",        detail: "Sprint cadence, PR reviews, weekly stakeholder updates." },
-  { step: "04", title: "Handover",  desc: "Documentation, knowledge transfer, and operational readiness.",   detail: "Runbooks, training, post-delivery support window." },
+  { step: "01", title: "Discovery & Assessment", desc: "We analyse your current landscape, challenges, and business goals.", detail: "Stakeholder interviews, data landscape review, technical audit, scope definition." },
+  { step: "02", title: "Architecture & Roadmap", desc: "We design scalable, future-proof architecture tailored to your business.", detail: "Solution blueprint, tech stack selection, risk mapping, phased delivery plan." },
+  { step: "03", title: "Build & Implement", desc: "We develop pipelines, applications, integrations, and governance frameworks.", detail: "Sprint cadence, PR reviews, automated testing, weekly stakeholder updates." },
+  { step: "04", title: "Optimise & Support", desc: "We monitor, refine, and evolve your solution as your needs grow.", detail: "Performance monitoring, continuous improvement, post-delivery support window." },
 ];
 
 const clientLogos = ["Accenture","Deloitte","ThoughtWorks","KPMG","McKinsey","Bain & Co","BCG","PwC"];
@@ -257,17 +257,17 @@ export default function About() {
             <div>
               <div className="ha ha-1"><span className="kicker">About</span></div>
               <h1 className="h1 ha ha-2" style={{ fontSize: "clamp(2.2rem,4.4vw,3.2rem)", lineHeight: 1.1, marginTop: 10 }}>
-                A calm partner for high-stakes delivery.
+                A specialized IT partner for enterprise-scale transformation.
               </h1>
               <p className="lead ha ha-3" style={{ marginTop: 16, maxWidth: "44ch" }}>
-                We focus on disciplined execution and respectful collaboration — especially when teams, customers, and constraints vary.
+                InionData delivers end-to-end project support, application development, SAP, Guidewire, and testing services for enterprises across industries — with decades of combined leadership experience and a growing global presence.
               </p>
               <div className="ha ha-4" style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 24 }}>
                 <Link className="btn btn--primary" to="/contact">Talk to us</Link>
                 <Link className="btn btn--ghost"   to="/services">See services</Link>
               </div>
               <div className="ha ha-5" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10, marginTop: 32 }}>
-                {[["100%","Client confidentiality"],["4-step","Engagement flow"],["NDA","Ready on day one"]].map(([v, l]) => (
+                {[["12+","Industries served"],["4 Countries","USA · Mexico · Canada · India"],["NDA","Ready on day one"]].map(([v, l]) => (
                   <div key={l} className="card card-i" style={{ padding: "14px 12px", borderRadius: 14, textAlign: "center" }}>
                     <div style={{ fontWeight: 800, fontSize: 16, color: "var(--teal)", lineHeight: 1 }}>{v}</div>
                     <div className="lead" style={{ fontSize: 11, marginTop: 4 }}>{l}</div>
@@ -280,7 +280,7 @@ export default function About() {
               <div className="hero-img-wrap">
                 <img className="ken-burns" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&auto=format&fit=crop&q=80" alt="Team collaborating on a project" loading="lazy" />
                 <div className="hero-img-overlay" />
-                <div className="hero-img-badge">⚡ Built on trust &amp; clarity</div>
+                <div className="hero-img-badge">⚡ Trusted partner for enterprise IT success</div>
               </div>
               <div ref={barRef} className="card" style={{ marginTop: 16, padding: "16px 20px", display: "grid", gap: 9 }}>
                 {[["Delivery clarity",92],["Code quality",88],["Security posture",90]].map(([l, v]) => (
@@ -301,8 +301,8 @@ export default function About() {
         <div className="container">
           <div className="rv" style={{ marginBottom: 28 }}>
             <div className="accent-bar" />
-            <div className="kicker">Principles</div>
-            <h2 className="h2" style={{ fontSize: "clamp(1.8rem,3vw,2.2rem)", marginTop: 8 }}>What clients should expect</h2>
+            <div className="kicker">Why InionData</div>
+            <h2 className="h2" style={{ fontSize: "clamp(1.8rem,3vw,2.2rem)", marginTop: 8 }}>What sets us apart</h2>
           </div>
 
           <div className="marquee-wrap rv" style={{ marginBottom: 24, padding: "8px 0" }}>
@@ -353,8 +353,8 @@ export default function About() {
         <div className="container">
           <div className="rv" style={{ marginBottom: 32 }}>
             <div className="accent-bar" />
-            <div className="kicker">How we work</div>
-            <h2 className="h2" style={{ fontSize: "clamp(1.8rem,3vw,2.2rem)", marginTop: 8 }}>A simple engagement flow</h2>
+            <div className="kicker">Our delivery approach</div>
+            <h2 className="h2" style={{ fontSize: "clamp(1.8rem,3vw,2.2rem)", marginTop: 8 }}>How every engagement runs</h2>
           </div>
 
           <div style={{ position: "relative" }}>
@@ -381,8 +381,8 @@ export default function About() {
         <div className="container rv">
           <div className="cta-band">
             <div>
-              <h2 className="cta-band__title">Ready to work together?</h2>
-              <p className="cta-band__sub">Tell us about your project and we'll respond within 48 hours.</p>
+              <h2 className="cta-band__title">Ready to transform your enterprise?</h2>
+              <p className="cta-band__sub">Whether you're planning a greenfield migration, a brownfield upgrade, or need expert guidance post-Go-Live — InionData brings speed, precision, and reliability.</p>
             </div>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <Link className="btn cta-band__btn" to="/contact">Talk to us</Link>

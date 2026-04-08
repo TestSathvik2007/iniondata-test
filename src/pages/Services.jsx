@@ -19,66 +19,66 @@ const offerings = [
   {
     title: "Application Design & Development",
     desc: "Full-cycle development from requirements to release.",
-    bullets: ["Requirements gathering", "UI/UX design", "QA testing"],
+    bullets: ["End-to-end development lifecycle", "UI/UX design & prototyping", "QA testing & release management"],
     image: service1,
     slug: "/services/app-development",   // ← detail page
   },
   {
     title: "Application Integration",
     desc: "Seamless connectivity between systems.",
-    bullets: ["API integration", "Data flow", "Third-party linking"],
+    bullets: ["REST, GraphQL & event-driven APIs", "Legacy system modernisation", "Real-time data pipelines"],
     image: service2,
   },
   {
     title: "Application Management",
     desc: "Keep apps running reliably.",
-    bullets: ["Bug fixing", "Monitoring", "Support"],
+    bullets: ["24/7 uptime monitoring & alerting", "Incident management & root-cause analysis", "Performance optimisation & release management"],
     image: service3,
   },
   {
     title: "Application Maintenance",
     desc: "Performance & health optimization.",
-    bullets: ["Performance tuning", "Monitoring", "Upgrades"],
+    bullets: ["Proactive bug resolution & patching", "Security & dependency hygiene", "Feature iterations alongside stable baseline"],
     image: service4,
   },
   {
     title: "Project Management",
     desc: "End-to-end delivery management.",
-    bullets: ["Planning", "Tracking", "Risk handling"],
+    bullets: ["Scope, timeline & budget governance", "Risk register & mitigation planning", "Stakeholder communication & transparent reporting"],
     image: service5,
   },
   {
     title: "Consulting Services",
     desc: "Strategic technical guidance.",
-    bullets: ["Feasibility", "Architecture", "Scalability"],
+    bullets: ["Architecture review & technology selection", "Feasibility & trade-off analysis", "Phased implementation roadmaps"],
     image: service6,
   },
   {
     title: "Teams Integration",
     desc: "Microsoft Teams solutions.",
-    bullets: ["Bots", "Extensions", "Automation"],
+    bullets: ["Intelligent bots & adaptive card workflows", "Message extensions & data retrieval commands", "Embedded tab apps & meeting integrations"],
     image: service7,
   },
   {
     title: "Operational Efficiency",
     desc: "Modernize legacy systems.",
-    bullets: ["Optimization", "Security", "Cost reduction"],
+    bullets: ["Cloud spend audits & right-sizing", "Legacy modernisation with strangler-fig pattern", "Developer workflow & CI/CD pipeline optimisation"],
     image: service8,
   },
   {
     title: "Fast Growth",
     desc: "Boost growth by reinventing your applications.",
     bullets: [
-      "Accelerate development cycles",
-      "Reduce maintenance overhead",
-      "Modernize legacy systems",
-      "Improve scalability",
+      "Shorten release cycles with CI/CD & feature flags",
+      "Cut maintenance overhead with targeted refactoring",
+      "Architect for 10× growth capacity",
+      "Modernise stack to unlock developer velocity",
     ],
     image: service9,
   },
 ];
 
-const metrics     = [["92%","Delivery clarity"],["88%","Code quality avg"],["90%","Security posture"],["10×","Faster releases"]];
+const metrics     = [["12+","Industries served"],["4","Global locations"],["10×","Faster releases"],["100%","Budget adherence"]];
 const clientLogos = ["Accenture","Deloitte","ThoughtWorks","KPMG","McKinsey","Bain & Co","BCG","PwC"];
 const fomoLeads   = ["A SaaS team in Austin just got in touch.","A fintech startup booked a discovery call.","An e-commerce company requested a proposal.","A logistics firm just reached out."];
 
@@ -314,8 +314,8 @@ export default function Services() {
       <section className="section">
         <div className="container">
           <div className="ha ha-1"><span className="kicker">Services</span></div>
-          <h1 className="h1 ha ha-2" style={{ fontSize: "clamp(2.2rem,4.5vw,3.2rem)", lineHeight: 1.1, marginTop: 10, maxWidth: "18ch" }}>Application development, end to end.</h1>
-          <p className="lead ha ha-3" style={{ marginTop: 16, maxWidth: "60ch" }}>Enterprise organisations are moving from rigid heritage portfolios to agile, modular systems. We help you get there — faster releases, smarter automation, and experiences your customers notice.</p>
+          <h1 className="h1 ha ha-2" style={{ fontSize: "clamp(2.2rem,4.5vw,3.2rem)", lineHeight: 1.1, marginTop: 10, maxWidth: "18ch" }}>Enterprise IT services, end to end.</h1>
+          <p className="lead ha ha-3" style={{ marginTop: 16, maxWidth: "60ch" }}>At InionData, we provide a unique and flexible delivery model to help you address skill gaps, deliver project outcomes, and transform your organisation — with a tailored team that can scale up or down quickly and cost-effectively.</p>
           <div className="ha ha-4" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginTop: 36 }}>
             {metrics.map(([v, l]) => (
               <div key={l} className="card card-i" style={{ padding: "20px 16px", borderRadius: 14, textAlign: "center" }}>
@@ -468,8 +468,8 @@ export default function Services() {
         <div className="container rv">
           <div className="cta-band">
             <div>
-              <h2 className="cta-band__title">Ready to modernise your applications?</h2>
-              <p className="cta-band__sub">Tell us about your project and we'll scope a solution within 48 hours.</p>
+              <h2 className="cta-band__title">Ready to transform your digital operations?</h2>
+              <p className="cta-band__sub">From staffing solutions to full system transformation — we bring the right expertise to deliver results.</p>
             </div>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <Link className="btn cta-band__btn" to="/contact">Get in touch</Link>

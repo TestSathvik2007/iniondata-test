@@ -285,9 +285,7 @@ export default function TeamsIntegration() {
               </span>
             </h1>
             <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
-              Stop asking your team to juggle 10 browser tabs. We build custom bots, embedded apps,
-              and message extensions that bring your critical workflows into the Teams interface
-              your people are already living in.
+              Stop asking your team to juggle 10 browser tabs. InionData builds custom bots, embedded apps, and message extensions that bring your critical workflows — CRM lookups, approval chains, helpdesk, reporting — directly into the Microsoft Teams interface your people are already in.
             </p>
             <div className="reveal" style={{ marginTop: 28, display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link className="btn btn--primary" to="/contact">Build your Teams app</Link>
@@ -431,6 +429,51 @@ export default function TeamsIntegration() {
                 <li>Zero training required — all interactions happen in Teams naturally</li>
               </ul>
             </div>
+          </div>
+        </div>
+      </section>
+
+
+      {/* DELIVERY APPROACH */}
+      <section className="section section--alt">
+        <div className="container">
+          <div className="kicker reveal">Our approach</div>
+          <h2 className="h2 reveal" style={{ marginTop: 10 }}>How every engagement runs</h2>
+          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 580 }}>
+            Every InionData engagement follows the same proven four-step model — so you always know
+            where things stand and what comes next.
+          </p>
+
+          <div className="reveal" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
+            {[
+              { n: "01", title: "Discovery & Assessment", desc: "We analyse your current landscape, challenges, and business goals — through stakeholder interviews, technical audits, and scope definition." },
+              { n: "02", title: "Architecture & Roadmap", desc: "We design scalable, future-proof architecture tailored to your business — with a phased delivery plan, tech stack selection, and risk mapping." },
+              { n: "03", title: "Build & Implement", desc: "We develop applications, pipelines, integrations, and governance frameworks in structured sprints with weekly stakeholder updates." },
+              { n: "04", title: "Optimise & Support", desc: "We monitor, refine, and evolve your solution as your needs grow — with performance tracking, continuous improvement, and post-delivery support." },
+            ].map((step, i) => (
+              <div key={step.n} style={{
+                padding: "28px 24px",
+                borderRadius: 20,
+                background: "rgba(255,255,255,.04)",
+                border: "1px solid rgba(255,255,255,.07)",
+                position: "relative",
+                transition: ".25s",
+              }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
+              onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
+              >
+                <div style={{
+                  fontSize: 48, fontWeight: 800, lineHeight: 1,
+                  color: "rgba(20,184,166,.18)",
+                  marginBottom: 16,
+                  letterSpacing: "-0.04em",
+                }}>
+                  {step.n}
+                </div>
+                <h3 style={{ margin: "0 0 10px", fontSize: 16, fontWeight: 700 }}>{step.title}</h3>
+                <p style={{ margin: 0, fontSize: 13, color: "var(--muted)", lineHeight: 1.65 }}>{step.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

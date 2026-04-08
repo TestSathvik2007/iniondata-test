@@ -15,31 +15,31 @@ import service9 from "../assets/images/fast_growth.png";
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
 const offerings = [
-  { title: "Application Design & Development", desc: "Full-cycle development from requirements to release.", badge: "Core", image: service1 },
-  { title: "Application Integration", desc: "Seamless connectivity between systems.", badge: "Integration", image: service2 },
-  { title: "Application Management", desc: "Keep apps running reliably.", badge: "Support", image: service3 },
-  { title: "Application Maintenance", desc: "Performance & health optimisation.", badge: "Maintenance", image: service4 },
-  { title: "Project Management", desc: "End-to-end delivery management.", badge: "Delivery", image: service5 },
-  { title: "Consulting Services", desc: "Strategic technical guidance.", badge: "Advisory", image: service6 },
-  { title: "Teams Integration", desc: "Microsoft Teams solutions.", badge: "Collaboration", image: service7 },
-  { title: "Operational Efficiency", desc: "Modernise legacy systems.", badge: "Optimisation", image: service8 },
-  { title: "Fast Growth", desc: "Boost growth by reinventing your applications.", badge: "Growth", image: service9 },
+  { title: "Application Design & Development", desc: "Full-cycle app delivery — from requirements to release — for enterprise-level projects.", badge: "Core", image: service1 },
+  { title: "Application Integration", desc: "Connect CRMs, cloud platforms, and legacy systems into a unified, real-time ecosystem.", badge: "Integration", image: service2 },
+  { title: "Application Management", desc: "24/7 monitoring, incident response, and performance optimisation for your applications.", badge: "Support", image: service3 },
+  { title: "Application Maintenance", desc: "Proactive bug fixing, security patching, and continuous performance tuning.", badge: "Maintenance", image: service4 },
+  { title: "Project Management", desc: "End-to-end delivery management — on time, on budget, with full stakeholder transparency.", badge: "Delivery", image: service5 },
+  { title: "Consulting Services", desc: "Architecture reviews, feasibility studies, and technical roadmaps aligned with your business goals.", badge: "Advisory", image: service6 },
+  { title: "Teams Integration", desc: "Custom bots, embedded apps, and message extensions that bring your workflows into Microsoft Teams.", badge: "Collaboration", image: service7 },
+  { title: "Operational Efficiency", desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.", badge: "Optimisation", image: service8 },
+  { title: "Fast Growth", desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.", badge: "Growth", image: service9 },
 ];
 
 const trust = [
   {
-    title: "Confidential by default",
-    desc: "NDA-ready engagements, least-privilege access, and clean handoffs.",
+    title: "Deep domain expertise",
+    desc: "Decades of combined leadership experience across Data, SAP, Guidewire, and enterprise application delivery.",
     lottie: "https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json",
   },
   {
-    title: "Clear delivery",
-    desc: "Milestones, weekly updates, and measurable outcomes — no surprises.",
+    title: "Flexible delivery model",
+    desc: "Scale your team up or down quickly — contract, contract-to-hire, or direct hire — to address skill gaps without long-term overhead.",
     lottie: "https://assets4.lottiefiles.com/packages/lf20_tno6cg2w.json",
   },
   {
-    title: "Culture-aligned teams",
-    desc: "We adapt to your working style, time zones, and communication norms.",
+    title: "AI-driven innovation",
+    desc: "Vision AI, test automation, risk-based testing, self-healing tests, and performance optimisation baked into every engagement.",
     lottie: "https://assets1.lottiefiles.com/packages/lf20_kkflmtur.json",
   },
 ];
@@ -54,7 +54,7 @@ const fomoLeads = [
   "A logistics firm just reached out.",
 ];
 
-const TW_WORDS = ["data pipelines.", "cloud infra.", "product teams."];
+const TW_WORDS = ["enterprise applications.", "data & AI solutions.", "digital transformation."];
 
 // ── CAROUSEL CONSTANTS ────────────────────────────────────────────────────────
 const CARD_W = 300;
@@ -810,22 +810,22 @@ export default function Home() {
 
           {/* Left col */}
           <div>
-            <div className="kicker h-anim-1">Trust-first partner</div>
+            <div className="kicker h-anim-1">Enterprise IT services · USA, Mexico, Canada & India</div>
             <h1 className="h1 h-anim-2" style={{ marginTop: 12 }}>
-              Clean delivery for{" "}
+              Transformative solutions for{" "}
               <span style={{ whiteSpace: "nowrap" }}>
                 {twWord}<span className="tw-cursor" aria-hidden="true" />
               </span>
             </h1>
             <p className="lead h-anim-3" style={{ marginTop: 16, maxWidth: "50ch" }}>
-              A simple, reliable approach that respects your customers, your culture, and your timelines.
+              InionData delivers end-to-end project support, application development, and system transformation for enterprises — with the right team, at the right scale, right when you need it.
             </p>
             <div className="h-anim-4" style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 24 }}>
               <Link className="btn btn--primary" to="/contact">Get in touch</Link>
               <Link className="btn btn--ghost" to="/services">View services</Link>
             </div>
             <div className="grid grid-3 h-anim-5" style={{ marginTop: 24 }}>
-              {[["24–48h", "First response"], ["Weekly", "Delivery updates"], ["NDA", "Ready"]].map(([a, b]) => (
+              {[["12+", "Industries served"], ["Global", "USA · Mexico · Canada · India"], ["NDA", "Ready on day one"]].map(([a, b]) => (
                 <div key={a} className="card card__p card-lift" style={{ textAlign: "center" }}>
                   <div style={{ fontFamily: "var(--font)", fontWeight: 800, fontSize: 20, color: "var(--text)" }}>{a}</div>
                   <div className="lead" style={{ fontSize: 13, marginTop: 4 }}>{b}</div>
@@ -882,7 +882,7 @@ export default function Home() {
         <div className="container">
           <div className="kicker reveal">Why teams trust us</div>
           <h2 className="h2 reveal" style={{ fontSize: "clamp(1.9rem,3.5vw,2.4rem)", marginTop: 8 }}>
-            Built for long-term partnerships
+            Built for enterprise-scale delivery
           </h2>
 
           <div className="reveal" style={{ marginTop: 24, borderRadius: 16, overflow: "hidden", height: 170, position: "relative" }}>
@@ -894,8 +894,8 @@ export default function Home() {
             />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(0,0,0,.58) 0%,transparent 65%)", pointerEvents: "none" }} />
             <div style={{ position: "absolute", bottom: 18, left: 22, color: "#fff" }}>
-              <div style={{ fontSize: 13, opacity: 0.8, marginBottom: 4 }}>Trusted by distributed teams across 12+ industries</div>
-              <div style={{ fontSize: 18, fontWeight: 600 }}>Culture-aligned. Outcome-focused.</div>
+              <div style={{ fontSize: 13, opacity: 0.8, marginBottom: 4 }}>Trusted by enterprises across Financial Services, Healthcare, Retail, Manufacturing & more</div>
+              <div style={{ fontSize: 18, fontWeight: 600 }}>Specialised. Scalable. Results-driven.</div>
             </div>
           </div>
 
@@ -912,7 +912,7 @@ export default function Home() {
           {/* ── Trust cards with Lottie ── */}
           <div className="grid grid-3 reveal-group" style={{ marginTop: 22 }}>
             {trust.map((t, i) => (
-              <div key={t.title} className="card card-lift trust-card reveal" style={{ "--i": i }}>
+              <div key={t.title} className="card card-lift trust-card " style={{ "--i": i }}>
                 {/* Lottie animation panel */}
                 <div className="trust-lottie-wrap">
                   <lottie-player
@@ -943,10 +943,10 @@ export default function Home() {
             <div style={{ padding: 36 }}>
               <div className="kicker">Next step</div>
               <h2 className="h2" style={{ fontSize: "clamp(1.7rem,3vw,2.1rem)", marginTop: 10 }}>
-                Tell us what you're building.
+                Tell us what you need to transform.
               </h2>
               <p className="lead" style={{ marginTop: 10, fontSize: 15 }}>
-                We'll respond with a clear plan, timeline, and a small set of options.
+                From greenfield migrations to post-Go-Live support — we bring speed, precision, and reliability to your digital initiatives.
               </p>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 22 }}>
                 <Link className="btn btn--primary" to="/contact">Contact</Link>
