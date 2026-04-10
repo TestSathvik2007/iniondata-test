@@ -16,6 +16,9 @@ import ConsultingServices from "./pages/Services/ConsultingServices";
 import TeamsIntegration from "./pages/Services/TeamsIntegration";
 import FastGrowth from "./pages/Services/FastGrowth";
 import OperationalEfficiency from "./pages/Services/OperationalEfficiency";
+import DataAnalytics from "./pages/Services/DataAnalytics";
+import DataEngineering from "./pages/Services/DataEngineering";
+import CloudEngineering from "./pages/Services/CloudEngineering";
 
 const pageTransitionStyles = `
   @keyframes pageIn {
@@ -56,7 +59,10 @@ function AnimatedRoutes() {
         <Route path="/services/operational-efficiency" element={<OperationalEfficiency />} />
         <Route path="/ai-enablement" element={<AIEnablement />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/services/data-analytics" element={<DataAnalytics />} />
+        <Route path="/services/data-engineering" element={<DataEngineering />} />
         <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/services/cloud-engineering" element={<CloudEngineering />} />
       </Routes>
     </div>
   );

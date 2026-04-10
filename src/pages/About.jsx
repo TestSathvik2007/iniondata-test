@@ -7,23 +7,37 @@ import { useEffect, useRef } from "react";
 const points = [
   {
     icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>),
-    title: "Deep domain expertise",
-    desc: "Seasoned professionals with deep industry knowledge across Data, SAP, Guidewire, Testing, and enterprise application delivery — in Financial Services, Healthcare, Retail, Manufacturing, and more.",
+    title: "Expertise",
+    desc: "Benefit from the expertise of seasoned professionals with deep industry knowledge and experience. Global Presence: USA, Mexico, Canada, and India.",
     lottieUrl: "https://assets2.lottiefiles.com/packages/lf20_qp1q7mct.json",
     lottieBg: "transparent",
   },
   {
+    icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>),
+    title: "Customization",
+    desc: "Enjoy personalized solutions tailored to your unique business needs and objectives.",
+    lottieUrl: "https://assets3.lottiefiles.com/packages/lf20_obhph3t0.json",
+    lottieBg: "transparent",
+  },
+  {
     icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>),
-    title: "AI-driven innovation",
-    desc: "Vision AI, test automation, risk-based testing, self-healing tests, and performance optimisation — embedded into every engagement to accelerate outcomes and reduce risk.",
+    title: "AI-Driven Innovation",
+    desc: "Vision AI, Test Automation, Risk-based testing, Self-healing tests, Performance optimization.",
     lottieUrl: "https://assets9.lottiefiles.com/packages/lf20_w51pcehl.json",
     lottieBg: "transparent",
   },
   {
-    icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>),
-    title: "Customisation & flexibility",
-    desc: "Personalised solutions tailored to your unique business needs — from greenfield migrations to brownfield upgrades to post-Go-Live support. Scale teams up or down to fit your project.",
-    lottieUrl: "https://assets3.lottiefiles.com/packages/lf20_obhph3t0.json",
+    icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>),
+    title: "Reliability",
+    desc: "Count on us for reliable, responsive service and support, ensuring peace of mind throughout our partnership. Whether you're planning a greenfield migration, a brownfield upgrade, or need expert guidance post-Go-Live, InionData brings speed, precision, and reliability to your digital initiatives.",
+    lottieUrl: "https://assets4.lottiefiles.com/packages/lf20_tno6cg2w.json",
+    lottieBg: "transparent",
+  },
+  {
+    icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>),
+    title: "Results-Driven Approach",
+    desc: "Experience measurable impact on your business performance with our results-driven approach.",
+    lottieUrl: "https://assets1.lottiefiles.com/packages/lf20_kkflmtur.json",
     lottieBg: "transparent",
   },
 ];
@@ -81,7 +95,7 @@ const pageStyles = `
   .h2{font-family:var(--font-display);font-weight:800;font-size:clamp(30px,3.5vw,48px);line-height:1.08;letter-spacing:-0.03em;margin:0}
   .h3{font-family:var(--font-display);font-weight:700;font-size:clamp(20px,2vw,26px);line-height:1.2;letter-spacing:-0.02em;margin:0}
   .text-grad{background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-  .lead{font-size:18px;font-weight:300;color:var(--muted);line-height:1.75}
+  .lead{font-size:17px; font-weight:300; color:var(--muted); line-height:1.5; text-align: justify;text-justify: inter-word;}
   .kicker{display:inline-flex;align-items:center;gap:10px;padding:5px 14px 5px 10px;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-primary);background:transparent;border:1px solid rgba(0,0,0,0.15);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
   .kicker::before{content:'';display:block;width:6px;height:6px;background:#1D9E75;clip-path:polygon(50% 0%,100% 100%,0% 100%);flex-shrink:0}
 
@@ -193,6 +207,8 @@ const pageStyles = `
   .img-strip-item__label{position:absolute;bottom:10px;left:10px;background:rgba(13,148,136,.85);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:6px}
 
   .principles-bento{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:auto;gap:12px;margin-top:20px}
+  .principles-bento .principle-cell:nth-child(4){grid-column:1/span 2}
+  .principles-bento .principle-cell:nth-child(5){grid-column:3/span 1}
   .principle-cell{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .25s ease,background .25s ease}
   .principle-cell:hover{border-color:rgba(20,184,166,.22);background:rgba(255,255,255,.06)}
   .principle-cell::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(130deg,transparent 0%,rgba(20,184,166,.22) 50%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .45s ease;pointer-events:none}
@@ -259,8 +275,10 @@ export default function About() {
               <h1 className="h1 ha ha-2" style={{ fontSize: "clamp(2.2rem,4.4vw,3.2rem)", lineHeight: 1.1, marginTop: 10 }}>
                 A specialized IT partner for enterprise-scale transformation.
               </h1>
-              <p className="lead ha ha-3" style={{ marginTop: 16, maxWidth: "44ch" }}>
-                InionData delivers end-to-end project support, application development, SAP, Guidewire, and testing services for enterprises across industries — with decades of combined leadership experience and a growing global presence.
+              <p className="lead ha ha-3" style={{ marginTop: 16, maxWidth: "65ch" }}>
+                InionData is a specialized IT services company focused on delivering transformative solutions in Data as a Service, Application Development, SAP, Guidewire, and Testing. With decades of combined leadership experience, InionData provides end-to-end project support, application maintenance, testing services, and system transformation for enterprises across industries.
+As a trusted Services Partner, and with growing capabilities in Guidewire Insurance Platform services, InionData is committed to being the partner of choice for enterprise IT success.
+
               </p>
               <div className="ha ha-4" style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 24 }}>
                 <Link className="btn btn--primary" to="/contact">Talk to us</Link>
@@ -302,7 +320,7 @@ export default function About() {
           <div className="rv" style={{ marginBottom: 28 }}>
             <div className="accent-bar" />
             <div className="kicker">Why InionData</div>
-            <h2 className="h2" style={{ fontSize: "clamp(1.8rem,3vw,2.2rem)", marginTop: 8 }}>What sets us apart</h2>
+            <h2 className="h2" style={{ fontSize: "clamp(1.8rem,3vw,2.2rem)", marginTop: 8 }}>Why InionData?</h2>
           </div>
 
           <div className="marquee-wrap rv" style={{ marginBottom: 24, padding: "8px 0" }}>
@@ -349,7 +367,7 @@ export default function About() {
       </section>
 
       {/* ── ENGAGEMENT FLOW ── */}
-      <section className="section">
+      {/* <section className="section">
         <div className="container">
           <div className="rv" style={{ marginBottom: 32 }}>
             <div className="accent-bar" />
@@ -359,7 +377,7 @@ export default function About() {
 
           <div style={{ position: "relative" }}>
             {/* <div style={{ position: "absolute", top: 22, left: "12.5%", right: "12.5%", height: 2, background: "linear-gradient(90deg,var(--teal),var(--teal-2))", opacity: 0.2, borderRadius: 2, zIndex: 0 }} /> */}
-            <div className="grid grid-4 rv-group" style={{ position: "relative", zIndex: 1 }}>
+            {/* <div className="grid grid-4 rv-group" style={{ position: "relative", zIndex: 1 }}>
               {timeline.map((t) => (
                 <div key={t.title} className="card card__p card-i rv" style={{ display: "flex", flexDirection: "column" }}>
                   <div className="step-pill">
@@ -374,7 +392,7 @@ export default function About() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */} 
 
       {/* ── CTA ── */}
       <section className="section section--alt">

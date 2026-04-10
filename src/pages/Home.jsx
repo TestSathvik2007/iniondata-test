@@ -24,6 +24,11 @@ const offerings = [
   { title: "Teams Integration", desc: "Custom bots, embedded apps, and message extensions that bring your workflows into Microsoft Teams.", badge: "Collaboration", image: service7 },
   { title: "Operational Efficiency", desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.", badge: "Optimisation", image: service8 },
   { title: "Fast Growth", desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.", badge: "Growth", image: service9 },
+  { title: "Data & Analytics", desc: "Turn raw data into actionable insight with scalable analytics platforms, dashboards, and reporting pipelines.", badge: "Analytics", image: service1 },
+  { title: "Data Engineering Services", desc: "End-to-end data pipelines, lake and warehouse architecture, ETL automation, and real-time stream processing.", badge: "Data", image: service2 },
+  { title: "Cloud Engineering Services", desc: "Cloud-native design, migration, and optimization across Azure, AWS, and Google Cloud for cost-efficient scale.", badge: "Cloud", image: service3 },
+  { title: "Data Science Services", desc: "Predictive modelling, machine learning, and AI-driven insights that translate complex data into business value.", badge: "AI/ML", image: service4 },
+  { title: "Human-in-the-Loop (HITL) Services", desc: "Combining AI automation with human expertise to validate, annotate, and improve model outputs at scale.", badge: "HITL", image: service5 },
 ];
 
 const trust = [
@@ -130,7 +135,7 @@ const pageStyles = `
   /* ── Typography ── */
   .h1 { font-family:var(--font); font-weight:800; font-size:clamp(36px,5vw,68px); line-height:1.02; letter-spacing:-0.04em; margin:0 }
   .h2 { font-family:var(--font); font-weight:800; font-size:clamp(28px,3.5vw,44px); line-height:1.08; letter-spacing:-0.03em; margin:0 }
-  .lead { font-size:17px; font-weight:300; color:var(--muted); line-height:1.75 }
+  .lead { font-size:17px; font-weight:300; color:var(--muted); line-height:1.5; text-align: justify;text-justify: inter-word; }
   .kicker {
     display:inline-flex; align-items:center; gap:10px;
     padding:5px 14px 5px 10px; font-size:11px; font-weight:700;
@@ -810,15 +815,17 @@ export default function Home() {
 
           {/* Left col */}
           <div>
-            <div className="kicker h-anim-1">Enterprise IT services · USA, Mexico, Canada & India</div>
+            <div className="kicker h-anim-1">Enterprise IT services</div>
             <h1 className="h1 h-anim-2" style={{ marginTop: 12 }}>
               Transformative solutions for{" "}
               <span style={{ whiteSpace: "nowrap" }}>
                 {twWord}<span className="tw-cursor" aria-hidden="true" />
               </span>
             </h1>
-            <p className="lead h-anim-3" style={{ marginTop: 16, maxWidth: "50ch" }}>
-              InionData delivers end-to-end project support, application development, and system transformation for enterprises — with the right team, at the right scale, right when you need it.
+            <p className="lead h-anim-3" style={{ marginTop: 16, maxWidth: "65ch" }}>
+              We provide a unique and flexible delivery model to help you address short-term skill gaps, deliver project results, and transform your organization by creating the right team that can scale up or down quickly and cost effectively to fit your needs.
+When you need deep expertise and a tailored approach to consulting, you know Protiviti. But what if you need critical or scarce skillsets, help with implementing the right technology, optimizing finance and accounting solutions, or finding the right partner to build a project team or outsource a business function?
+
             </p>
             <div className="h-anim-4" style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 24 }}>
               <Link className="btn btn--primary" to="/contact">Get in touch</Link>
