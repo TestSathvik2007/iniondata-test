@@ -11,24 +11,29 @@ import service6 from "../assets/images/consulting_services.png";
 import service7 from "../assets/images/teams_application.png";
 import service8 from "../assets/images/operational_efficiency.png";
 import service9 from "../assets/images/fast_growth.png";
+import service10 from "../assets/images/dataanalytics.jpg";
+import service11 from "../assets/images/dataengineering.jpg";
+import service12 from "../assets/images/cloud.jpg";
+import service13 from "../assets/images/datascience.jpg";
+import service14 from "../assets/images/hitl2.jpg";
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
 const offerings = [
-  { title: "Application Design & Development", desc: "Full-cycle app delivery — from requirements to release — for enterprise-level projects.", badge: "Core", image: service1 },
-  { title: "Application Integration", desc: "Connect CRMs, cloud platforms, and legacy systems into a unified, real-time ecosystem.", badge: "Integration", image: service2 },
-  { title: "Application Management", desc: "24/7 monitoring, incident response, and performance optimisation for your applications.", badge: "Support", image: service3 },
-  { title: "Application Maintenance", desc: "Proactive bug fixing, security patching, and continuous performance tuning.", badge: "Maintenance", image: service4 },
-  { title: "Project Management", desc: "End-to-end delivery management — on time, on budget, with full stakeholder transparency.", badge: "Delivery", image: service5 },
-  { title: "Consulting Services", desc: "Architecture reviews, feasibility studies, and technical roadmaps aligned with your business goals.", badge: "Advisory", image: service6 },
-  { title: "Teams Integration", desc: "Custom bots, embedded apps, and message extensions that bring your workflows into Microsoft Teams.", badge: "Collaboration", image: service7 },
-  { title: "Operational Efficiency", desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.", badge: "Optimisation", image: service8 },
-  { title: "Fast Growth", desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.", badge: "Growth", image: service9 },
-  { title: "Data & Analytics", desc: "Turn raw data into actionable insight with scalable analytics platforms, dashboards, and reporting pipelines.", badge: "Analytics", image: service1 },
-  { title: "Data Engineering Services", desc: "End-to-end data pipelines, lake and warehouse architecture, ETL automation, and real-time stream processing.", badge: "Data", image: service2 },
-  { title: "Cloud Engineering Services", desc: "Cloud-native design, migration, and optimization across Azure, AWS, and Google Cloud for cost-efficient scale.", badge: "Cloud", image: service3 },
-  { title: "Data Science Services", desc: "Predictive modelling, machine learning, and AI-driven insights that translate complex data into business value.", badge: "AI/ML", image: service4 },
-  { title: "Human-in-the-Loop (HITL) Services", desc: "Combining AI automation with human expertise to validate, annotate, and improve model outputs at scale.", badge: "HITL", image: service5 },
+  { title: "Application Design & Development", desc: "Full-cycle app delivery — from requirements to release — for enterprise-level projects.", badge: "Core", image: service1,path: "/services/app-development" },
+  { title: "Application Integration", desc: "Connect CRMs, cloud platforms, and legacy systems into a unified, real-time ecosystem.", badge: "Integration", image: service2 , path: "/services/app-integration"},
+  { title: "Application Management", desc: "24/7 monitoring, incident response, and performance optimisation for your applications.", badge: "Support", image: service3 , path: "/services/app-management"},
+  { title: "Application Maintenance", desc: "Proactive bug fixing, security patching, and continuous performance tuning.", badge: "Maintenance", image: service4 , path: "/services/app-maintenance"},
+  { title: "Project Management", desc: "End-to-end delivery management — on time, on budget, with full stakeholder transparency.", badge: "Delivery", image: service5 , path: "/services/project-management"},
+  { title: "Consulting Services", desc: "Architecture reviews, feasibility studies, and technical roadmaps aligned with your business goals.", badge: "Advisory", image: service6 , path: "/services/consulting"},
+  { title: "Teams Integration", desc: "Custom bots, embedded apps, and message extensions that bring your workflows into Microsoft Teams.", badge: "Collaboration", image: service7 , path: "/services/teams-integration"},
+  { title: "Operational Efficiency", desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.", badge: "Optimisation", image: service8 , path: "/services/operational-efficiency"},
+  { title: "Fast Growth", desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.", badge: "Growth", image: service9 , path: "/services/fast-growth"},
+  { title: "Data & Analytics", desc: "Turn raw data into actionable insight with scalable analytics platforms, dashboards, and reporting pipelines.", badge: "Analytics", image: service10 , path: "/services/data-analytics"},
+  { title: "Data Engineering Services", desc: "End-to-end data pipelines, lake and warehouse architecture, ETL automation, and real-time stream processing.", badge: "Data", image: service11 , path: "/services/data-engineering"},
+  { title: "Cloud Engineering Services", desc: "Cloud-native design, migration, and optimization across Azure, AWS, and Google Cloud for cost-efficient scale.", badge: "Cloud", image: service12 , path: "/services/cloud-engineering"},
+  { title: "Data Science Services", desc: "Predictive modelling, machine learning, and AI-driven insights that translate complex data into business value.", badge: "AI/ML", image: service13 , path: "/services/data-science"},
+  { title: "Human-in-the-Loop (HITL) Services", desc: "Combining AI automation with human expertise to validate, annotate, and improve model outputs at scale.", badge: "HITL", image: service14 , path: "/services/human-in-the-loop"},
 ];
 
 const trust = [

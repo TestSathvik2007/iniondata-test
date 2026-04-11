@@ -19,6 +19,8 @@ import OperationalEfficiency from "./pages/Services/OperationalEfficiency";
 import DataAnalytics from "./pages/Services/DataAnalytics";
 import DataEngineering from "./pages/Services/DataEngineering";
 import CloudEngineering from "./pages/Services/CloudEngineering";
+import DataScience from "./pages/Services/DataScience";
+import HumanInTheLoop from "./pages/Services/HumanInTheLoop";
 
 const pageTransitionStyles = `
   @keyframes pageIn {
@@ -63,6 +65,8 @@ function AnimatedRoutes() {
         <Route path="/services/data-engineering" element={<DataEngineering />} />
         <Route path="*" element={<Navigate to="/" replace />} />
         <Route path="/services/cloud-engineering" element={<CloudEngineering />} />
+        <Route path="/services/data-science" element={<DataScience />} />
+        <Route path="/services/human-in-the-loop" element={<HumanInTheLoop />} />
       </Routes>
     </div>
   );

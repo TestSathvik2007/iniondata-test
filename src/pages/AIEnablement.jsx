@@ -2,56 +2,49 @@ import { Link } from "react-router-dom";
 import { useReveal, ANIM_CSS } from "../animations";
 import { useEffect, useRef, useState } from "react";
 
+
 // ── DATA ─────────────────────────────────────────────────────────────────────
 
 const services = [
   {
     num: "01",
-    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v5c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 10v5c0 1.66 4 3 9 3s9-1.34 9-3v-5"/></svg>),
+    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5v5c0 1.66 4 3 9 3s9-1.34 9-3V5" /><path d="M3 10v5c0 1.66 4 3 9 3s9-1.34 9-3v-5" /></svg>),
     title: "Data Services",
     desc: "End-to-end data services designed to power high-performance AI systems.",
-    bullets: ["Data annotation & labeling","Image, text, speech & video","Segmentation & curation","Scalable data pipelines"],
-    lottieUrl: "https://assets2.lottiefiles.com/packages/lf20_DMgKk1.json",
-    lottieBg: "transparent",
+    bullets: ["Data annotation & labeling", "Image, text, speech & video", "Segmentation & curation", "Scalable data pipelines"],
   },
   {
     num: "02",
-    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>),
+    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>),
     title: "Human Augmentation",
     desc: "Human-in-the-Loop validation that keeps your models accurate and reliable.",
-    bullets: ["Continuous human feedback","Model accuracy improvement","Clean training data","GIGO prevention"],
-    lottieUrl: "https://assets4.lottiefiles.com/packages/lf20_ynrqns8t.json",
-    lottieBg: "#F0FDF4",
+    bullets: ["Continuous human feedback", "Model accuracy improvement", "Clean training data", "GIGO prevention"],
   },
   {
     num: "03",
-    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>),
+    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8m-4-4v4" /></svg>),
     title: "Managed Services",
     desc: "Fully managed data operations so your teams can focus on core innovation.",
-    bullets: ["Large-scale annotation ops","Multi-layer quality checks","Bias-free datasets","Production-ready delivery"],
-    lottieUrl: "https://assets6.lottiefiles.com/packages/lf20_u4yrau.json",
-    lottieBg: "#FFF7ED",
+    bullets: ["Large-scale annotation ops", "Multi-layer quality checks", "Bias-free datasets", "Production-ready delivery"],
   },
   {
     num: "04",
-    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>),
+    icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>),
     title: "Model Testing & Validation",
     desc: "Industry-specific testing to ensure your AI performs in the real world.",
-    bullets: ["Real-time workflow testing","Performance optimisation","Bug detection","Production standards audit"],
-    lottieUrl: "https://assets8.lottiefiles.com/packages/lf20_ydo1amjm.json",
-    lottieBg: "#FDF2F8",
+    bullets: ["Real-time workflow testing", "Performance optimisation", "Bug detection", "Production standards audit"],
   },
 ];
 
 const pillars = [
-  { label: "Our Value",   body: "We act as strategic partners, delivering data-driven solutions that address complex challenges in AI, data, and security — helping your business stay competitive and future-ready." },
-  { label: "Our Vision",  body: "To build a strong ecosystem of advanced technologies, industry expertise, and delivery excellence, supported by world-class professionals." },
+  { label: "Our Value", body: "We act as strategic partners, delivering data-driven solutions that address complex challenges in AI, data, and security — helping your business stay competitive and future-ready." },
+  { label: "Our Vision", body: "To build a strong ecosystem of advanced technologies, industry expertise, and delivery excellence, supported by world-class professionals." },
   { label: "Our Mission", body: "To drive innovation through intelligent solutions, accelerate digital transformation, and deliver secure, scalable systems that empower businesses." },
 ];
 
-const stats       = [["98%","Annotation accuracy"],["10×","Faster pipeline delivery"],["50+","Enterprise clients"],["24/7","Managed operations"]];
-const clientLogos = ["OpenAI","Anthropic","Google DeepMind","Hugging Face","Scale AI","Cohere","Mistral","Stability AI"];
-const fomoLeads   = ["An AI lab just kicked off a data project.","A computer vision team started a call.","An NLP startup requested annotation support.","A healthcare AI firm just got in touch."];
+const stats = [["98%", "Annotation accuracy"], ["10×", "Faster pipeline delivery"], ["50+", "Enterprise clients"], ["24/7", "Managed operations"]];
+const clientLogos = ["OpenAI", "Anthropic", "Google DeepMind", "Hugging Face", "Scale AI", "Cohere", "Mistral", "Stability AI"];
+const fomoLeads = ["An AI lab just kicked off a data project.", "A computer vision team started a call.", "An NLP startup requested annotation support.", "A healthcare AI firm just got in touch."];
 
 // ── STYLES ────────────────────────────────────────────────────────────────────
 
@@ -219,6 +212,23 @@ const pageStyles = `
   .ai-svc-cell__head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
   .ai-svc-cell__footer{display:flex;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.07)}
 
+  /* ── PILLAR SVG VISUALS ── */
+  .pillar-visual { width:100%; height:200px; overflow:hidden; border-bottom:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); display:flex; align-items:center; justify-content:center; position:relative; }
+  .pillar-visual svg { overflow:visible; }
+
+  @keyframes pv-float   { 0%,100%{transform:translateY(0)}   50%{transform:translateY(-6px)} }
+  @keyframes pv-pulse   { 0%,100%{opacity:.18} 50%{opacity:.35} }
+  @keyframes pv-scan    { from{transform:translateX(-100%)} to{transform:translateX(400%)} }
+  @keyframes pv-dash    { from{stroke-dashoffset:300} to{stroke-dashoffset:0} }
+  @keyframes pv-blink   { 0%,100%{opacity:1} 50%{opacity:.3} }
+  @keyframes pv-grow    { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+  @keyframes pv-orbit   { from{transform:rotate(0deg) translateX(52px) rotate(0deg)} to{transform:rotate(360deg) translateX(52px) rotate(-360deg)} }
+  @keyframes pv-orbit2  { from{transform:rotate(180deg) translateX(32px) rotate(-180deg)} to{transform:rotate(540deg) translateX(32px) rotate(-540deg)} }
+  @keyframes pv-flow    { 0%{stroke-dashoffset:80} 100%{stroke-dashoffset:0} }
+  @keyframes pv-ping    { 0%{r:4;opacity:.8} 100%{r:14;opacity:0} }
+  @keyframes pv-wave    { 0%,100%{d:path("M0,20 Q30,10 60,20 Q90,30 120,20")} 50%{d:path("M0,20 Q30,30 60,20 Q90,10 120,20")} }
+  @keyframes pv-tick    { 0%{stroke-dashoffset:40} 100%{stroke-dashoffset:0} }
+
   @media(max-width:768px){.ai-svc-bento{grid-template-columns:1fr}}
 `;
 
@@ -245,26 +255,183 @@ function useFomoToast() {
       setTimeout(() => setToast(null), 3900);
     };
     const first = setTimeout(show, 4000);
-    const iv    = setInterval(show, 7000);
+    const iv = setInterval(show, 7000);
     return () => { clearTimeout(first); clearInterval(iv); };
   }, []);
   return toast;
 }
 
-function LottieIcon({ url, bg }) {
-  useEffect(() => {
-    if (customElements.get("lottie-player") || document.querySelector("#lottie-player-script")) return;
-    const s = document.createElement("script");
-    s.id  = "lottie-player-script";
-    s.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js";
-    document.head.appendChild(s);
-  }, []);
+// ── PILLAR SVG VISUALS ────────────────────────────────────────────────────────
+
+// 01 Data Services — animated data pipeline with flowing rows of labeled data points
+function VisualDataServices() {
   return (
-    <div style={{ width: "100%", height: 200, background: bg, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", borderBottom: "1px solid rgba(255,255,255,0.06)", transition: "background .3s ease" }}>
-      <lottie-player autoplay loop mode="normal" src={url} style={{ width: 160, height: 160, transition: "transform .4s cubic-bezier(.34,1.56,.64,1)" }} />
+    <div className="pillar-visual">
+      <svg viewBox="0 0 320 160" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 320, height: 160 }}>
+        {/* glow */}
+        <ellipse cx="160" cy="80" rx="110" ry="55" fill="rgba(20,184,166,.06)" style={{ animation: "pv-pulse 4s ease-in-out infinite" }} />
+        {/* database stack */}
+        {[0,1,2].map(i => (
+          <g key={i} style={{ animation: `pv-float ${3+i*0.4}s ease-in-out ${i*0.3}s infinite` }}>
+            <ellipse cx="72" cy={56+i*22} rx="28" ry="8" fill="rgba(20,184,166,.08)" stroke="rgba(20,184,166,.35)" strokeWidth="1.2"/>
+            <rect x="44" y={56+i*22} width="56" height="16" fill="rgba(20,184,166,.05)" stroke="rgba(20,184,166,.25)" strokeWidth="1.2"/>
+            <ellipse cx="72" cy={72+i*22} rx="28" ry="8" fill="rgba(20,184,166,.08)" stroke="rgba(20,184,166,.25)" strokeWidth="1.2"/>
+          </g>
+        ))}
+        {/* flow lines */}
+        {[52, 72, 92].map((y, i) => (
+          <line key={i} x1="100" y1={y} x2="140" y2={y} stroke="rgba(20,184,166,.4)" strokeWidth="1.5" strokeDasharray="6 4"
+            style={{ animation: `pv-dash ${1.5+i*0.2}s linear ${i*0.3}s infinite` }} />
+        ))}
+        {/* label chips in the centre */}
+        {[
+          { y: 46, label: "IMG", col: "#14b8a6" },
+          { y: 68, label: "TXT", col: "#2dd4bf" },
+          { y: 90, label: "AUD", col: "#22c55e" },
+          { y: 112, label: "VID", col: "#4ade80" },
+        ].map(({ y, label, col }) => (
+          <g key={label} style={{ animation: `pv-float 4s ease-in-out ${y*0.01}s infinite` }}>
+            <rect x="148" y={y} width="44" height="18" rx="5" fill="rgba(255,255,255,.04)" stroke={`${col}55`} strokeWidth="1"/>
+            <text x="170" y={y+13} textAnchor="middle" fill={col} fontSize="9" fontWeight="700" letterSpacing=".05em">{label}</text>
+          </g>
+        ))}
+        {/* scan line */}
+        <rect x="148" y="40" width="8" height="96" fill="rgba(20,184,166,.12)" style={{ animation: "pv-scan 2.5s linear infinite" }}/>
+        {/* output pipeline */}
+        <rect x="200" y="58" width="72" height="44" rx="8" fill="rgba(20,184,166,.07)" stroke="rgba(20,184,166,.3)" strokeWidth="1.2"/>
+        <text x="236" y="76" textAnchor="middle" fill="#2dd4bf" fontSize="8" fontWeight="700" letterSpacing=".08em">PIPELINE</text>
+        {[66,80,94].map((y,i) => (
+          <rect key={i} x="208" y={y} width={[40,28,36][i]} height="3" rx="2" fill={`rgba(20,184,166,${[.25,.15,.20][i]})`}/>
+        ))}
+        {/* right arrow */}
+        <path d="M276,80 L296,80 M289,73 L296,80 L289,87" stroke="rgba(20,184,166,.5)" strokeWidth="1.5" strokeLinecap="round"/>
+        {/* output dot */}
+        <circle cx="304" cy="80" r="5" fill="rgba(20,184,166,.2)" stroke="#14b8a6" strokeWidth="1.5"/>
+        <circle cx="304" cy="80" r="9" fill="none" stroke="rgba(20,184,166,.15)" strokeWidth="1"
+          style={{ animation: "pv-ping 2s ease-out infinite" }}/>
+      </svg>
     </div>
   );
 }
+
+// 02 Human Augmentation — human↔AI feedback loop orbit
+function VisualHumanAugmentation() {
+  return (
+    <div className="pillar-visual">
+      <svg viewBox="0 0 320 160" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 320, height: 160 }}>
+        <ellipse cx="160" cy="80" rx="90" ry="55" fill="rgba(20,184,166,.05)" style={{ animation: "pv-pulse 5s ease-in-out infinite" }}/>
+        {/* orbit path */}
+        <ellipse cx="160" cy="80" rx="70" ry="42" stroke="rgba(20,184,166,.15)" strokeWidth="1" strokeDasharray="6 4"/>
+        <ellipse cx="160" cy="80" rx="70" ry="42" stroke="rgba(20,184,166,.6)" strokeWidth="2" fill="none"
+          strokeDasharray="50 300" style={{ animation: "pv-dash 3s linear infinite" }}/>
+        {/* human node */}
+        <circle cx="90" cy="80" r="26" fill="rgba(20,184,166,.08)" stroke="rgba(20,184,166,.4)" strokeWidth="1.5"/>
+        {/* person icon */}
+        <circle cx="90" cy="72" r="7" fill="none" stroke="#2dd4bf" strokeWidth="1.5"/>
+        <path d="M76,92 Q90,84 104,92" stroke="#2dd4bf" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+        <text x="90" y="104" textAnchor="middle" fill="#14b8a6" fontSize="7" fontWeight="700" letterSpacing=".08em">HUMAN</text>
+        {/* AI node */}
+        <circle cx="230" cy="80" r="26" fill="rgba(34,197,94,.06)" stroke="rgba(34,197,94,.38)" strokeWidth="1.5"/>
+        {/* chip/brain icon */}
+        <rect x="220" y="70" width="20" height="20" rx="3" fill="none" stroke="#4ade80" strokeWidth="1.4"/>
+        {[73,78,83].map(y => <line key={y} x1="222" y1={y} x2="238" y2={y} stroke="rgba(34,197,94,.4)" strokeWidth="1"/>)}
+        <text x="230" y="104" textAnchor="middle" fill="#22c55e" fontSize="7" fontWeight="700" letterSpacing=".08em">AI MODEL</text>
+        {/* orbiting feedback dot */}
+        <circle r="5" fill="#14b8a6" opacity=".9" style={{ animation: "pv-orbit 3.5s linear infinite", transformOrigin: "160px 80px" }}/>
+        <circle r="4" fill="#4ade80" opacity=".8" style={{ animation: "pv-orbit2 2.8s linear infinite", transformOrigin: "160px 80px" }}/>
+        {/* centre label */}
+        <rect x="143" y="72" width="34" height="16" rx="4" fill="rgba(20,184,166,.1)" stroke="rgba(20,184,166,.3)" strokeWidth="1"/>
+        <text x="160" y="84" textAnchor="middle" fill="#2dd4bf" fontSize="7.5" fontWeight="700">LOOP</text>
+      </svg>
+    </div>
+  );
+}
+
+// 03 Managed Services — ops dashboard with progress bars & quality layers
+function VisualManagedServices() {
+  return (
+    <div className="pillar-visual">
+      <svg viewBox="0 0 320 160" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 320, height: 160 }}>
+        <ellipse cx="160" cy="80" rx="120" ry="52" fill="rgba(20,184,166,.04)" style={{ animation: "pv-pulse 6s ease-in-out infinite" }}/>
+        {/* monitor frame */}
+        <rect x="60" y="30" width="200" height="110" rx="8" fill="rgba(255,255,255,.03)" stroke="rgba(20,184,166,.25)" strokeWidth="1.2"/>
+        <rect x="60" y="30" width="200" height="20" rx="8" fill="rgba(20,184,166,.08)"/>
+        {/* traffic lights */}
+        {[76,88,100].map((x,i) => (
+          <circle key={i} cx={x} cy="40" r="4" fill={["rgba(239,68,68,.5)","rgba(234,179,8,.5)","rgba(34,197,94,.5)"][i]}/>
+        ))}
+        <text x="180" y="44" textAnchor="middle" fill="rgba(255,255,255,.3)" fontSize="7" fontWeight="600">OPS DASHBOARD</text>
+        {/* progress bars */}
+        {[
+          { label: "Annotation", val: 88, y: 70, col: "#14b8a6" },
+          { label: "QA Layer",   val: 94, y: 90, col: "#2dd4bf" },
+          { label: "Delivery",   val: 76, y: 110, col: "#22c55e" },
+          { label: "Accuracy",   val: 96, y: 130, col: "#4ade80" },
+        ].map(({ label, val, y, col }) => (
+          <g key={label}>
+            <text x="72" y={y+4} fill="rgba(255,255,255,.45)" fontSize="7.5" fontWeight="600">{label}</text>
+            <rect x="130" y={y-4} width="100" height="8" rx="4" fill="rgba(255,255,255,.06)"/>
+            <rect x="130" y={y-4} width={val} height="8" rx="4" fill={col} opacity=".7"
+              style={{ transformOrigin: "130px center", animation: `pv-grow .8s cubic-bezier(.22,1,.36,1) both` }}/>
+            <text x="236" y={y+4} fill={col} fontSize="7" fontWeight="700">{val}%</text>
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+// 04 Model Testing & Validation — signal waveform with pass/fail checkpoints
+function VisualModelTesting() {
+  return (
+    <div className="pillar-visual">
+      <svg viewBox="0 0 320 160" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 320, height: 160 }}>
+        <ellipse cx="160" cy="80" rx="120" ry="46" fill="rgba(20,184,166,.04)" style={{ animation: "pv-pulse 5s ease-in-out 1s infinite" }}/>
+        {/* grid lines */}
+        {[50,80,110].map(y => (
+          <line key={y} x1="40" y1={y} x2="280" y2={y} stroke="rgba(255,255,255,.05)" strokeWidth="1" strokeDasharray="4 4"/>
+        ))}
+        {/* axis */}
+        <line x1="40" y1="115" x2="280" y2="115" stroke="rgba(255,255,255,.1)" strokeWidth="1"/>
+        {/* ECG/signal waveform */}
+        <polyline
+          points="40,80 70,80 80,45 90,120 100,80 140,80 155,40 165,125 175,80 210,80 220,50 230,115 240,80 280,80"
+          stroke="#14b8a6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"
+          strokeDasharray="500" style={{ animation: "pv-dash 2.5s linear infinite" }}/>
+        {/* glow beneath */}
+        <polyline
+          points="40,80 70,80 80,45 90,120 100,80 140,80 155,40 165,125 175,80 210,80 220,50 230,115 240,80 280,80"
+          stroke="#14b8a6" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity=".07"/>
+        {/* checkpoint markers */}
+        {[
+          { x: 100, passed: true },
+          { x: 175, passed: true },
+          { x: 240, passed: false },
+        ].map(({ x, passed }) => (
+          <g key={x} style={{ animation: `pv-float 3.5s ease-in-out ${x*0.005}s infinite` }}>
+            <circle cx={x} cy="80" r="10" fill={passed ? "rgba(20,184,166,.15)" : "rgba(239,68,68,.12)"} stroke={passed ? "#14b8a6" : "#ef4444"} strokeWidth="1.5"/>
+            {passed
+              ? <polyline points={`${x-4},80 ${x-1},83 ${x+5},76`} stroke="#2dd4bf" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                  strokeDasharray="40" style={{ animation: "pv-tick .6s ease both" }}/>
+              : <><line x1={x-4} y1="76" x2={x+4} y2="84" stroke="#ef4444" strokeWidth="1.8" strokeLinecap="round"/>
+                  <line x1={x+4} y1="76" x2={x-4} y2="84" stroke="#ef4444" strokeWidth="1.8" strokeLinecap="round"/></>
+            }
+          </g>
+        ))}
+        {/* PASS / FAIL labels */}
+        <text x="100" y="67" textAnchor="middle" fill="#14b8a6" fontSize="7" fontWeight="700">PASS</text>
+        <text x="175" y="67" textAnchor="middle" fill="#14b8a6" fontSize="7" fontWeight="700">PASS</text>
+        <text x="240" y="67" textAnchor="middle" fill="#ef4444" fontSize="7" fontWeight="700">FIX</text>
+        {/* blinking cursor at end */}
+        <rect x="282" y="72" width="2" height="16" rx="1" fill="#2dd4bf" style={{ animation: "pv-blink 1s step-end infinite" }}/>
+      </svg>
+    </div>
+  );
+}
+
+const pillarVisuals = [VisualDataServices, VisualHumanAugmentation, VisualManagedServices, VisualModelTesting];
+
+
 
 // ── COMPONENT ─────────────────────────────────────────────────────────────────
 
@@ -272,7 +439,7 @@ export default function AIEnablement() {
   useReveal();
   const barRef = useRef(null);
   useBarFillOnScroll(barRef);
-  const toast  = useFomoToast();
+  const toast = useFomoToast();
 
   return (
     <div>
@@ -324,7 +491,7 @@ export default function AIEnablement() {
             <div className="h2" style={{ fontSize: 18, marginTop: 6 }}>AI pipeline health</div>
             <p className="lead" style={{ marginTop: 8, fontSize: 14 }}>Every engagement is measured against the outcomes that matter.</p>
             <div style={{ marginTop: 20, display: "grid", gap: 14 }}>
-              {[["Data Quality",96],["Model Accuracy",94],["Delivery Speed",91]].map(([l, v]) => (
+              {[["Data Quality", 96], ["Model Accuracy", 94], ["Delivery Speed", 91]].map(([l, v]) => (
                 <div key={l} style={{ display: "grid", gridTemplateColumns: "120px 1fr 42px", gap: 12, alignItems: "center" }}>
                   <div style={{ fontWeight: 700, fontSize: 13, color: "var(--text)" }}>{l}</div>
                   <div className="bar-track"><div className="bar-fill-js" data-target-width={`${v}%`} /></div>
@@ -339,7 +506,7 @@ export default function AIEnablement() {
             <div className="kicker">What you get</div>
             <div className="h2" style={{ fontSize: 18, marginTop: 6 }}>Built-in quality assurance</div>
             <div className="grid grid-2" style={{ marginTop: 16, gap: 10 }}>
-              {[["High accuracy","Rigorous QA at every stage."],["Full coverage","Image, text, audio & video."],["Clean handover","Structured, production-ready data."],["Confidentiality","NDA-ready with least-access ops."]].map(([t, d]) => (
+              {[["High accuracy", "Rigorous QA at every stage."], ["Full coverage", "Image, text, audio & video."], ["Clean handover", "Structured, production-ready data."], ["Confidentiality", "NDA-ready with least-access ops."]].map(([t, d]) => (
                 <div key={t} className="card card-i" style={{ padding: 14, borderRadius: 14 }}>
                   <div style={{ fontWeight: 800, fontSize: 13, color: "var(--text)", marginBottom: 5 }}>{t}</div>
                   <div className="lead" style={{ fontSize: 12 }}>{d}</div>
@@ -370,32 +537,50 @@ export default function AIEnablement() {
           </div>
 
           <div className="ai-svc-bento rv-group">
-            {services.map((s) => (
+            {services.map((s, idx) => {
+              const Visual = pillarVisuals[idx];
+              return (
               <div key={s.title} className="ai-svc-cell rv">
-                <LottieIcon url={s.lottieUrl} bg={s.lottieBg} />
+                <Visual />
+
                 <div className="ai-svc-cell__body">
                   <div className="ai-svc-cell__head">
                     <div className="icon-badge">{s.icon}</div>
                     <div>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: "var(--teal)", letterSpacing: "0.06em", textTransform: "uppercase" }}>{s.num}</div>
-                      <div className="h2" style={{ fontSize: 17, lineHeight: 1.2 }}>{s.title}</div>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: "var(--teal)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                        {s.num}
+                      </div>
+                      <div className="h2" style={{ fontSize: 17, lineHeight: 1.2 }}>
+                        {s.title}
+                      </div>
                     </div>
                   </div>
-                  <p className="lead" style={{ fontSize: 13, marginBottom: 14 }}>{s.desc}</p>
+
+                  <p className="lead" style={{ fontSize: 13, marginBottom: 14 }}>
+                    {s.desc}
+                  </p>
+
                   <ul style={{ paddingLeft: 0, listStyle: "none", display: "grid", gap: 6, flex: 1 }}>
                     {s.bullets.map((b) => (
                       <li key={b} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--muted)" }}>
-                        <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--teal)", flexShrink: 0 }} />{b}
+                        <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--teal)", flexShrink: 0 }} />
+                        {b}
                       </li>
                     ))}
                   </ul>
+
                   <div className="ai-svc-cell__footer">
-                    <Link className="btn" to="/contact" style={{ fontSize: 13, padding: "8px 16px" }}>Enquire</Link>
-                    <Link className="btn btn--ghost" to="/about" style={{ fontSize: 13, padding: "8px 16px" }}>How we work</Link>
+                    <Link className="btn" to="/contact" style={{ fontSize: 13, padding: "8px 16px" }}>
+                      Enquire
+                    </Link>
+                    <Link className="btn btn--ghost" to="/about" style={{ fontSize: 13, padding: "8px 16px" }}>
+                      How we work
+                    </Link>
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

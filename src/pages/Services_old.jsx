@@ -11,13 +11,7 @@ import service5 from "../assets/images/project_management.png";
 import service6 from "../assets/images/consulting_services.png";
 import service7 from "../assets/images/teams_application.png";
 import service8 from "../assets/images/operational_efficiency.png";
-import service9  from "../assets/images/fast_growth.png";
-// New data service images — swap these paths for your actual assets when ready
-import service10 from "../assets/images/app_development.png";
-import service11 from "../assets/images/application_integration.png";
-import service12 from "../assets/images/application_management.png";
-import service13 from "../assets/images/application_maintenance.png";
-import service14 from "../assets/images/project_management.png";
+import service9 from "../assets/images/fast_growth.png";
 
 /* ── DATA ───────────────────────────────── */
 
@@ -34,49 +28,42 @@ const offerings = [
     desc: "Seamless connectivity between systems.",
     bullets: ["REST, GraphQL & event-driven APIs", "Legacy system modernisation", "Real-time data pipelines"],
     image: service2,
-    slug: "/services/app-integration", // ← detail page
   },
   {
     title: "Application Management",
     desc: "Keep apps running reliably.",
     bullets: ["24/7 uptime monitoring & alerting", "Incident management & root-cause analysis", "Performance optimisation & release management"],
     image: service3,
-    slug: "/services/app-management",   // ← detail page
   },
   {
     title: "Application Maintenance",
     desc: "Performance & health optimization.",
     bullets: ["Proactive bug resolution & patching", "Security & dependency hygiene", "Feature iterations alongside stable baseline"],
     image: service4,
-    slug: "/services/app-maintenance", // ← detail page
   },
   {
     title: "Project Management",
     desc: "End-to-end delivery management.",
     bullets: ["Scope, timeline & budget governance", "Risk register & mitigation planning", "Stakeholder communication & transparent reporting"],
     image: service5,
-    slug: "/services/project-management", // ← detail page
   },
   {
     title: "Consulting Services",
     desc: "Strategic technical guidance.",
     bullets: ["Architecture review & technology selection", "Feasibility & trade-off analysis", "Phased implementation roadmaps"],
     image: service6,
-    slug: "/services/consulting", // ← detail page
   },
   {
     title: "Teams Integration",
     desc: "Microsoft Teams solutions.",
     bullets: ["Intelligent bots & adaptive card workflows", "Message extensions & data retrieval commands", "Embedded tab apps & meeting integrations"],
     image: service7,
-    slug: "/services/teams-integration", // ← detail page
   },
   {
     title: "Operational Efficiency",
     desc: "Modernize legacy systems.",
     bullets: ["Cloud spend audits & right-sizing", "Legacy modernisation with strangler-fig pattern", "Developer workflow & CI/CD pipeline optimisation"],
     image: service8,
-    slug: "/services/operational-efficiency", // ← detail page
   },
   {
     title: "Fast Growth",
@@ -88,63 +75,6 @@ const offerings = [
       "Modernise stack to unlock developer velocity",
     ],
     image: service9,
-    slug: "/services/fast-growth", // ← detail page
-  },
-  // ── NEW DATA SERVICES ─────────────────────────────────────────────────────
-  {
-    title: "Data & Analytics",
-    desc: "Turn your data into strategic insight.",
-    bullets: [
-      "Data strategy, maturity assessment & governance",
-      "Advanced analytics, ML & BI dashboards",
-      "Data visualization & storytelling",
-    ],
-    image: service10,
-    slug: "/services/data-analytics",
-  },
-  {
-    title: "Data Engineering",
-    desc: "Transform your data into a strategic advantage.",
-    bullets: [
-      "Modern data architecture & cloud-native platforms",
-      "ETL/ELT pipelines & real-time stream processing",
-      "Data quality, governance & compliance frameworks",
-    ],
-    image: service11,
-    slug: "/services/data-engineering",
-  },
-  {
-    title: "Cloud Engineering",
-    desc: "Scale, secure, and innovate in the cloud.",
-    bullets: [
-      "Cloud strategy, migration & architecture",
-      "DevOps, CI/CD & containerization",
-      "Cloud security, compliance & managed ops",
-    ],
-    image: service12,
-    slug: "/services/cloud-engineering",
-  },
-  {
-    title: "Data Science",
-    desc: "Make your data work smarter.",
-    bullets: [
-      "Predictive modelling, NLP & computer vision",
-      "Decision intelligence & MLOps at scale",
-      "Story-driven insight experiences",
-    ],
-    image: service13,
-    slug: "/services/data-science",
-  },
-  {
-    title: "Human in the Loop (HITL)",
-    desc: "Where human judgment meets AI precision.",
-    bullets: [
-      "Data annotation & labeling for all modalities",
-      "AI model validation & continuous feedback loops",
-      "Content moderation & exception handling",
-    ],
-    image: service14,
-    slug: "/services/human-in-the-loop",
   },
 ];
 
@@ -385,7 +315,7 @@ export default function Services() {
         <div className="container">
           <div className="ha ha-1"><span className="kicker">Services</span></div>
           <h1 className="h1 ha ha-2" style={{ fontSize: "clamp(2.2rem,4.5vw,3.2rem)", lineHeight: 1.1, marginTop: 10, maxWidth: "18ch" }}>Enterprise IT services, end to end.</h1>
-          <p className="lead ha ha-3" style={{ marginTop: 16, maxWidth: "60ch" }}>At InionData, we offer a comprehensive range of data services designed to meet the diverse needs of businesses in today's digital landscape. From IT staffing to strategic consulting, we provide tailored solutions that empower our clients to succeed. Explore our services below to learn how we can help you achieve your business goals.</p>
+          <p className="lead ha ha-3" style={{ marginTop: 16, maxWidth: "60ch" }}>At InionData, we provide a unique and flexible delivery model to help you address skill gaps, deliver project outcomes, and transform your organisation — with a tailored team that can scale up or down quickly and cost-effectively.</p>
           <div className="ha ha-4" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginTop: 36 }}>
             {metrics.map(([v, l]) => (
               <div key={l} className="card card-i" style={{ padding: "20px 16px", borderRadius: 14, textAlign: "center" }}>
@@ -445,7 +375,7 @@ export default function Services() {
             <div className="accent-bar" />
             <div className="kicker">Offerings</div>
             <h2 className="h2" style={{ fontSize: "clamp(1.8rem,3vw,2.2rem)", marginTop: 8 }}>Choose what you need</h2>
-            <p className="lead" style={{ marginTop: 10, maxWidth: "58ch" }}>From IT staffing to data engineering and AI — we cover the full spectrum of enterprise technology needs.</p>
+            <p className="lead" style={{ marginTop: 10, maxWidth: "58ch" }}>From initial consulting through to ongoing maintenance — we cover the full application lifecycle.</p>
           </div>
 
           <div className="marquee-wrap rv" style={{ marginBottom: 24, padding: "8px 0" }}>
@@ -496,6 +426,7 @@ export default function Services() {
                         className="h2"
                         style={{ fontSize: 17, color: "inherit", transition: "color .2s" }}
                         onMouseEnter={(e) => { e.currentTarget.style.color = "var(--teal-2)"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = "inherit"; }}
                       >
                         {o.title}
                       </Link>
@@ -521,7 +452,7 @@ export default function Services() {
                       to={o.slug ?? "/contact"}
                       style={{ fontSize: 13, padding: "8px 16px" }}
                     >
-                      {o.slug ? "Explore" : "Enquire"}
+                      {o.slug ? "Learn more" : "Enquire"}
                     </Link>
                     <Link className="btn btn--ghost" to="/about" style={{ fontSize: 13, padding: "8px 16px" }}>How we work</Link>
                   </div>
