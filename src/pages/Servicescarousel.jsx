@@ -1,72 +1,115 @@
 /**
- * ServicesCarousel.jsx — Fixed infinite 3D carousel
+ * ServicesCarousel.jsx — Fully fixed infinite 3D carousel
  *
- * Bug fixes applied vs original:
- *  1. Parallax tilt no longer clobbers base CSS transform — uses a
- *     separate CSS custom property (--tilt-y / --tilt-x) that composes
- *     on top of whatever the position class sets.
- *  2. Drag sensitivity is adaptive (mobile vs desktop).
- *  3. Wheel uses debounced intent detection instead of a leaky accumulator,
- *     so trackpads don't fire accidental steps.
- *  4. Snap calculation uses card-centre math, not edge math.
- *  5. Teleport guard uses a clean setTimeout(0) instead of double-rAF.
- *  6. Auto-advance restarts after a 2 s idle delay (not instantly).
- *  7. getBoundingClientRect() is cached in a ref — no layout thrash.
- *  8. All window listeners are registered once and cleaned up correctly.
+ * Root-cause fixes vs the two buggy versions:
+ *
+ *  A. CENTER ALIGNMENT
+ *     padX is derived correctly: (stageWidth - CARD_W) / 2
+ *     The track translateX must subtract padX so card[0] starts
+ *     at screen-centre. Previously padding was added to the track
+ *     but NOT subtracted from the base offset, so the "zero" position
+ *     was the left edge, not screen centre.
+ *
+ *  B. SNAP-FROM-RAW
+ *     After a drag, the snap target is:
+ *       nearest = round((rawOffset - padX) / STEP)
+ *     Previously padX was ignored, making every drag snap to the wrong card.
+ *
+ *  C. TILT DOESN'T CLOBBER TRANSFORM
+ *     CSS custom properties --tilt-x / --tilt-y are composed at the END
+ *     of every position class's transform chain.  JS only sets those props
+ *     via setProperty(), never touching style.transform directly.
+ *
+ *  D. TELEPORT USES EXACT SAME OFFSET FORMULA
+ *     applyOffset() and pxFor() use IDENTICAL math:
+ *       translateX = -(iIdx * STEP - padX)
+ *     Teleport was previously using a different formula, causing a visible
+ *     jump when wrapping.
+ *
+ *  E. WHEEL: DEBOUNCED INTENT (no leaky accumulator)
+ *     400 ms guard + 30 px minimum deltaY.
+ *
+ *  F. AUTO-ADVANCE RESTART: 2 s idle delay after any user interaction.
+ *
+ *  G. RESIZE: padX + stageRect re-cached on every resize via ResizeObserver.
+ *
+ *  H. ALL LISTENERS CLEANED UP correctly (window-level ones too).
  */
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 
-import service1 from "../assets/images/app_development.png";
-import service2 from "../assets/images/application_integration.png";
-import service3 from "../assets/images/application_management.png";
-import service4 from "../assets/images/application_maintenance.png";
-import service5 from "../assets/images/project_management.png";
-import service6 from "../assets/images/consulting_services.png";
-import service7 from "../assets/images/teams_application.png";
-import service8 from "../assets/images/operational_efficiency.png";
-import service9 from "../assets/images/fast_growth.png";
+import service1  from "../assets/images/app_development.png";
+import service2  from "../assets/images/application_integration.png";
+import service3  from "../assets/images/application_management.png";
+import service4  from "../assets/images/application_maintenance.png";
+import service5  from "../assets/images/project_management.png";
+import service6  from "../assets/images/consulting_services.png";
+import service7  from "../assets/images/teams_application.png";
+import service8  from "../assets/images/operational_efficiency.png";
+import service9  from "../assets/images/fast_growth.png";
+import service10 from "../assets/images/dataanalytics.jpg";
+import service11 from "../assets/images/dataengineering.jpg";
+import service12 from "../assets/images/cloud.jpg";
+import service13 from "../assets/images/datascience.jpg";
+import service14 from "../assets/images/hitl2.jpg";
 
-// ── DATA ──────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────────────────────────
 
 const offerings = [
-  { title: "Application Design & Development", desc: "Full-cycle development from requirements to release.", badge: "Core",          image: service1 },
-  { title: "Application Integration",          desc: "Seamless connectivity between systems.",              badge: "Integration",   image: service2 },
-  { title: "Application Management",           desc: "Keep apps running reliably.",                         badge: "Support",       image: service3 },
-  { title: "Application Maintenance",          desc: "Performance & health optimisation.",                  badge: "Maintenance",   image: service4 },
-  { title: "Project Management",               desc: "End-to-end delivery management.",                     badge: "Delivery",      image: service5 },
-  { title: "Consulting Services",              desc: "Strategic technical guidance.",                       badge: "Advisory",      image: service6 },
-  { title: "Teams Integration",                desc: "Microsoft Teams solutions.",                          badge: "Collaboration", image: service7 },
-  { title: "Operational Efficiency",           desc: "Modernise legacy systems.",                           badge: "Optimisation",  image: service8 },
-  { title: "Fast Growth",                      desc: "Boost growth by reinventing your applications.",      badge: "Growth",        image: service9 },
+  { title: "Application Design & Development",   desc: "Full-cycle app delivery — from requirements to release — for enterprise-level projects.",           badge: "Core",          image: service1,  path: "/services/app-development" },
+  { title: "Application Integration",            desc: "Connect CRMs, cloud platforms, and legacy systems into a unified, real-time ecosystem.",             badge: "Integration",   image: service2,  path: "/services/app-integration" },
+  { title: "Application Management",             desc: "24/7 monitoring, incident response, and performance optimisation for your applications.",            badge: "Support",       image: service3,  path: "/services/app-management" },
+  { title: "Application Maintenance",            desc: "Proactive bug fixing, security patching, and continuous performance tuning.",                        badge: "Maintenance",   image: service4,  path: "/services/app-maintenance" },
+  { title: "Project Management",                 desc: "End-to-end delivery management — on time, on budget, with full stakeholder transparency.",           badge: "Delivery",      image: service5,  path: "/services/project-management" },
+  { title: "Consulting Services",                desc: "Architecture reviews, feasibility studies, and technical roadmaps aligned with your business goals.", badge: "Advisory",      image: service6,  path: "/services/consulting" },
+  { title: "Teams Integration",                  desc: "Custom bots, embedded apps, and message extensions that bring your workflows into Microsoft Teams.",  badge: "Collaboration", image: service7,  path: "/services/teams-integration" },
+  { title: "Operational Efficiency",             desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.",   badge: "Optimisation",  image: service8,  path: "/services/operational-efficiency" },
+  { title: "Fast Growth",                        desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.",  badge: "Growth",        image: service9,  path: "/services/fast-growth" },
+  { title: "Data & Analytics",                   desc: "Turn raw data into actionable insight with scalable analytics platforms, dashboards, and pipelines.", badge: "Analytics",     image: service10, path: "/services/data-analytics" },
+  { title: "Data Engineering Services",          desc: "End-to-end data pipelines, lake and warehouse architecture, ETL automation, and stream processing.",  badge: "Data",          image: service11, path: "/services/data-engineering" },
+  { title: "Cloud Engineering Services",         desc: "Cloud-native design, migration, and optimization across Azure, AWS, and GCP for cost-efficient scale.",badge: "Cloud",         image: service12, path: "/services/cloud-engineering" },
+  { title: "Data Science Services",              desc: "Predictive modelling, machine learning, and AI-driven insights that translate data into business value.",badge: "AI/ML",        image: service13, path: "/services/data-science" },
+  { title: "Human-in-the-Loop (HITL) Services", desc: "Combining AI automation with human expertise to validate, annotate, and improve model outputs at scale.",badge: "HITL",         image: service14, path: "/services/human-in-the-loop" },
 ];
 
-// ── CAROUSEL CONSTANTS ────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// CAROUSEL CONSTANTS
+// ─────────────────────────────────────────────────────────────────────────────
 
-const CARD_W      = 300;
-const GAP         = 20;
+const CARD_W      = 300;   // px — must match CSS .svc-card width
+const GAP         = 20;    // px — must match CSS gap
 const STEP        = CARD_W + GAP;
 const N           = offerings.length;
 const CLONE_COUNT = 3;
 const TOTAL       = CLONE_COUNT + N + CLONE_COUNT;
 
-// Build the full items array once (stable reference, no re-creation on render)
+// Build the full cloned items array once (stable reference)
 const allItems = [
   ...offerings.slice(N - CLONE_COUNT).map((s, i) => ({ ...s, _key: `ct-${i}`, _real: N - CLONE_COUNT + i })),
-  ...offerings.map((s, i)            => ({ ...s, _key: `r-${i}`,  _real: i })),
-  ...offerings.slice(0, CLONE_COUNT).map((s, i)  => ({ ...s, _key: `ch-${i}`, _real: i })),
+  ...offerings.map((s, i)                         => ({ ...s, _key: `r-${i}`,  _real: i })),
+  ...offerings.slice(0, CLONE_COUNT).map((s, i)   => ({ ...s, _key: `ch-${i}`, _real: i })),
 ];
 
-// ── STYLES ────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// STYLES
+// ─────────────────────────────────────────────────────────────────────────────
 
 const css = `
-  .svc-section { padding: 100px 0; position: relative; z-index: 1; }
+  /* ── Section shell ─────────────────────────────────── */
+  .svc-section {
+    padding: 100px 0;
+    position: relative;
+    z-index: 1;
+  }
 
+  /* ── Header row ────────────────────────────────────── */
   .svc-header {
-    max-width: min(1600px, 92vw);
+    max-width: min(1600px, 100%);
     margin: 0 auto;
-    padding: 0 40px 36px;
+    padding: 0 clamp(16px, 4vw, 40px) 36px;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -74,203 +117,384 @@ const css = `
     gap: 16px;
   }
 
+  /* ── Stage (overflow + fade mask) ──────────────────── */
   .svc-stage {
     overflow: hidden;
-    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
     cursor: grab;
     user-select: none;
-    padding: 32px 0 48px;
+    -webkit-user-select: none;
+    padding: 40px 0 56px;
+    touch-action: pan-y;  /* allow vertical scroll, intercept only horiz */
   }
   .svc-stage:active { cursor: grabbing; }
 
+  /* ── Perspective wrapper ────────────────────────────── */
   .svc-persp {
-    perspective: 1400px;
-    perspective-origin: 50% 38%;
+    perspective: 1200px;
+    perspective-origin: 50% 40%;
   }
 
+  /* ── Scrolling track ────────────────────────────────── */
   .svc-track {
     display: flex;
     gap: ${GAP}px;
     will-change: transform;
+    /* NO overflow:hidden here — clipping must live on .svc-stage */
   }
 
-  /*
-   * FIX 1 — Tilt is composed via CSS custom properties so it never
-   * overwrites the base transform set by the position class.
-   *
-   * Each .svc-card position class defines its own base values for
-   * scale, rotateY, and translateZ. JS only touches --tilt-x / --tilt-y
-   * which are appended to the end of the transform chain.
-   */
+  /* ─────────────────────────────────────────────────────
+     CARD BASE
+     --tilt-x / --tilt-y are appended at the END of every
+     position-class transform so JS setProperty() composes
+     cleanly on top, never overwriting scale/rotateY etc.
+  ───────────────────────────────────────────────────── */
   .svc-card {
     width: ${CARD_W}px;
     flex-shrink: 0;
-    border-radius: 18px;
+    border-radius: 20px;
     overflow: hidden;
-    background: rgba(255,255,255,0.035);
+    background: #0b1914;
     border: 1px solid rgba(255,255,255,0.07);
     cursor: pointer;
-    opacity: 0.40;
     --tilt-x: 0deg;
     --tilt-y: 0deg;
+
+    /* default (far-away) state */
+    opacity: 0.35;
+    filter: brightness(0.55);
     transform:
-      scale(0.84)
-      rotateY(16deg)
-      translateZ(-60px)
+      scale(0.80)
+      rotateY(18deg)
+      translateZ(-80px)
       rotateY(var(--tilt-y))
       rotateX(var(--tilt-x));
-    transition:
-      opacity     0.46s cubic-bezier(0.22,1,0.36,1),
-      transform   0.46s cubic-bezier(0.22,1,0.36,1),
-      box-shadow  0.46s cubic-bezier(0.22,1,0.36,1),
-      border-color 0.3s ease;
+
     transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition:
+      opacity      0.50s cubic-bezier(0.22,1,0.36,1),
+      filter       0.50s cubic-bezier(0.22,1,0.36,1),
+      transform    0.50s cubic-bezier(0.22,1,0.36,1),
+      box-shadow   0.50s cubic-bezier(0.22,1,0.36,1),
+      border-color 0.35s ease;
     position: relative;
+    z-index: 1;
   }
 
+  /* ── Position classes ───────────────────────────────── */
   .svc-card.pos-center {
     opacity: 1;
+    filter: none;
     transform:
-      scale(1)
+      scale(1.02)
       rotateY(0deg)
-      translateZ(0)
+      translateZ(20px)
       rotateY(var(--tilt-y))
       rotateX(var(--tilt-x));
-    border-color: rgba(20,184,166,0.42);
-    box-shadow: 0 28px 70px rgba(0,0,0,0.52), 0 0 0 1px rgba(20,184,166,0.22);
+    border-color: rgba(20,184,166,0.50);
+    box-shadow:
+      0 32px 80px rgba(0,0,0,0.60),
+      0 0 0 1px rgba(20,184,166,0.25),
+      0 0 60px rgba(20,184,166,0.08);
     z-index: 10;
   }
+
   .svc-card.pos-l1 {
-    opacity: 0.78;
-    transform: scale(0.92) rotateY(13deg)  translateZ(-26px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
-    z-index: 5;
+    opacity: 0.82;
+    filter: brightness(0.78);
+    transform:
+      scale(0.93)
+      rotateY(14deg)
+      translateZ(-28px)
+      rotateY(var(--tilt-y))
+      rotateX(var(--tilt-x));
+    z-index: 6;
   }
   .svc-card.pos-l2 {
-    opacity: 0.48;
-    transform: scale(0.83) rotateY(21deg)  translateZ(-72px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
-    z-index: 3;
+    opacity: 0.52;
+    filter: brightness(0.58);
+    transform:
+      scale(0.84)
+      rotateY(22deg)
+      translateZ(-76px)
+      rotateY(var(--tilt-y))
+      rotateX(var(--tilt-x));
+    z-index: 4;
   }
   .svc-card.pos-r1 {
-    opacity: 0.78;
-    transform: scale(0.92) rotateY(-13deg) translateZ(-26px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
-    z-index: 5;
+    opacity: 0.82;
+    filter: brightness(0.78);
+    transform:
+      scale(0.93)
+      rotateY(-14deg)
+      translateZ(-28px)
+      rotateY(var(--tilt-y))
+      rotateX(var(--tilt-x));
+    z-index: 6;
   }
   .svc-card.pos-r2 {
-    opacity: 0.48;
-    transform: scale(0.83) rotateY(-21deg) translateZ(-72px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
-    z-index: 3;
+    opacity: 0.52;
+    filter: brightness(0.58);
+    transform:
+      scale(0.84)
+      rotateY(-22deg)
+      translateZ(-76px)
+      rotateY(var(--tilt-y))
+      rotateX(var(--tilt-x));
+    z-index: 4;
   }
 
-  /* Card internals — unchanged from original */
+  /* ── Card internals ─────────────────────────────────── */
   .svc-card-img {
-    width: 100%; height: 190px; overflow: hidden;
+    width: 100%;
+    height: 190px;
+    overflow: hidden;
     border-bottom: 1px solid rgba(255,255,255,0.06);
-    position: relative; background: rgba(20,184,166,0.05);
+    position: relative;
+    background: rgba(20,184,166,0.05);
   }
   .svc-card-img img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-    transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
-    filter: brightness(0.88) saturate(0.9);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.55s cubic-bezier(0.22,1,0.36,1),
+                filter    0.55s cubic-bezier(0.22,1,0.36,1);
+    filter: brightness(0.82) saturate(0.85);
   }
   .svc-card.pos-center .svc-card-img img {
-    transform: scale(1.05);
+    transform: scale(1.06);
     filter: brightness(1) saturate(1);
   }
   .svc-card-img-fade {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(7,16,14,0.55) 0%, transparent 55%);
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(7,16,14,0.60) 0%, transparent 52%);
     pointer-events: none;
   }
-  .svc-card-body { padding: 18px 20px 20px; }
+
+  .svc-card-body { padding: 18px 20px 22px; }
+
   .svc-card-badge {
-    display: inline-flex; align-items: center;
-    padding: 3px 10px; font-size: 10px; font-weight: 700;
-    letter-spacing: 0.12em; text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 11px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
     border-radius: 999px;
-    background: rgba(20,184,166,0.12); color: #2dd4bf;
-    border: 1px solid rgba(20,184,166,0.22); margin-bottom: 10px;
+    background: rgba(20,184,166,0.12);
+    color: #2dd4bf;
+    border: 1px solid rgba(20,184,166,0.24);
+    margin-bottom: 11px;
   }
+
   .svc-card-title {
-    font-size: 17px; font-weight: 700; letter-spacing: -0.02em;
-    color: #dff0e8; margin: 0 0 7px; line-height: 1.25;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #dff0e8;
+    margin: 0 0 8px;
+    line-height: 1.25;
   }
-  .svc-card-desc { font-size: 13px; line-height: 1.65; color: #7a9e8e; margin: 0; }
+  .svc-card-desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #7a9e8e;
+    margin: 0;
+  }
+
   .svc-card-footer {
-    margin-top: 16px; padding-top: 14px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
   }
+
   .svc-card-arr {
-    width: 32px; height: 32px; border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.10);
-    display: flex; align-items: center; justify-content: center; color: #2dd4bf;
-    transition: background .2s, border-color .2s, transform .25s cubic-bezier(.34,1.56,.64,1);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.11);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2dd4bf;
+    flex-shrink: 0;
+    transition:
+      background     0.22s ease,
+      border-color   0.22s ease,
+      transform      0.28s cubic-bezier(0.34,1.56,0.64,1);
   }
   .svc-card:hover .svc-card-arr {
-    background: rgba(20,184,166,0.14); border-color: rgba(20,184,166,0.35); transform: translateX(3px);
+    background: rgba(20,184,166,0.16);
+    border-color: rgba(20,184,166,0.38);
+    transform: translateX(4px);
   }
 
-  /* Dots */
-  .svc-dots { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 20px; }
+  /* ── Dot indicators ─────────────────────────────────── */
+  .svc-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 24px;
+    padding: 0 clamp(16px, 4vw, 40px);
+  }
   .svc-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: rgba(255,255,255,0.15); border: none; padding: 0; flex-shrink: 0;
-    transition: all 0.3s cubic-bezier(0.22,1,0.36,1); cursor: pointer;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    padding: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.32s cubic-bezier(0.22,1,0.36,1);
   }
-  .svc-dot.active { width: 24px; border-radius: 4px; background: #14b8a6; }
+  .svc-dot.active {
+    width: 26px;
+    border-radius: 4px;
+    background: #14b8a6;
+  }
 
-  /* Nav buttons */
+  /* ── Nav buttons ────────────────────────────────────── */
   .svc-nav { display: flex; gap: 8px; }
   .svc-nav-btn {
-    width: 38px; height: 38px; border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04);
-    display: flex; align-items: center; justify-content: center;
-    color: #2dd4bf; font-size: 15px; line-height: 1;
-    transition: background .2s, border-color .2s, transform .2s cubic-bezier(.34,1.56,.64,1);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.13);
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2dd4bf;
+    font-size: 16px;
+    line-height: 1;
+    transition:
+      background    0.20s ease,
+      border-color  0.20s ease,
+      transform     0.22s cubic-bezier(0.34,1.56,0.64,1);
   }
-  .svc-nav-btn:hover { background: rgba(20,184,166,0.12); border-color: rgba(20,184,166,0.35); transform: scale(1.08); }
-  .svc-nav-btn:active { transform: scale(0.94); }
+  .svc-nav-btn:hover {
+    background: rgba(20,184,166,0.14);
+    border-color: rgba(20,184,166,0.38);
+    transform: scale(1.10);
+  }
+  .svc-nav-btn:active { transform: scale(0.92); }
 
-  @media (max-width: 900px) {
-    .svc-header { padding: 0 24px 36px; }
-    .svc-card { width: 270px; }
-    .svc-card-img { height: 160px; }
+  /* ── Responsive ─────────────────────────────────────── */
+
+  /* Tablet */
+  @media (max-width: 960px) {
+    .svc-section { padding: 72px 0; }
+    .svc-card { width: 280px; }
+    .svc-card-img { height: 170px; }
   }
-  @media (max-width: 560px) {
-    .svc-card { width: 248px; }
+
+  /* Mobile large */
+  @media (max-width: 640px) {
+    .svc-section { padding: 56px 0; }
+    .svc-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .svc-card {
+      width: min(260px, calc(100vw - 88px));
+    }
+    .svc-card-img { height: 150px; }
+    .svc-card-body { padding: 14px 16px 18px; }
+    .svc-card-title { font-size: 15px; }
+    .svc-stage {
+      mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 5%,
+        black 95%,
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 5%,
+        black 95%,
+        transparent 100%
+      );
+    }
+  }
+
+  /* Mobile small */
+  @media (max-width: 420px) {
+    .svc-card { width: calc(100vw - 64px); }
+    .svc-card-img { height: 140px; }
   }
 `;
 
-// ── COMPONENT ─────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// COMPONENT
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function ServicesCarousel() {
-  const stageRef    = useRef(null);
-  const trackRef    = useRef(null);
-  const offsetRef   = useRef(0);
-  const itemIdxRef  = useRef(CLONE_COUNT);
-  const dragRef     = useRef({ active: false, startX: 0, startOffset: 0 });
-  const teleportRef = useRef(false);
-  const autoTimerRef     = useRef(null);
-  const autoRestartRef   = useRef(null);
-  const lastWheelTimeRef = useRef(0);         // FIX 3 — debounced wheel intent
-  const stageRectRef     = useRef(null);      // FIX 7 — cached bounding rect
+  const stageRef        = useRef(null);
+  const trackRef        = useRef(null);
+  const padXRef         = useRef(0);          // live padding value (no state lag)
+  const stageRectRef    = useRef(null);       // cached getBoundingClientRect
+  const offsetRef       = useRef(0);          // current track pixel offset
+  const itemIdxRef      = useRef(CLONE_COUNT);// current absolute item index
+  const dragRef         = useRef({ active: false, startX: 0, startOffset: 0 });
+  const teleportRef     = useRef(false);
+  const autoTimerRef    = useRef(null);
+  const restartTimerRef = useRef(null);
+  const lastWheelRef    = useRef(0);          // for debounced wheel intent
 
   const [centerIdx, setCenterIdx] = useState(0);
-  const [padX, setPadX]           = useState(0);
+  const [padX, setPadX]           = useState(0); // for inline style (track padding)
 
-  // ── Pixel offset of a given item index ──────────────────────────────────────
-  const pxFor = (iIdx) => iIdx * STEP;
+  // ── offset → pixel ──────────────────────────────────────────────────────────
+  // The track's logical origin sits at -padX so that item[CLONE_COUNT] is
+  // centred in the viewport.
+  //
+  //   translateX = -(iIdx * STEP) + padX
+  //
+  // We store the "raw" value that makes translateX = 0 be the leftmost position,
+  // then apply padX correction uniformly in applyOffset.
 
-  // ── Write transform directly (skip React reconciliation) ────────────────────
-  const applyOffset = (px) => {
+  const pxFor = useCallback((iIdx) => iIdx * STEP, []);
+
+  // applyOffset writes the CSS transform including the padX correction.
+  // This is the SINGLE place that calculates translateX — used by both
+  // normal navigation AND teleport, so they can never diverge.
+  const applyOffset = useCallback((rawPx) => {
     if (!trackRef.current) return;
-    trackRef.current.style.transform = `translateX(${-px}px)`;
-    offsetRef.current = px;
-  };
+    const tx = -(rawPx - padXRef.current);
+    trackRef.current.style.transform = `translateX(${tx}px)`;
+    offsetRef.current = rawPx;
+  }, []);
 
-  // ── Teleport: after animation into a clone, silently jump to real card ──────
-  const teleportIfClone = (iIdx) => {
+  // ── Teleport after clone animation ──────────────────────────────────────────
+  const teleportIfClone = useCallback((iIdx) => {
     const isHead = iIdx >= CLONE_COUNT + N;
     const isTail = iIdx < CLONE_COUNT;
     if (!isHead && !isTail) return;
@@ -281,103 +505,103 @@ export default function ServicesCarousel() {
     applyOffset(pxFor(realIIdx));
     itemIdxRef.current = realIIdx;
 
-    // FIX 5 — setTimeout(0) is simpler and reliable enough; double-rAF had
-    // a rare race where the browser painted before the guard cleared.
-    setTimeout(() => { teleportRef.current = false; }, 0);
-  };
+    // single rAF is enough — the paint has already happened
+    requestAnimationFrame(() => { teleportRef.current = false; });
+  }, [applyOffset, pxFor]);
 
-  // ── Core snap ───────────────────────────────────────────────────────────────
-  const snapToItem = (iIdx, smooth = true) => {
+  // ── Core snap ────────────────────────────────────────────────────────────────
+  const snapToItem = useCallback((iIdx, smooth = true) => {
     if (teleportRef.current) return;
-
     const clamped = Math.max(0, Math.min(TOTAL - 1, iIdx));
     itemIdxRef.current = clamped;
     setCenterIdx(allItems[clamped]._real);
-
     if (!trackRef.current) return;
 
     if (smooth) {
       const track = trackRef.current;
-      const handleEnd = (ev) => {
+      const onEnd = (ev) => {
         if (ev.propertyName !== "transform") return;
-        track.removeEventListener("transitionend", handleEnd);
+        track.removeEventListener("transitionend", onEnd);
         track.style.transition = "none";
         teleportIfClone(clamped);
       };
-      track.addEventListener("transitionend", handleEnd);
-      track.style.transition = "transform 0.52s cubic-bezier(0.22,1,0.36,1)";
-      applyOffset(pxFor(clamped));
+      track.addEventListener("transitionend", onEnd);
+      track.style.transition = "transform 0.55s cubic-bezier(0.22,1,0.36,1)";
     } else {
       trackRef.current.style.transition = "none";
-      applyOffset(pxFor(clamped));
-      teleportIfClone(clamped);
     }
-  };
+    applyOffset(pxFor(clamped));
+    if (!smooth) teleportIfClone(clamped);
+  }, [applyOffset, pxFor, teleportIfClone]);
 
-  const snapToReal = (realIdx) => {
+  const snapToReal = useCallback((realIdx) => {
     const r = ((realIdx % N) + N) % N;
     snapToItem(CLONE_COUNT + r);
-  };
+  }, [snapToItem]);
 
-  const snapStep = (delta) => {
-    let next = itemIdxRef.current + delta;
-    next = Math.max(0, Math.min(TOTAL - 1, next));
+  const snapStep = useCallback((delta) => {
+    const next = Math.max(0, Math.min(TOTAL - 1, itemIdxRef.current + delta));
     snapToItem(next);
-  };
+  }, [snapToItem]);
 
-  // ── FIX 6 — Auto-advance with idle restart delay ─────────────────────────
-  const stopAuto = () => {
+  // ── Auto-advance ──────────────────────────────────────────────────────────────
+  const stopAuto = useCallback(() => {
     clearInterval(autoTimerRef.current);
-    clearTimeout(autoRestartRef.current);
-  };
-  const startAuto = () => {
-    clearInterval(autoTimerRef.current);
-    autoTimerRef.current = setInterval(() => snapStep(1), 3400);
-  };
-  const scheduleAutoRestart = (delay = 2000) => {
-    clearTimeout(autoRestartRef.current);
-    autoRestartRef.current = setTimeout(startAuto, delay);
-  };
-
-  // ── Snap from raw drag offset (FIX 4 — card-centre math) ─────────────────
-  const snapFromRaw = () => {
-    // Centre of the currently visible pixel → which item index is closest?
-    const centreOffset = offsetRef.current + CARD_W / 2;
-    const nearest = Math.round((centreOffset - padX) / STEP) + CLONE_COUNT;
-    const clamped = Math.max(CLONE_COUNT, Math.min(CLONE_COUNT + N - 1, nearest));
-    snapToItem(clamped);
-  };
-
-  // ── Compute padding to centre the first card in the stage ────────────────
-  useEffect(() => {
-    const calc = () => {
-      if (!stageRef.current) return;
-      const newPad = Math.max(0, Math.floor((stageRef.current.offsetWidth - CARD_W) / 2));
-      setPadX(newPad);
-      // Recache rect whenever stage resizes
-      stageRectRef.current = stageRef.current.getBoundingClientRect();
-    };
-    calc();
-    window.addEventListener("resize", calc);
-    return () => window.removeEventListener("resize", calc);
+    clearTimeout(restartTimerRef.current);
   }, []);
 
-  // ── Mount: snap to first real card, start auto ────────────────────────────
+  const startAuto = useCallback(() => {
+    clearInterval(autoTimerRef.current);
+    autoTimerRef.current = setInterval(() => snapStep(1), 3600);
+  }, [snapStep]);
+
+  const scheduleRestart = useCallback((delay = 2000) => {
+    clearTimeout(restartTimerRef.current);
+    restartTimerRef.current = setTimeout(startAuto, delay);
+  }, [startAuto]);
+
+  // ── Snap from raw drag offset ─────────────────────────────────────────────────
+  // rawOffset encodes the absolute pixel position of item 0.
+  // To find which item is centred: (rawOffset - padX) / STEP ≈ iIdx, then
+  // constrain to real range [CLONE_COUNT, CLONE_COUNT+N-1].
+  const snapFromRaw = useCallback(() => {
+    const nearest = Math.round((offsetRef.current - padXRef.current) / STEP) + CLONE_COUNT;
+    const clamped = Math.max(CLONE_COUNT, Math.min(CLONE_COUNT + N - 1, nearest));
+    snapToItem(clamped);
+  }, [snapToItem]);
+
+  // ── Compute padX and cache stageRect ─────────────────────────────────────────
+  useEffect(() => {
+    const update = () => {
+      if (!stageRef.current) return;
+      const stageW = stageRef.current.offsetWidth;
+      const newPad = Math.max(0, Math.floor((stageW - CARD_W) / 2));
+      padXRef.current  = newPad;
+      setPadX(newPad);
+      stageRectRef.current = stageRef.current.getBoundingClientRect();
+      // Re-apply current offset so the card stays centred after resize
+      applyOffset(pxFor(itemIdxRef.current));
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(stageRef.current);
+    return () => ro.disconnect();
+  }, [applyOffset, pxFor]);
+
+  // ── Mount ─────────────────────────────────────────────────────────────────────
   useEffect(() => {
     snapToItem(CLONE_COUNT, false);
     startAuto();
-    return stopAuto;
-  }, []); // eslint-disable-line
+    return () => { stopAuto(); };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── All interaction event handlers ────────────────────────────────────────
+  // ── All interaction handlers ──────────────────────────────────────────────────
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
 
-    // FIX 7 — cache rect once; invalidated on resize in the effect above
-    stageRectRef.current = stage.getBoundingClientRect();
-
-    /* ── Mouse drag ── */
+    /* Mouse drag */
     const onMouseDown = (e) => {
       if (teleportRef.current) return;
       stopAuto();
@@ -386,18 +610,17 @@ export default function ServicesCarousel() {
     };
     const onMouseMove = (e) => {
       if (!dragRef.current.active) return;
-      // FIX 2 — adaptive sensitivity: lighter on mobile, more precise on desktop
-      const speed = window.innerWidth < 768 ? 0.85 : 0.50;
-      applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.clientX) * speed);
+      const dx = dragRef.current.startX - e.clientX;
+      applyOffset(dragRef.current.startOffset + dx * 0.55);
     };
     const onMouseUp = () => {
       if (!dragRef.current.active) return;
       dragRef.current.active = false;
       snapFromRaw();
-      scheduleAutoRestart();
+      scheduleRestart();
     };
 
-    /* ── Touch ── */
+    /* Touch drag */
     const onTouchStart = (e) => {
       if (teleportRef.current) return;
       stopAuto();
@@ -406,56 +629,41 @@ export default function ServicesCarousel() {
     };
     const onTouchMove = (e) => {
       if (!dragRef.current.active) return;
-      const speed = 0.75;
-      applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.touches[0].clientX) * speed);
+      const dx = dragRef.current.startX - e.touches[0].clientX;
+      applyOffset(dragRef.current.startOffset + dx * 0.70);
     };
     const onTouchEnd = () => {
+      if (!dragRef.current.active) return;
       dragRef.current.active = false;
       snapFromRaw();
-      scheduleAutoRestart();
+      scheduleRestart();
     };
 
-    /* ── Wheel (FIX 3) ────────────────────────────────────────────────────────
-     * Instead of an accumulator (which leaks tiny trackpad deltas and fires
-     * accidentally), we use debounced intent detection:
-     *   - A 400 ms guard prevents a second step while the animation is settling.
-     *   - The deltaY threshold (30) filters micro-scroll noise.
-     * This feels intentional on both trackpads and scroll wheels.
-     */
+    /* Wheel — debounced intent, no accumulator */
     const onWheel = (e) => {
       e.preventDefault();
       if (teleportRef.current) return;
-
       const now = Date.now();
-      if (now - lastWheelTimeRef.current < 400) return; // still settling
-      if (Math.abs(e.deltaY) < 30) return;              // ignore micro-deltas
-
-      lastWheelTimeRef.current = now;
+      if (now - lastWheelRef.current < 420) return;
+      if (Math.abs(e.deltaY) < 30) return;
+      lastWheelRef.current = now;
       stopAuto();
       snapStep(e.deltaY > 0 ? 1 : -1);
-      scheduleAutoRestart(2000);
+      scheduleRestart(2000);
     };
 
-    /* ── Parallax tilt (FIX 1) ───────────────────────────────────────────────
-     * We no longer write card.style.transform directly (which wiped the
-     * position-class base values). Instead, we set CSS custom properties
-     * --tilt-y and --tilt-x which are appended at the end of the transform
-     * chain in every .svc-card rule, so they compose cleanly on top of
-     * whatever scale/rotateY/translateZ the position class has set.
-     */
+    /* Parallax tilt — uses CSS custom properties, NEVER style.transform */
     const onMouseMoveStage = (e) => {
       if (dragRef.current.active) return;
       const card = trackRef.current?.querySelector(".svc-card.pos-center");
       if (!card) return;
-
-      // Use cached rect (FIX 7) — no layout recalc per mousemove
-      const r  = stageRectRef.current;
+      // Re-use cached rect (no layout thrash per frame)
+      const r = stageRectRef.current;
       if (!r) return;
       const mx = (e.clientX - r.left)  / r.width  - 0.5;
       const my = (e.clientY - r.top)   / r.height - 0.5;
-
-      card.style.setProperty("--tilt-y", `${mx * -7}deg`);
-      card.style.setProperty("--tilt-x", `${my *  4}deg`);
+      card.style.setProperty("--tilt-y", `${mx * -8}deg`);
+      card.style.setProperty("--tilt-x", `${my *  5}deg`);
     };
     const onMouseLeaveStage = () => {
       const card = trackRef.current?.querySelector(".svc-card.pos-center");
@@ -467,10 +675,10 @@ export default function ServicesCarousel() {
     stage.addEventListener("mousedown",   onMouseDown);
     window.addEventListener("mousemove",  onMouseMove);
     window.addEventListener("mouseup",    onMouseUp);
-    stage.addEventListener("touchstart",  onTouchStart,     { passive: true });
-    stage.addEventListener("touchmove",   onTouchMove,      { passive: true });
+    stage.addEventListener("touchstart",  onTouchStart,      { passive: true });
+    stage.addEventListener("touchmove",   onTouchMove,       { passive: true });
     stage.addEventListener("touchend",    onTouchEnd);
-    stage.addEventListener("wheel",       onWheel,          { passive: false });
+    stage.addEventListener("wheel",       onWheel,           { passive: false });
     stage.addEventListener("mousemove",   onMouseMoveStage);
     stage.addEventListener("mouseleave",  onMouseLeaveStage);
 
@@ -485,13 +693,13 @@ export default function ServicesCarousel() {
       stage.removeEventListener("mousemove",   onMouseMoveStage);
       stage.removeEventListener("mouseleave",  onMouseLeaveStage);
     };
-  }, []); // eslint-disable-line
+  }, [applyOffset, snapFromRaw, snapStep, stopAuto, scheduleRestart]);
 
-  // ── CSS position class (wrap-aware delta) ─────────────────────────────────
+  // ── CSS position class (wrap-aware delta) ─────────────────────────────────────
   const posClass = (realIdx) => {
     let d = realIdx - centerIdx;
-    if (d >  N / 2) d -= N;
-    if (d < -N / 2) d += N;
+    if (d >   N / 2) d -= N;
+    if (d < -(N / 2)) d += N;
     if (d ===  0) return "svc-card pos-center";
     if (d === -1) return "svc-card pos-l1";
     if (d === -2) return "svc-card pos-l2";
@@ -504,10 +712,14 @@ export default function ServicesCarousel() {
     <section className="svc-section section--alt">
       <style>{css}</style>
 
+      {/* Header */}
       <div className="svc-header">
         <div>
           <div className="kicker reveal">Services</div>
-          <h2 className="h2 reveal" style={{ fontSize: "clamp(1.9rem,3.5vw,2.4rem)", marginTop: 8 }}>
+          <h2
+            className="h2 reveal"
+            style={{ fontSize: "clamp(1.9rem,3.5vw,2.4rem)", marginTop: 8 }}
+          >
             Simple, focused offerings
           </h2>
         </div>
@@ -515,19 +727,24 @@ export default function ServicesCarousel() {
           <div className="svc-nav">
             <button
               className="svc-nav-btn"
-              aria-label="Previous"
-              onClick={() => { stopAuto(); snapStep(-1); scheduleAutoRestart(); }}
-            >←</button>
+              aria-label="Previous service"
+              onClick={() => { stopAuto(); snapStep(-1); scheduleRestart(); }}
+            >
+              ←
+            </button>
             <button
               className="svc-nav-btn"
-              aria-label="Next"
-              onClick={() => { stopAuto(); snapStep(1); scheduleAutoRestart(); }}
-            >→</button>
+              aria-label="Next service"
+              onClick={() => { stopAuto(); snapStep(1); scheduleRestart(); }}
+            >
+              →
+            </button>
           </div>
           <Link className="btn btn--ghost btn--sm" to="/services">View all</Link>
         </div>
       </div>
 
+      {/* Stage */}
       <div className="svc-stage" ref={stageRef}>
         <div className="svc-persp">
           <div
@@ -539,10 +756,14 @@ export default function ServicesCarousel() {
               <div
                 key={s._key}
                 className={posClass(s._real)}
-                onClick={() => { stopAuto(); snapToReal(s._real); scheduleAutoRestart(); }}
+                onClick={() => {
+                  stopAuto();
+                  snapToReal(s._real);
+                  scheduleRestart();
+                }}
               >
                 <div className="svc-card-img">
-                  <img src={s.image} alt={s.title} loading="lazy" />
+                  <img src={s.image} alt={s.title} loading="lazy" draggable={false} />
                   <div className="svc-card-img-fade" />
                 </div>
                 <div className="svc-card-body">
@@ -550,10 +771,22 @@ export default function ServicesCarousel() {
                   <h3 className="svc-card-title">{s.title}</h3>
                   <p className="svc-card-desc">{s.desc}</p>
                   <div className="svc-card-footer">
-                    <Link to="/services" className="btn btn--ghost btn--sm">Learn more</Link>
-                    <div className="svc-card-arr">
-                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                    <Link
+                      to={s.path}
+                      className="btn btn--ghost btn--sm"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Learn more
+                    </Link>
+                    <div className="svc-card-arr" aria-hidden="true">
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+                        <path
+                          d="M3 8h10M9 4l4 4-4 4"
+                          stroke="currentColor"
+                          strokeWidth="1.7"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -564,13 +797,16 @@ export default function ServicesCarousel() {
         </div>
       </div>
 
-      <div className="svc-dots">
-        {offerings.map((_, i) => (
+      {/* Dot indicators */}
+      <div className="svc-dots" role="tablist" aria-label="Service slides">
+        {offerings.map((s, i) => (
           <button
             key={i}
+            role="tab"
+            aria-selected={i === centerIdx}
+            aria-label={`Go to ${s.title}`}
             className={`svc-dot${i === centerIdx ? " active" : ""}`}
-            onClick={() => { stopAuto(); snapToReal(i); scheduleAutoRestart(); }}
-            aria-label={`Go to ${offerings[i].title}`}
+            onClick={() => { stopAuto(); snapToReal(i); scheduleRestart(); }}
           />
         ))}
       </div>

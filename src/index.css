@@ -49,13 +49,13 @@
   --radius-xs: 10px;
   --radius-pill: 999px;
 
-  /* Layout */
-  --container: min(1600px, 92vw);
+  /* Layout — FIX 1: 92vw → 100% stops the narrow-strip bug on mobile */
+  --container: min(1600px, 100%);
   --pad: 10px;
 
   /* Typography */
- --font-display: 'Inter', system-ui, sans-serif;
---font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
 
   /* Transitions */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -70,11 +70,14 @@
   box-sizing: border-box;
 }
 
+/* FIX 2: overflow-x:hidden on html (not just body) stops carousel
+   transforms from making the browser think the page is 6000px wide */
 html {
   height: 100%;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 body {
@@ -127,7 +130,8 @@ img, svg  { display: block; max-width: 100%; }
   width: 100%;
   max-width: var(--container);
   margin: 0 auto;
-  padding: 0 var(--pad);
+  /* FIX 3: clamp gives ~15px on phones, scales up to --pad on desktop */
+  padding: 0 clamp(12px, 4vw, var(--pad));
 }
 
 .section { padding: 100px 0; position: relative; }
@@ -594,6 +598,16 @@ img, svg  { display: block; max-width: 100%; }
   .footer__grid { grid-template-columns: 1fr 1fr; }
 
   .section__header { margin-bottom: 48px; }
+
+  /* FIX 4: collapse 3/4/5-col inline grids on tablet */
+  [style*="grid-template-columns:repeat(3"],
+  [style*="grid-template-columns: repeat(3"],
+  [style*="grid-template-columns:repeat(4"],
+  [style*="grid-template-columns: repeat(4"],
+  [style*="grid-template-columns:repeat(5"],
+  [style*="grid-template-columns: repeat(5"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }
 
 @media (max-width: 560px) {
@@ -604,4 +618,25 @@ img, svg  { display: block; max-width: 100%; }
   .footer__grid { grid-template-columns: 1fr; }
 
   .h1 { letter-spacing: -0.03em; }
+
+  /* FIX 4 cont: all repeat grids → 1-col on mobile */
+  [style*="grid-template-columns:repeat("],
+  [style*="grid-template-columns: repeat("] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Service page named classes */
+  .int-tech-grid, .int-process-row,
+  .int-what, .int-stat-band, .int-case,
+  .int-hero, [class$="-hero"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Lottie players can't overflow */
+  lottie-player {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .int-hero-lottie { display: none !important; }
 }

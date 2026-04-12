@@ -171,14 +171,14 @@ const pageStyles = `
     --shadow:0 24px 80px rgba(0,0,0,0.55); --shadow-soft:0 8px 32px rgba(0,0,0,0.30);
     --shadow-brand:0 12px 40px rgba(20,184,166,0.30); --shadow-brand-lg:0 20px 60px rgba(20,184,166,0.40);
     --radius:20px; --radius-sm:14px; --radius-xs:10px; --radius-pill:999px;
-    --container:min(1600px,92vw); --pad:10px;
+    --container:min(1600px,100%); --pad:10px;
     --font-display:'Inter',system-ui,sans-serif; --font-body:'Inter',system-ui,sans-serif;
     --ease:cubic-bezier(0.22,1,0.36,1); --dur:0.25s; --dur-slow:0.45s;
   }
 
   /* ── SHARED: BASE ── */
   *,*::before,*::after{box-sizing:border-box}
-  html{height:100%;scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  html{height:100%;scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
   body{margin:0;font-family:var(--font-body);font-size:16px;font-weight:400;line-height:1.6;color:var(--text);background:var(--bg);overflow-x:hidden;min-height:100%}
   body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 900px 600px at 10% 0%,rgba(20,184,166,0.12),transparent 70%),radial-gradient(ellipse 700px 500px at 90% 10%,rgba(34,197,94,0.09),transparent 70%),radial-gradient(ellipse 600px 400px at 50% 90%,rgba(20,184,166,0.06),transparent 70%);pointer-events:none;z-index:0}
   body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.5}
@@ -187,7 +187,7 @@ const pageStyles = `
   /* ── SHARED: LAYOUT ── */
   .app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
   .main{flex:1;padding-top:80px}
-  .container{width:100%;max-width:var(--container);margin:0 auto;padding:0 var(--pad)}
+  .container{width:100%;max-width:var(--container);margin:0 auto;padding:0 clamp(12px,4vw,var(--pad))}
   .section{padding:100px 0;position:relative}
   .section--alt{background:rgba(255,255,255,0.015)}
 

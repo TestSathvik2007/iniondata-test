@@ -1,83 +1,92 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
-/* ── SERVICE IMAGES (same as Services page) ── */
-import service1 from "../assets/images/app_development.png";
-import service2 from "../assets/images/application_integration.png";
-import service3 from "../assets/images/application_management.png";
-import service4 from "../assets/images/application_maintenance.png";
-import service5 from "../assets/images/project_management.png";
-import service6 from "../assets/images/consulting_services.png";
-import service7 from "../assets/images/teams_application.png";
-import service8 from "../assets/images/operational_efficiency.png";
-import service9 from "../assets/images/fast_growth.png";
+/* ── SERVICE IMAGES ── */
+import service1  from "../assets/images/app_development.png";
+import service2  from "../assets/images/application_integration.png";
+import service3  from "../assets/images/application_management.png";
+import service4  from "../assets/images/application_maintenance.png";
+import service5  from "../assets/images/project_management.png";
+import service6  from "../assets/images/consulting_services.png";
+import service7  from "../assets/images/teams_application.png";
+import service8  from "../assets/images/operational_efficiency.png";
+import service9  from "../assets/images/fast_growth.png";
 import service10 from "../assets/images/dataanalytics.jpg";
 import service11 from "../assets/images/dataengineering.jpg";
 import service12 from "../assets/images/cloud.jpg";
 import service13 from "../assets/images/datascience.jpg";
 import service14 from "../assets/images/hitl2.jpg";
 
+/* ── HERO CAROUSEL IMAGES ── */
+import heroImg1 from "../assets/images/hero1.jpg";
+import heroImg2 from "../assets/images/hero2.jpg";
+import heroImg3 from "../assets/images/hero3.jpg";
+
+const heroSlides = [
+  { img: heroImg1, title: "Together, We Create Wonders",          sub: "We become an extension of your team and increase productivity." },
+  { img: heroImg2, title: "Professional and Experienced Partners", sub: "Expert Partners for Reliable Transformative Services." },
+  { img: heroImg3, title: "Data-Driven Intelligence",              sub: "Transforming raw data into actionable insights." },
+];
+
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
 const offerings = [
-  { title: "Application Design & Development", desc: "Full-cycle app delivery — from requirements to release — for enterprise-level projects.", badge: "Core", image: service1,path: "/services/app-development" },
-  { title: "Application Integration", desc: "Connect CRMs, cloud platforms, and legacy systems into a unified, real-time ecosystem.", badge: "Integration", image: service2 , path: "/services/app-integration"},
-  { title: "Application Management", desc: "24/7 monitoring, incident response, and performance optimisation for your applications.", badge: "Support", image: service3 , path: "/services/app-management"},
-  { title: "Application Maintenance", desc: "Proactive bug fixing, security patching, and continuous performance tuning.", badge: "Maintenance", image: service4 , path: "/services/app-maintenance"},
-  { title: "Project Management", desc: "End-to-end delivery management — on time, on budget, with full stakeholder transparency.", badge: "Delivery", image: service5 , path: "/services/project-management"},
-  { title: "Consulting Services", desc: "Architecture reviews, feasibility studies, and technical roadmaps aligned with your business goals.", badge: "Advisory", image: service6 , path: "/services/consulting"},
-  { title: "Teams Integration", desc: "Custom bots, embedded apps, and message extensions that bring your workflows into Microsoft Teams.", badge: "Collaboration", image: service7 , path: "/services/teams-integration"},
-  { title: "Operational Efficiency", desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.", badge: "Optimisation", image: service8 , path: "/services/operational-efficiency"},
-  { title: "Fast Growth", desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.", badge: "Growth", image: service9 , path: "/services/fast-growth"},
-  { title: "Data & Analytics", desc: "Turn raw data into actionable insight with scalable analytics platforms, dashboards, and reporting pipelines.", badge: "Analytics", image: service10 , path: "/services/data-analytics"},
-  { title: "Data Engineering Services", desc: "End-to-end data pipelines, lake and warehouse architecture, ETL automation, and real-time stream processing.", badge: "Data", image: service11 , path: "/services/data-engineering"},
-  { title: "Cloud Engineering Services", desc: "Cloud-native design, migration, and optimization across Azure, AWS, and Google Cloud for cost-efficient scale.", badge: "Cloud", image: service12 , path: "/services/cloud-engineering"},
-  { title: "Data Science Services", desc: "Predictive modelling, machine learning, and AI-driven insights that translate complex data into business value.", badge: "AI/ML", image: service13 , path: "/services/data-science"},
-  { title: "Human-in-the-Loop (HITL) Services", desc: "Combining AI automation with human expertise to validate, annotate, and improve model outputs at scale.", badge: "HITL", image: service14 , path: "/services/human-in-the-loop"},
+  { title: "Application Design & Development",   desc: "Full-cycle app delivery — from requirements to release — for enterprise-level projects.",             badge: "Core",          image: service1,  path: "/services/app-development" },
+  { title: "Application Integration",            desc: "Connect CRMs, cloud platforms, and legacy systems into a unified, real-time ecosystem.",               badge: "Integration",   image: service2,  path: "/services/app-integration" },
+  { title: "Application Management",             desc: "24/7 monitoring, incident response, and performance optimisation for your applications.",              badge: "Support",       image: service3,  path: "/services/app-management" },
+  { title: "Application Maintenance",            desc: "Proactive bug fixing, security patching, and continuous performance tuning.",                          badge: "Maintenance",   image: service4,  path: "/services/app-maintenance" },
+  { title: "Project Management",                 desc: "End-to-end delivery management — on time, on budget, with full stakeholder transparency.",             badge: "Delivery",      image: service5,  path: "/services/project-management" },
+  { title: "Consulting Services",                desc: "Architecture reviews, feasibility studies, and technical roadmaps aligned with your business goals.",  badge: "Advisory",      image: service6,  path: "/services/consulting" },
+  { title: "Teams Integration",                  desc: "Custom bots, embedded apps, and message extensions that bring your workflows into Microsoft Teams.",   badge: "Collaboration", image: service7,  path: "/services/teams-integration" },
+  { title: "Operational Efficiency",             desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.",    badge: "Optimisation",  image: service8,  path: "/services/operational-efficiency" },
+  { title: "Fast Growth",                        desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.",   badge: "Growth",        image: service9,  path: "/services/fast-growth" },
+  { title: "Data & Analytics",                   desc: "Turn raw data into actionable insight with scalable analytics platforms, dashboards, and pipelines.",  badge: "Analytics",     image: service10, path: "/services/data-analytics" },
+  { title: "Data Engineering Services",          desc: "End-to-end data pipelines, lake and warehouse architecture, ETL automation, and stream processing.",   badge: "Data",          image: service11, path: "/services/data-engineering" },
+  { title: "Cloud Engineering Services",         desc: "Cloud-native design, migration, and optimization across Azure, AWS, and GCP for cost-efficient scale.", badge: "Cloud",        image: service12, path: "/services/cloud-engineering" },
+  { title: "Data Science Services",              desc: "Predictive modelling, machine learning, and AI-driven insights that translate data into business value.", badge: "AI/ML",      image: service13, path: "/services/data-science" },
+  { title: "Human-in-the-Loop (HITL) Services", desc: "Combining AI automation with human expertise to validate, annotate, and improve model outputs at scale.", badge: "HITL",       image: service14, path: "/services/human-in-the-loop" },
+];
+
+const staffingItems = [
+  { num: "01", title: "Flexible Hiring Models",  desc: "Contract, contract-to-hire, or direct hire — choose the engagement model that fits your timeline and budget." },
+  { num: "02", title: "Rigorous Vetting Process",   desc: "Pre-screened professionals who match your technical requirements and team culture — no guesswork." },
+  { num: "03", title: "Scalable Teams",         desc: "From a single specialist to a full delivery team — scale up or down instantly as your project demands shift." },
+];
+
+const consultingItems = [
+  { icon: "◈", title: "Customized Strategies", desc: "We work closely with you to understand your unique challenges and build tailored solutions aligned with your business goals — not off-the-shelf advice." },
+  { icon: "◈", title: "Experienced Consultants",          desc: "Our consultants bring deep industry expertise across technology and operations, so you get guidance from people who've solved problems like yours before." },
+  { icon: "◈", title: "Comprehensive Solutions",          desc: "From digital transformation to cybersecurity, we cover the full spectrum of IT consulting — one partner for every challenge." },
+];
+
+const pmItems = [
+  { icon: "▸", title: "Proven Methodologies",      desc: "Structured execution using industry best practices — so your projects run smoothly from kickoff to go-live." },
+  { icon: "▸", title: "Dedicated Support",          desc: "End-to-end project ownership with hands-on management at every stage, from initiation through successful delivery." },
+  { icon: "▸", title: "Transparent Communication", desc: "Clear, consistent updates and full visibility at every milestone — so you're never left wondering where things stand." },
 ];
 
 const trust = [
-  {
-    title: "Deep domain expertise",
-    desc: "Decades of combined leadership experience across Data, SAP, Guidewire, and enterprise application delivery.",
-    lottie: "https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json",
-  },
-  {
-    title: "Flexible delivery model",
-    desc: "Scale your team up or down quickly — contract, contract-to-hire, or direct hire — to address skill gaps without long-term overhead.",
-    lottie: "https://assets4.lottiefiles.com/packages/lf20_tno6cg2w.json",
-  },
-  {
-    title: "AI-driven innovation",
-    desc: "Vision AI, test automation, risk-based testing, self-healing tests, and performance optimisation baked into every engagement.",
-    lottie: "https://assets1.lottiefiles.com/packages/lf20_kkflmtur.json",
-  },
+  { title: "Deep domain expertise",   desc: "Decades of combined leadership experience across Data, SAP, Guidewire, and enterprise application delivery.", lottie: "https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" },
+  { title: "Flexible delivery model", desc: "Scale your team up or down quickly — contract, contract-to-hire, or direct hire — to address skill gaps without long-term overhead.", lottie: "https://assets4.lottiefiles.com/packages/lf20_tno6cg2w.json" },
+  { title: "AI-driven innovation",    desc: "Vision AI, test automation, risk-based testing, self-healing tests, and performance optimisation baked into every engagement.", lottie: "https://assets1.lottiefiles.com/packages/lf20_kkflmtur.json" },
 ];
 
 const clientLogos = ["Accenture", "Deloitte", "ThoughtWorks", "KPMG", "McKinsey", "Bain & Co", "BCG", "PwC"];
-
-const fomoLeads = [
-  "A SaaS team in Austin just got in touch.",
-  "A fintech startup booked a discovery call.",
-  "An e-commerce company requested a proposal.",
-  "A healthtech team started a conversation.",
-  "A logistics firm just reached out.",
-];
-
-const TW_WORDS = ["enterprise applications.", "data & AI solutions.", "digital transformation."];
+const fomoLeads   = ["A SaaS team in Austin just got in touch.", "A fintech startup booked a discovery call.", "An e-commerce company requested a proposal.", "A healthtech team started a conversation.", "A logistics firm just reached out."];
+const TW_WORDS    = ["enterprise applications.", "data & AI solutions.", "digital transformation."];
 
 // ── CAROUSEL CONSTANTS ────────────────────────────────────────────────────────
-const CARD_W = 300;
-const GAP = 20;
-const STEP = CARD_W + GAP;
-const N = offerings.length;
+const CARD_W      = 300;
+const GAP         = 20;
+const STEP        = CARD_W + GAP;
+const N           = offerings.length;
 const CLONE_COUNT = 3;
-const TOTAL = CLONE_COUNT + N + CLONE_COUNT;
+const TOTAL       = CLONE_COUNT + N + CLONE_COUNT;
 
 const allItems = [
   ...offerings.slice(N - CLONE_COUNT).map((s, i) => ({ ...s, _key: `ct-${i}`, _real: N - CLONE_COUNT + i })),
-  ...offerings.map((s, i) => ({ ...s, _key: `r-${i}`, _real: i })),
-  ...offerings.slice(0, CLONE_COUNT).map((s, i) => ({ ...s, _key: `ch-${i}`, _real: i })),
+  ...offerings.map((s, i)                         => ({ ...s, _key: `r-${i}`,  _real: i })),
+  ...offerings.slice(0, CLONE_COUNT).map((s, i)   => ({ ...s, _key: `ch-${i}`, _real: i })),
 ];
 
 // ── STYLES ────────────────────────────────────────────────────────────────────
@@ -88,341 +97,211 @@ const pageStyles = `
   :root {
     --bg:#07100e; --bg-2:#0c1a16;
     --surface:rgba(255,255,255,0.04); --surface-2:rgba(255,255,255,0.07);
-    --text:#dff0e8; --muted:#7a9e8e; --muted-2:#4a6a5a;
+    --text:#dff0e8; --muted:#7a9e8e;
     --border:rgba(255,255,255,0.07); --border-2:rgba(255,255,255,0.12);
     --teal:#14b8a6; --teal-2:#2dd4bf; --teal-d:#0d9488;
-    --accent:#22c55e; --accent-2:#4ade80; --accent-d:#16a34a;
-    --navy:#020c09;
-    --grad-brand:linear-gradient(135deg,var(--teal),var(--accent));
-    --grad-text:linear-gradient(135deg,var(--teal-2) 0%,var(--accent-2) 100%);
+    --accent:#22c55e;
     --shadow:0 24px 80px rgba(0,0,0,0.55);
     --shadow-soft:0 8px 32px rgba(0,0,0,0.30);
-    --shadow-brand:0 12px 40px rgba(20,184,166,0.30);
-    --shadow-brand-lg:0 20px 60px rgba(20,184,166,0.40);
     --radius:20px; --radius-sm:14px; --radius-pill:999px;
-    --container:min(1600px,92vw); --pad:40px;
+    --container:min(1600px,100%); --pad:40px;
     --font:'Inter',system-ui,sans-serif;
-    --ease:cubic-bezier(0.22,1,0.36,1); --dur:0.25s; --dur-slow:0.45s;
+    --ease:cubic-bezier(0.22,1,0.36,1); --dur:0.25s;
   }
-
   *,*::before,*::after { box-sizing:border-box }
-  html { height:100%; scroll-behavior:smooth; -webkit-font-smoothing:antialiased }
-  body {
-    margin:0; font-family:var(--font); font-size:16px; font-weight:400;
-    line-height:1.6; color:var(--text); background:var(--bg);
-    overflow-x:hidden; min-height:100%;
-  }
-  body::before {
-    content:''; position:fixed; inset:0;
-    background:
-      radial-gradient(ellipse 900px 600px at 10% 0%,rgba(20,184,166,0.12),transparent 70%),
-      radial-gradient(ellipse 700px 500px at 90% 10%,rgba(34,197,94,0.09),transparent 70%),
-      radial-gradient(ellipse 600px 400px at 50% 90%,rgba(20,184,166,0.06),transparent 70%);
-    pointer-events:none; z-index:0;
-  }
-  body::after {
-    content:''; position:fixed; inset:0;
-    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-    pointer-events:none; z-index:0; opacity:0.5;
-  }
+  html { height:100%; scroll-behavior:smooth; -webkit-font-smoothing:antialiased; overflow-x:hidden }
+  body { margin:0; font-family:var(--font); font-size:16px; font-weight:400; line-height:1.6; color:var(--text); background:var(--bg); overflow-x:hidden; min-height:100%; }
+  body::before { content:''; position:fixed; inset:0; background:radial-gradient(ellipse 900px 600px at 10% 0%,rgba(20,184,166,0.12),transparent 70%),radial-gradient(ellipse 700px 500px at 90% 10%,rgba(34,197,94,0.09),transparent 70%),radial-gradient(ellipse 600px 400px at 50% 90%,rgba(20,184,166,0.06),transparent 70%); pointer-events:none; z-index:0; }
+  body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.5; }
   a { color:inherit; text-decoration:none }
   button { font:inherit; cursor:pointer }
   img,svg { display:block; max-width:100% }
 
-  /* ── Layout ── */
-  .container { width:100%; max-width:var(--container); margin:0 auto; padding:0 var(--pad) }
+  .container { width:100%; max-width:var(--container); margin:0 auto; padding:0 clamp(12px,4vw,var(--pad)) }
   .section    { padding:100px 0; position:relative; z-index:1 }
   .section--alt { background:rgba(255,255,255,0.015) }
-  .grid   { display:grid; gap:20px }
-  .grid-2 { grid-template-columns:repeat(2,1fr) }
-  .grid-3 { grid-template-columns:repeat(3,1fr) }
+  .grid { display:grid; gap:20px }
+  .grid-2 { grid-template-columns:repeat(2,minmax(0,1fr)) }
+  .grid-3 { grid-template-columns:repeat(3,minmax(0,1fr)) }
 
-  /* ── Typography ── */
-  .h1 { font-family:var(--font); font-weight:800; font-size:clamp(36px,5vw,68px); line-height:1.02; letter-spacing:-0.04em; margin:0 }
-  .h2 { font-family:var(--font); font-weight:800; font-size:clamp(28px,3.5vw,44px); line-height:1.08; letter-spacing:-0.03em; margin:0 }
-  .lead { font-size:17px; font-weight:300; color:var(--muted); line-height:1.5; text-align: justify;text-justify: inter-word; }
-  .kicker {
-    display:inline-flex; align-items:center; gap:10px;
-    padding:5px 14px 5px 10px; font-size:11px; font-weight:700;
-    letter-spacing:0.14em; text-transform:uppercase;
-    background:transparent; border:1px solid rgba(255,255,255,0.12);
-    clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
-    color:var(--text);
-  }
-  .kicker::before {
-    content:''; display:block; width:6px; height:6px;
-    background:#1D9E75; clip-path:polygon(50% 0%,100% 100%,0% 100%); flex-shrink:0;
-  }
+  .h1 { font-family:var(--font); font-weight:800; font-size:clamp(30px,5vw,68px); line-height:1.02; letter-spacing:-0.04em; margin:0 }
+  .h2 { font-family:var(--font); font-weight:800; font-size:clamp(24px,3.5vw,44px); line-height:1.08; letter-spacing:-0.03em; margin:0 }
+  .lead { font-size:16px; font-weight:300; color:var(--muted); line-height:1.6 }
 
-  /* ── Buttons ── */
-  .btn {
-    display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    padding:12px 22px; border-radius:var(--radius-pill);
-    border:1px solid var(--border-2); background:var(--surface-2);
-    color:var(--text); font-family:var(--font); font-size:14px; font-weight:500;
-    cursor:pointer;
-    transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease),
-               border-color var(--dur) var(--ease),background var(--dur) var(--ease);
-  }
+  .kicker { display:inline-flex; align-items:center; gap:8px; flex-shrink:0; padding:5px 14px 5px 10px; font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; white-space:nowrap; background:transparent; border:1px solid rgba(255,255,255,0.12); clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); color:var(--text); }
+  .kicker::before { content:''; display:block; width:6px; height:6px; flex-shrink:0; background:#1D9E75; clip-path:polygon(50% 0%,100% 100%,0% 100%); }
+
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 22px; border-radius:var(--radius-pill); border:1px solid var(--border-2); background:var(--surface-2); color:var(--text); font-family:var(--font); font-size:14px; font-weight:500; cursor:pointer; white-space:nowrap; transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease),border-color var(--dur) var(--ease),background var(--dur) var(--ease); }
   .btn:hover { transform:translateY(-2px); box-shadow:var(--shadow-soft) }
-  .btn--primary {
-    background:#085041; color:#9FE1CB; border-radius:5px;
-    border:1.5px solid #085041; box-shadow:4px 4px 0 #1D9E75;
-    font-weight:600; font-size:13px; padding:10px 22px; white-space:nowrap;
-  }
-  .btn--primary:hover { box-shadow:2px 2px 0 #1D9E75; transform:translate(2px,2px) }
+  .btn--primary { background:#085041; color:#9FE1CB; border-radius:5px; border:1.5px solid #085041; box-shadow:4px 4px 0 #1D9E75; font-weight:600; font-size:13px; padding:10px 22px; }
+  .btn--primary:hover  { box-shadow:2px 2px 0 #1D9E75; transform:translate(2px,2px) }
   .btn--primary:active { box-shadow:none; transform:translate(4px,4px) }
   .btn--ghost { background:transparent; border-color:rgba(20,184,166,0.22); color:var(--teal-2) }
   .btn--ghost:hover { background:rgba(20,184,166,0.08); border-color:rgba(20,184,166,0.40) }
   .btn--sm { padding:8px 16px; font-size:13px }
 
-  /* ── Cards ── */
-  .card {
-    position:relative; border-radius:var(--radius);
-    border:1px solid var(--border); background:rgba(255,255,255,0.05);
-    box-shadow:var(--shadow-soft);
-    transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease),border-color var(--dur) var(--ease);
-  }
-  .card::before { display:none }
+  .card { position:relative; border-radius:var(--radius); border:1px solid var(--border); background:rgba(255,255,255,0.05); box-shadow:var(--shadow-soft); transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease),border-color var(--dur) var(--ease); }
   .card:hover { transform:translateY(-4px); box-shadow:var(--shadow); border-color:rgba(20,184,166,0.28) }
   .card__p { padding:24px }
-  .card-i { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:var(--radius-sm) }
   .card-lift { transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease }
   .card-lift:hover { transform:translateY(-4px) }
 
-  /* ── Utilities ── */
   .bar-track   { height:6px; border-radius:999px; background:rgba(13,148,136,0.15); overflow:hidden }
   .bar-fill-js { height:100%; border-radius:999px; background:linear-gradient(90deg,var(--teal),var(--teal-2)); width:0; transition:width .9s cubic-bezier(.22,1,.36,1) }
-  .img-cover   { width:100%; height:100%; object-fit:cover; display:block }
 
-  /* ── Trust Lottie cards ── */
+  /* ── Trust ── */
   .trust-card { overflow:hidden }
-  .trust-lottie-wrap {
-    height:200px;
-    display:flex; align-items:center; justify-content:center;
-    background:rgba(20,184,166,0.04);
-    border-bottom:1px solid rgba(255,255,255,0.06);
-    transition:background 0.35s ease;
-    overflow:hidden;
-  }
+  .trust-lottie-wrap { height:180px; display:flex; align-items:center; justify-content:center; background:rgba(20,184,166,0.04); border-bottom:1px solid rgba(255,255,255,0.06); transition:background .35s ease; overflow:hidden; }
   .trust-card:hover .trust-lottie-wrap { background:rgba(20,184,166,0.09) }
-  .trust-lottie-wrap lottie-player {
-    width:170px; height:170px;
-    transition:transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
-  }
+  .trust-lottie-wrap lottie-player { width:150px; height:150px; transition:transform .45s cubic-bezier(.34,1.56,.64,1); }
   .trust-card:hover .trust-lottie-wrap lottie-player { transform:scale(1.08) }
-  .trust-card-body { padding:20px 22px 24px }
-  .trust-card-body h3 { font-size:17px; font-weight:700; margin:0 0 8px; color:var(--text); letter-spacing:-0.01em }
-  .trust-card-body p  { font-size:14px; color:var(--muted); line-height:1.7; margin:0 }
+  .trust-card-body { padding:18px 20px 22px }
+  .trust-card-body h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:var(--text); letter-spacing:-0.01em }
+  .trust-card-body p  { font-size:13px; color:var(--muted); line-height:1.7; margin:0 }
+
+  /* ════════ HERO CAROUSEL ════════ */
+  .hic-root { position:relative; width:100%; border-radius:16px; overflow:hidden; aspect-ratio:4/3; background:#001b2e; }
+  .hic-slide { position:absolute; inset:0; opacity:0; transition:opacity 0.75s ease; pointer-events:none; }
+  .hic-slide.active { opacity:1; pointer-events:auto; }
+  .hic-slide img { width:100%; height:100%; object-fit:cover; display:block; transform:scale(1.05); transition:transform 6s ease; }
+  .hic-slide.active img { transform:scale(1); }
+  .hic-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,8,18,0.75) 0%,rgba(0,8,18,0.12) 55%,transparent 100%); pointer-events:none; }
+  .hic-text { position:absolute; bottom:0; left:0; right:0; padding:18px 20px 40px; color:#fff; text-align:center; }
+  .hic-text h3 { font-size:clamp(15px,1.8vw,20px); font-weight:700; margin:0 0 5px; line-height:1.2; }
+  .hic-text p  { font-size:clamp(11px,1vw,13px); opacity:0.80; margin:0; }
+  .hic-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.20); border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; z-index:10; transition:background 0.2s,transform 0.2s; }
+  .hic-arrow:hover { background:rgba(255,255,255,0.22); transform:translateY(-50%) scale(1.1); }
+  .hic-arrow-left  { left:10px; }
+  .hic-arrow-right { right:10px; }
+  .hic-dots { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:10; }
+  .hic-dot { width:24px; height:3px; border-radius:2px; background:rgba(255,255,255,0.30); border:none; cursor:pointer; padding:0; transition:background 0.3s,width 0.3s; }
+  .hic-dot.active { background:#fff; width:32px; }
+
+  /* ── Typewriter ── */
+  @keyframes blinkCursor { 0%,100%{opacity:1} 50%{opacity:0} }
+  .tw-cursor { display:inline-block; width:3px; height:0.85em; background:currentColor; margin-left:3px; vertical-align:middle; animation:blinkCursor .75s step-end infinite; }
+  .tw-word-block { display:block; min-height:calc(1.02em * 2); overflow:hidden }
 
   /* ── Animations ── */
-  @keyframes kenBurns { from{transform:scale(1)} to{transform:scale(1.06) translateX(-8px)} }
-  .ken-burns { animation:kenBurns 9s ease-in-out infinite alternate; will-change:transform }
-
-  @keyframes blinkCursor { 0%,100%{opacity:1} 50%{opacity:0} }
-  .tw-cursor { display:inline-block; width:3px; height:1em; background:currentColor; margin-left:4px; vertical-align:text-bottom; animation:blinkCursor .75s step-end infinite }
-
   @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
   .marquee-track { display:flex; gap:48px; width:max-content; animation:marquee 28s linear infinite }
   .marquee-track:hover { animation-play-state:paused }
-  .marquee-wrap {
-    overflow:hidden;
-  }
-
+  .marquee-wrap { overflow:hidden; mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%); -webkit-mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%); }
   @keyframes toastIn  { from{opacity:0;transform:translateY(16px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
   @keyframes toastOut { from{opacity:1;transform:translateY(0) scale(1)} to{opacity:0;transform:translateY(-12px) scale(.96)} }
-  .fomo-toast {
-    position:fixed; bottom:24px; left:24px; z-index:999;
-    background:rgba(255,255,255,.96); border:.5px solid rgba(0,0,0,.10);
-    border-radius:12px; padding:10px 14px; display:flex; align-items:center;
-    gap:10px; box-shadow:0 4px 18px rgba(0,0,0,.10);
-    pointer-events:none; max-width:260px;
-  }
+  .fomo-toast { position:fixed; bottom:24px; left:24px; z-index:999; background:rgba(255,255,255,.96); border:.5px solid rgba(0,0,0,.10); border-radius:12px; padding:10px 14px; display:flex; align-items:center; gap:10px; box-shadow:0 4px 18px rgba(0,0,0,.10); pointer-events:none; max-width:260px; }
   .fomo-toast.entering { animation:toastIn .4s cubic-bezier(.34,1.56,.64,1) forwards }
   .fomo-toast.exiting  { animation:toastOut .3s ease-in forwards }
   .fomo-dot { width:8px; height:8px; border-radius:50%; background:#10b981; flex-shrink:0; box-shadow:0 0 0 3px rgba(16,185,129,.2) }
-
   @keyframes heroFadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
   .h-anim-1 { opacity:0; animation:heroFadeUp .55s var(--ease) .05s forwards }
   .h-anim-2 { opacity:0; animation:heroFadeUp .55s var(--ease) .15s forwards }
   .h-anim-3 { opacity:0; animation:heroFadeUp .55s var(--ease) .25s forwards }
   .h-anim-4 { opacity:0; animation:heroFadeUp .55s var(--ease) .35s forwards }
   .h-anim-5 { opacity:0; animation:heroFadeUp .55s var(--ease) .45s forwards }
-
   .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s var(--ease),transform .6s var(--ease) }
   .reveal.visible { opacity:1; transform:translateY(0) }
   .reveal-group .reveal { transition-delay:calc(var(--i,0) * .09s) }
 
-  @keyframes drawLine { from{stroke-dashoffset:200} to{stroke-dashoffset:0} }
-  .sparkline-path { stroke-dasharray:200; stroke-dashoffset:200; animation:drawLine 1.2s var(--ease) .5s forwards }
-
-  /* ══════════════════════════════════════
-     3D CAROUSEL
-  ══════════════════════════════════════ */
+  /* ════════ SERVICES CAROUSEL ════════ */
   .svc-section { padding:100px 0; position:relative; z-index:1 }
-
-  .svc-header {
-    max-width:var(--container); margin:0 auto; padding:0 var(--pad) 36px;
-    display:flex; align-items:flex-end; justify-content:space-between;
-    flex-wrap:wrap; gap:16px;
-  }
-
-  .svc-stage {
-    overflow:hidden;
-    mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);
-    -webkit-mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);
-    cursor:grab; user-select:none; padding:32px 0 48px;
-  }
+  .svc-header { max-width:var(--container); margin:0 auto; padding:0 clamp(12px,4vw,var(--pad)) 36px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+  .svc-stage { overflow:hidden; mask-image:linear-gradient(to right,transparent 0%,black 9%,black 91%,transparent 100%); -webkit-mask-image:linear-gradient(to right,transparent 0%,black 9%,black 91%,transparent 100%); cursor:grab; user-select:none; -webkit-user-select:none; padding:40px 0 56px; touch-action:pan-y; }
   .svc-stage:active { cursor:grabbing }
-
-  .svc-persp { perspective:1400px; perspective-origin:50% 38% }
-
-  .svc-track { display:flex; gap:20px; will-change:transform }
-
-  .svc-card {
-  width:300px;
-  flex-shrink:0;
-  border-radius:18px;
-  overflow:hidden;
-
-  /* 🔥 FIX: solid background instead of rgba */
-  background:#0c1a16;
-  border:1px solid rgba(255,255,255,0.07);
-
-  cursor:pointer;
-
-  /* 🔥 FIX: remove opacity */
-  opacity:1;
-
-  /* 🔥 FIX: remove rotateY (3D) */
-  transform:scale(0.84) translateX(0);
-
-  transition:
-    transform   0.55s cubic-bezier(0.16,1,0.3,1),
-    box-shadow  0.55s cubic-bezier(0.16,1,0.3,1),
-    border-color 0.35s ease,
-    filter 0.4s ease;
-
-  /* 🔥 stability */
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
-  transform-style:preserve-3d;
-  will-change:transform;
-
-  position:relative;
-}
-
-/* CENTER */
-.svc-card.pos-center {
-  transform:scale(1) translateX(0);
-  border-color:rgba(20,184,166,0.42);
-  box-shadow:0 28px 70px rgba(0,0,0,0.52),0 0 0 1px rgba(20,184,166,0.22);
-  z-index:10;
-  filter:none;
-}
-
-/* LEFT */
-.svc-card.pos-l1 {
-  transform:scale(0.92) translateX(-20px);
-  z-index:5;
-  filter:brightness(0.75);
-}
-
-.svc-card.pos-l2 {
-  transform:scale(0.83) translateX(-40px);
-  z-index:3;
-  filter:brightness(0.55);
-}
-
-/* RIGHT */
-.svc-card.pos-r1 {
-  transform:scale(0.92) translateX(20px);
-  z-index:5;
-  filter:brightness(0.75);
-}
-
-.svc-card.pos-r2 {
-  transform:scale(0.83) translateX(40px);
-  z-index:3;
-  filter:brightness(0.55);
-}
-
-  .svc-card-img {
-    width:100%; height:190px; overflow:hidden;
-    border-bottom:1px solid rgba(255,255,255,0.06);
-    position:relative; background:rgba(20,184,166,0.05);
-  }
-  .svc-card-img img {
-    width:100%; height:100%; object-fit:cover; display:block;
-    transition:transform 0.5s cubic-bezier(0.22,1,0.36,1);
-    filter:brightness(0.88) saturate(0.9);
-  }
-  .svc-card.pos-center .svc-card-img img { transform:scale(1.05); filter:brightness(1) saturate(1) }
-  .svc-card-img-fade {
-    position:absolute; inset:0;
-    background:linear-gradient(to top,rgba(7,16,14,0.55) 0%,transparent 55%);
-    pointer-events:none;
-  }
-  .svc-card-body { padding:18px 20px 20px }
-  .svc-card-badge {
-    display:inline-flex; align-items:center; padding:3px 10px;
-    font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
-    border-radius:999px; background:rgba(20,184,166,0.12); color:#2dd4bf;
-    border:1px solid rgba(20,184,166,0.22); margin-bottom:10px;
-  }
-  .svc-card-title { font-size:17px; font-weight:700; letter-spacing:-0.02em; color:#dff0e8; margin:0 0 7px; line-height:1.25 }
+  .svc-persp { perspective:1200px; perspective-origin:50% 40%; }
+  .svc-track { display:flex; gap:${GAP}px; will-change:transform; }
+  .svc-card { width:${CARD_W}px; flex-shrink:0; border-radius:20px; overflow:hidden; background:#0b1914; border:1px solid rgba(255,255,255,0.07); cursor:pointer; --tilt-x:0deg; --tilt-y:0deg; opacity:0.35; filter:brightness(0.55); transform:scale(0.80) rotateY(18deg) translateZ(-80px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); transform-style:preserve-3d; backface-visibility:hidden; -webkit-backface-visibility:hidden; transition:opacity .52s cubic-bezier(0.22,1,0.36,1),filter .52s cubic-bezier(0.22,1,0.36,1),transform .52s cubic-bezier(0.22,1,0.36,1),box-shadow .52s cubic-bezier(0.22,1,0.36,1),border-color .35s ease; position:relative; z-index:1; }
+  .svc-card.pos-center { opacity:1; filter:none; transform:scale(1.02) rotateY(0deg) translateZ(20px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); border-color:rgba(20,184,166,0.50); box-shadow:0 32px 80px rgba(0,0,0,0.60),0 0 0 1px rgba(20,184,166,0.25),0 0 60px rgba(20,184,166,0.08); z-index:10; }
+  .svc-card.pos-l1 { opacity:0.82; filter:brightness(0.78); transform:scale(0.93) rotateY(14deg) translateZ(-28px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); z-index:6; }
+  .svc-card.pos-l2 { opacity:0.52; filter:brightness(0.58); transform:scale(0.84) rotateY(22deg) translateZ(-76px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); z-index:4; }
+  .svc-card.pos-r1 { opacity:0.82; filter:brightness(0.78); transform:scale(0.93) rotateY(-14deg) translateZ(-28px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); z-index:6; }
+  .svc-card.pos-r2 { opacity:0.52; filter:brightness(0.58); transform:scale(0.84) rotateY(-22deg) translateZ(-76px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); z-index:4; }
+  .svc-card-img { width:100%; height:190px; overflow:hidden; border-bottom:1px solid rgba(255,255,255,0.06); position:relative; background:rgba(20,184,166,0.05); }
+  .svc-card-img img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .55s cubic-bezier(0.22,1,0.36,1),filter .55s cubic-bezier(0.22,1,0.36,1); filter:brightness(0.82) saturate(0.85); pointer-events:none; user-select:none; -webkit-user-select:none; }
+  .svc-card.pos-center .svc-card-img img { transform:scale(1.06); filter:brightness(1) saturate(1) }
+  .svc-card-img-fade { position:absolute; inset:0; background:linear-gradient(to top,rgba(7,16,14,0.60) 0%,transparent 52%); pointer-events:none; }
+  .svc-card-body { padding:18px 20px 22px }
+  .svc-card-badge { display:inline-flex; align-items:center; padding:3px 11px; font-size:10px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; border-radius:999px; background:rgba(20,184,166,0.12); color:#2dd4bf; border:1px solid rgba(20,184,166,0.24); margin-bottom:11px; }
+  .svc-card-title { font-size:17px; font-weight:700; letter-spacing:-0.025em; color:#dff0e8; margin:0 0 8px; line-height:1.25 }
   .svc-card-desc  { font-size:13px; line-height:1.65; color:#7a9e8e; margin:0 }
-  .svc-card-footer {
-    margin-top:16px; padding-top:14px;
-    border-top:1px solid rgba(255,255,255,0.06);
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .svc-card-arr {
-    width:32px; height:32px; border-radius:50%;
-    border:1px solid rgba(255,255,255,0.10);
-    display:flex; align-items:center; justify-content:center; color:#2dd4bf;
-    transition:background .2s,border-color .2s,transform .25s cubic-bezier(.34,1.56,.64,1);
-  }
-  .svc-card:hover .svc-card-arr { background:rgba(20,184,166,0.14); border-color:rgba(20,184,166,0.35); transform:translateX(3px) }
-
-  .svc-dots { display:flex; align-items:center; justify-content:center; gap:7px; margin-top:20px }
-  .svc-dot {
-    width:7px; height:7px; border-radius:50%;
-    background:rgba(255,255,255,0.15); border:none; padding:0; flex-shrink:0;
-    transition:all 0.3s var(--ease); cursor:pointer;
-  }
-  .svc-dot.active { width:24px; border-radius:4px; background:#14b8a6 }
-
+  .svc-card-footer { margin-top:18px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .svc-card-arr { width:32px; height:32px; border-radius:50%; border:1px solid rgba(255,255,255,0.11); display:flex; align-items:center; justify-content:center; color:#2dd4bf; flex-shrink:0; transition:background .22s ease,border-color .22s ease,transform .28s cubic-bezier(.34,1.56,.64,1); }
+  .svc-card:hover .svc-card-arr { background:rgba(20,184,166,0.16); border-color:rgba(20,184,166,0.38); transform:translateX(4px) }
+  .svc-dots { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:7px; margin-top:24px; padding:0 clamp(16px,4vw,40px); }
+  .svc-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.15); border:none; padding:0; flex-shrink:0; cursor:pointer; transition:all 0.32s cubic-bezier(0.22,1,0.36,1); }
+  .svc-dot.active { width:26px; border-radius:4px; background:#14b8a6 }
   .svc-nav { display:flex; gap:8px }
-  .svc-nav-btn {
-    width:38px; height:38px; border-radius:50%;
-    border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04);
-    display:flex; align-items:center; justify-content:center;
-    color:#2dd4bf; font-size:15px; line-height:1;
-    transition:background .2s,border-color .2s,transform .2s cubic-bezier(.34,1.56,.64,1);
-  }
-  .svc-nav-btn:hover { background:rgba(20,184,166,0.12); border-color:rgba(20,184,166,0.35); transform:scale(1.08) }
-  .svc-nav-btn:active { transform:scale(0.94) }
+  .svc-nav-btn { width:40px; height:40px; border-radius:50%; border:1px solid rgba(255,255,255,0.13); background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; color:#2dd4bf; font-size:16px; line-height:1; transition:background .2s ease,border-color .2s ease,transform .22s cubic-bezier(.34,1.56,.64,1); }
+  .svc-nav-btn:hover  { background:rgba(20,184,166,0.14); border-color:rgba(20,184,166,0.38); transform:scale(1.10) }
+  .svc-nav-btn:active { transform:scale(0.92) }
+
+  /* ════════ CLIENT CONTENT SECTIONS ════════ */
+
+  .intro-band { border-left:3px solid var(--teal); padding-left:24px; }
+  .intro-band p { font-size:15px; line-height:1.8; color:var(--muted); margin:0 }
+
+  .our-svc-strip { background:rgba(20,184,166,0.05); border:1px solid rgba(20,184,166,0.12); border-radius:var(--radius); padding:36px 40px; display:flex; flex-direction:column; justify-content:center; }
+  .our-svc-strip p { font-size:15px; line-height:1.8; color:var(--muted); margin:0 }
+
+  .staffing-card { padding:28px; border-radius:var(--radius-sm); border:1px solid var(--border); background:rgba(255,255,255,0.03); transition:border-color .25s ease,background .25s ease; }
+  .staffing-card:hover { border-color:rgba(20,184,166,0.30); background:rgba(20,184,166,0.04); }
+  .staffing-num { font-size:11px; font-weight:800; letter-spacing:0.14em; color:var(--teal-2); margin-bottom:12px; }
+  .staffing-title { font-size:16px; font-weight:700; color:var(--text); margin:0 0 8px; letter-spacing:-0.01em; }
+  .staffing-desc  { font-size:13px; line-height:1.7; color:var(--muted); margin:0 }
+
+  .icon-list { display:flex; flex-direction:column; }
+  .icon-item { display:grid; grid-template-columns:52px 1fr; align-items:flex-start; padding:22px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .icon-item:last-child { border-bottom:none }
+  .icon-item-icon { width:36px; height:36px; border-radius:10px; background:rgba(20,184,166,0.10); border:1px solid rgba(20,184,166,0.18); display:flex; align-items:center; justify-content:center; font-size:14px; color:var(--teal-2); flex-shrink:0; margin-top:2px; }
+  .icon-item-body h4 { font-size:15px; font-weight:700; color:var(--text); margin:0 0 5px; letter-spacing:-0.01em; }
+  .icon-item-body p  { font-size:13px; line-height:1.7; color:var(--muted); margin:0 }
+
+  .section-divider { width:48px; height:3px; border-radius:2px; background:linear-gradient(90deg,var(--teal),var(--teal-2)); margin:12px 0 20px; }
+
+  .content-two-col { grid-template-columns:1fr 1fr; }
 
   /* ── Responsive ── */
-  @media(max-width:900px) {
+  @media(max-width:960px) {
     :root { --pad:24px }
-    .grid-2,.grid-3 { grid-template-columns:1fr }
-    .section { padding:72px 0 }
-    .svc-card { width:270px }
-    .svc-card-img { height:160px }
-    .trust-lottie-wrap { height:170px }
-    .trust-lottie-wrap lottie-player { width:140px; height:140px }
+    .section { padding:64px 0 } .svc-section { padding:64px 0 }
+    .hero-grid { grid-template-columns:1fr !important }
+    .content-two-col { grid-template-columns:1fr !important }
+    .trust-grid { grid-template-columns:1fr !important; gap:24px; }
+    .cta-grid { grid-template-columns:1fr !important }
+    .cta-photo { height:260px !important; min-height:260px !important; }
+    .trust-lottie-wrap { height:140px } .trust-lottie-wrap lottie-player { width:110px; height:110px }
+    .svc-card { width:280px } .svc-card-img { height:170px }
+    .hic-root { aspect-ratio:16/9; }
+    .our-svc-strip { padding:24px }
   }
-  @media(max-width:560px) {
-    :root { --pad:18px }
-    .svc-card { width:248px }
+  @media(max-width:640px) {
+    :root { --pad:16px }
+    .section { padding:48px 0 } .svc-section { padding:48px 0 }
+    .h1 { font-size:clamp(28px,8vw,36px) !important; letter-spacing:-0.03em !important; line-height:1.1 !important; }
+    .h2 { font-size:clamp(22px,6.5vw,28px) !important } .lead { font-size:14px }
+    .trust-banner { height:120px !important } .trust-grid { grid-template-columns:1fr !important }
+    .trust-lottie-wrap { height:130px } .trust-lottie-wrap lottie-player { width:100px; height:100px }
+    .kicker { font-size:10px; letter-spacing:0.08em; padding:4px 10px 4px 8px }
+    .btn-row { flex-wrap:wrap !important }
+    .cta-photo { display:block !important; height:180px !important; min-height:180px !important; }
+    .fomo-toast { bottom:16px; left:16px; max-width:240px; padding:8px 12px; }
+    .svc-header { flex-direction:column; align-items:flex-start; gap:10px }
+    .svc-card { width:min(260px,calc(100vw - 88px)) } .svc-card-img { height:150px }
+    .svc-stage { mask-image:linear-gradient(to right,transparent 0%,black 5%,black 95%,transparent 100%); -webkit-mask-image:linear-gradient(to right,transparent 0%,black 5%,black 95%,transparent 100%); }
+    .our-svc-strip { padding:20px }
+    .intro-band { padding-left:16px }
+  }
+  @media(max-width:420px) {
+    :root { --pad:12px }
+    .svc-card { width:calc(100vw - 64px) } .svc-card-img { height:140px }
+    .h1 { font-size:clamp(22px,6.5vw,30px) !important }
+    .tw-word-block { min-height:calc(1.02em * 3) }
+    .kicker { clip-path:none; border-radius:6px }
   }
 `;
 
 // ── HOOKS ─────────────────────────────────────────────────────────────────────
 
-/* Load lottie-player custom element once */
 function useLottieScript() {
   useEffect(() => {
     if (customElements.get("lottie-player") || document.getElementById("lottie-cdn")) return;
@@ -449,12 +328,7 @@ function useBarFillOnScroll(ref) {
   useEffect(() => {
     if (!ref.current) return;
     const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          ref.current.querySelectorAll(".bar-fill-js").forEach((b) => { b.style.width = b.dataset.targetWidth; });
-          io.disconnect();
-        }
-      },
+      ([entry]) => { if (entry.isIntersecting) { ref.current.querySelectorAll(".bar-fill-js").forEach((b) => { b.style.width = b.dataset.targetWidth; }); io.disconnect(); } },
       { threshold: 0.3 }
     );
     io.observe(ref.current);
@@ -465,11 +339,11 @@ function useBarFillOnScroll(ref) {
 function useTypewriter() {
   const [display, setDisplay] = useState("");
   const [wordIdx, setWordIdx] = useState(0);
-  const [isDeleting, setDeleting] = useState(false);
+  const [isDeleting, setDel]  = useState(false);
   useEffect(() => {
     const word = TW_WORDS[wordIdx % TW_WORDS.length];
-    if (!isDeleting && display === word) { const t = setTimeout(() => setDeleting(true), 1800); return () => clearTimeout(t); }
-    if (isDeleting && display === "") { setDeleting(false); setWordIdx((i) => i + 1); return; }
+    if (!isDeleting && display === word) { const t = setTimeout(() => setDel(true), 1800); return () => clearTimeout(t); }
+    if (isDeleting && display === "") { setDel(false); setWordIdx((i) => i + 1); return; }
     const next = isDeleting ? word.slice(0, display.length - 1) : word.slice(0, display.length + 1);
     const t = setTimeout(() => setDisplay(next), isDeleting ? 35 : 55);
     return () => clearTimeout(t);
@@ -482,8 +356,7 @@ function useFomoToast() {
   const idxRef = useRef(0);
   useEffect(() => {
     const show = () => {
-      const text = fomoLeads[idxRef.current % fomoLeads.length];
-      idxRef.current += 1;
+      const text = fomoLeads[idxRef.current % fomoLeads.length]; idxRef.current += 1;
       setToast({ text, phase: "entering" });
       setTimeout(() => setToast((t) => t ? { ...t, phase: "exiting" } : null), 3500);
       setTimeout(() => setToast(null), 3900);
@@ -495,284 +368,150 @@ function useFomoToast() {
   return toast;
 }
 
-// ── 3D INFINITE CAROUSEL ──────────────────────────────────────────────────────
+// ── HERO IMAGE CAROUSEL ───────────────────────────────────────────────────────
+
+function HeroImageCarousel() {
+  const [cur, setCur] = useState(0);
+  const go = useCallback((n) => setCur((n + heroSlides.length) % heroSlides.length), []);
+  useEffect(() => {
+    const t = setInterval(() => setCur((c) => (c + 1) % heroSlides.length), 4500);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div className="hic-root">
+      {heroSlides.map((s, i) => (
+        <div key={i} className={`hic-slide${i === cur ? " active" : ""}`}>
+          <img src={s.img} alt={s.title} />
+        </div>
+      ))}
+      <div className="hic-overlay" />
+      <div className="hic-text">
+        <h3>{heroSlides[cur].title}</h3>
+        <p>{heroSlides[cur].sub}</p>
+      </div>
+      <button className="hic-arrow hic-arrow-left" onClick={() => go(cur - 1)} aria-label="Previous">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </button>
+      <button className="hic-arrow hic-arrow-right" onClick={() => go(cur + 1)} aria-label="Next">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </button>
+      <div className="hic-dots">
+        {heroSlides.map((_, i) => (
+          <button key={i} className={`hic-dot${i === cur ? " active" : ""}`} onClick={() => setCur(i)} aria-label={`Slide ${i + 1}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── 3D SERVICES CAROUSEL ─────────────────────────────────────────────────────
 
 function ServicesCarousel() {
-  const stageRef = useRef(null);
-  const trackRef = useRef(null);
-  const autoRef = useRef(null);
-  const offsetRef = useRef(0);
-  const itemIdxRef = useRef(CLONE_COUNT);
-  const dragRef = useRef({ active: false, startX: 0, startOffset: 0 });
-  const teleportRef = useRef(false);
-  const wheelTmrRef = useRef(null);
-  // Momentum scroll state
-  const momentumRef = useRef({ velocity: 0, target: 0, rafId: null, active: false });
-
+  const stageRef = useRef(null), trackRef = useRef(null), padXRef = useRef(0);
+  const stageRectRef = useRef(null), offsetRef = useRef(0), itemIdxRef = useRef(CLONE_COUNT);
+  const stepRef = useRef(STEP), dragRef = useRef({ active: false, startX: 0, startOffset: 0 });
+  const teleportRef = useRef(false), autoTimerRef = useRef(null), restartTimerRef = useRef(null), lastWheelRef = useRef(0);
   const [centerIdx, setCenterIdx] = useState(0);
   const [padX, setPadX] = useState(0);
 
-  const pxFor = (iIdx) => iIdx * STEP;
-
-  const applyOffset = (px) => {
-    if (!trackRef.current) return;
-    trackRef.current.style.transform = `translateX(${-px}px)`;
-    offsetRef.current = px;
-  };
-
-  const teleportIfClone = (iIdx) => {
-    const isHead = iIdx >= CLONE_COUNT + N;
-    const isTail = iIdx < CLONE_COUNT;
+  const pxFor       = useCallback((i) => i * stepRef.current, []);
+  const applyOffset = useCallback((px) => { if (!trackRef.current) return; trackRef.current.style.transform = `translateX(${-px}px)`; offsetRef.current = px; }, []);
+  const teleportIfClone = useCallback((iIdx) => {
+    const isHead = iIdx >= CLONE_COUNT + N, isTail = iIdx < CLONE_COUNT;
     if (!isHead && !isTail) return;
-    const realIIdx = isHead ? iIdx - N : iIdx + N;
+    const real = isHead ? iIdx - N : iIdx + N;
     teleportRef.current = true;
     if (trackRef.current) trackRef.current.style.transition = "none";
-    applyOffset(pxFor(realIIdx));
-    itemIdxRef.current = realIIdx;
-    requestAnimationFrame(() => requestAnimationFrame(() => { teleportRef.current = false; }));
-  };
+    applyOffset(pxFor(real)); itemIdxRef.current = real;
+    requestAnimationFrame(() => { teleportRef.current = false; });
+  }, [applyOffset, pxFor]);
 
-  const snapToItem = (iIdx, smooth = true) => {
+  const snapToItem = useCallback((iIdx, smooth = true) => {
     if (teleportRef.current) return;
-    const clamped = Math.max(0, Math.min(TOTAL - 1, iIdx));
-    itemIdxRef.current = clamped;
-    setCenterIdx(allItems[clamped]._real);
+    const c = Math.max(0, Math.min(TOTAL - 1, iIdx));
+    itemIdxRef.current = c; setCenterIdx(allItems[c]._real);
     if (!trackRef.current) return;
-    if (smooth) {
-      const track = trackRef.current;
-      const onEnd = (ev) => {
-        if (ev.propertyName !== "transform") return;
-        track.removeEventListener("transitionend", onEnd);
-        track.style.transition = "none";
-        teleportIfClone(clamped);
-      };
-      track.addEventListener("transitionend", onEnd);
-      track.style.transition = "transform 0.68s cubic-bezier(0.16,1,0.3,1)";
-    } else {
-      trackRef.current.style.transition = "none";
-      teleportIfClone(clamped);
-    }
-    applyOffset(pxFor(clamped));
-  };
+    for (let i = 0; i < trackRef.current.children.length; i++) { trackRef.current.children[i].style.removeProperty("--tilt-y"); trackRef.current.children[i].style.removeProperty("--tilt-x"); }
+    if (smooth) { trackRef.current.style.transition = "transform 0.55s cubic-bezier(0.22,1,0.36,1)"; applyOffset(pxFor(c)); }
+    else { trackRef.current.style.transition = "none"; applyOffset(pxFor(c)); requestAnimationFrame(() => teleportIfClone(c)); }
+  }, [applyOffset, pxFor, teleportIfClone]);
 
-  const snapToReal = (realIdx) => snapToItem(CLONE_COUNT + ((realIdx % N) + N) % N);
-  const snapStep = (delta) => {
-    const next = Math.max(0, Math.min(TOTAL - 1, itemIdxRef.current + delta));
-    snapToItem(next);
-  };
+  const snapToReal      = useCallback((r) => snapToItem(CLONE_COUNT + ((r % N + N) % N)), [snapToItem]);
+  const snapStep        = useCallback((d) => snapToItem(Math.max(0, Math.min(TOTAL - 1, itemIdxRef.current + d))), [snapToItem]);
+  const stopAuto        = useCallback(() => { clearInterval(autoTimerRef.current); clearTimeout(restartTimerRef.current); }, []);
+  const startAuto       = useCallback(() => { clearInterval(autoTimerRef.current); autoTimerRef.current = setInterval(() => snapStep(1), 3600); }, [snapStep]);
+  const scheduleRestart = useCallback((delay = 2000) => { clearTimeout(restartTimerRef.current); restartTimerRef.current = setTimeout(startAuto, delay); }, [startAuto]);
+  const snapFromRaw     = useCallback(() => snapToItem(Math.max(0, Math.min(TOTAL - 1, Math.round(offsetRef.current / stepRef.current)))), [snapToItem]);
 
-  const startAuto = () => { clearInterval(autoRef.current); autoRef.current = setInterval(() => snapStep(1), 3400); };
-  const stopAuto = () => clearInterval(autoRef.current);
-
-  /* Padding: centre first card in viewport */
   useEffect(() => {
-    const calc = () => {
+    const upd = () => {
       if (!stageRef.current) return;
-      setPadX(Math.max(0, Math.floor((stageRef.current.offsetWidth - CARD_W) / 2)));
+      const cw = trackRef.current?.firstElementChild?.offsetWidth || CARD_W;
+      stepRef.current = cw + GAP;
+      const sw = stageRef.current.getBoundingClientRect().width;
+      const np = Math.max(0, Math.floor((sw - cw) / 2));
+      padXRef.current = np; setPadX(np);
+      stageRectRef.current = stageRef.current.getBoundingClientRect();
+      applyOffset(itemIdxRef.current * stepRef.current);
     };
-    calc();
-    window.addEventListener("resize", calc);
-    return () => window.removeEventListener("resize", calc);
-  }, []);
+    upd();
+    const ro = new ResizeObserver(upd);
+    if (stageRef.current) ro.observe(stageRef.current);
+    return () => ro.disconnect();
+  }, [applyOffset]);
 
-  /* Mount */
+  useEffect(() => { snapToItem(CLONE_COUNT, false); startAuto(); return () => stopAuto(); }, []); // eslint-disable-line
+
   useEffect(() => {
-    snapToItem(CLONE_COUNT, false);
-    startAuto();
-    return stopAuto;
-  }, []); // eslint-disable-line
-
-  /* All interactions */
-  useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage) return;
-
-    const snapFromRaw = () => {
-      const nearest = Math.round((offsetRef.current) / STEP);
-      const clamped = Math.max(CLONE_COUNT, Math.min(CLONE_COUNT + N - 1, nearest));
-      snapToItem(clamped);
-    };
-
-    const onMouseDown = (e) => {
-      if (teleportRef.current) return;  
-      stopAuto();
-      if (trackRef.current) trackRef.current.style.transition = "none";
-      dragRef.current = { active: true, startX: e.clientX, startOffset: offsetRef.current };
-    };
-    const onMouseMove = (e) => {
-      if (!dragRef.current.active) return;
-      applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.clientX) * 0.65);
-    };
-    const onMouseUp = () => {
-      if (!dragRef.current.active) return;
-      dragRef.current.active = false;
-      snapFromRaw();
-      startAuto();
-    };
-
-    const onTouchStart = (e) => {
-      if (teleportRef.current) return;
-      stopAuto();
-      if (trackRef.current) trackRef.current.style.transition = "none";
-      dragRef.current = { active: true, startX: e.touches[0].clientX, startOffset: offsetRef.current };
-    };
-    const onTouchMove = (e) => {
-      if (!dragRef.current.active) return;
-      applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.touches[0].clientX) * 0.65);
-    };
-    const onTouchEnd = () => {
-      dragRef.current.active = false;
-      snapFromRaw();
-      startAuto();
-    };
-
-    const runMomentum = () => {
-      const m = momentumRef.current;
-      if (!m.active) return;
-
-      // Decay velocity smoothly (friction)
-      m.velocity *= 0.82;
-      m.target += m.velocity;
-
-      // Apply the continuous offset while momentum is live
-      if (!teleportRef.current && trackRef.current) {
-        trackRef.current.style.transition = "none";
-        applyOffset(m.target);
-        // Teleport at clone boundaries mid-scroll
-        const nearest = Math.round(m.target / STEP);
-        const clamped = Math.max(0, Math.min(TOTAL - 1, nearest));
-        const isHead = clamped >= CLONE_COUNT + N;
-        const isTail = clamped < CLONE_COUNT;
-        if (isHead || isTail) {
-          const realIIdx = isHead ? clamped - N : clamped + N;
-          teleportRef.current = true;
-          applyOffset(pxFor(realIIdx));
-          m.target = pxFor(realIIdx);
-          itemIdxRef.current = realIIdx;
-          requestAnimationFrame(() => requestAnimationFrame(() => { teleportRef.current = false; }));
-        }
-      }
-
-      if (Math.abs(m.velocity) > 0.4) {
-        m.rafId = requestAnimationFrame(runMomentum);
-      } else {
-        // Momentum died — snap to nearest card
-        m.active = false;
-        const nearest = Math.round(offsetRef.current / STEP);
-        const clamped = Math.max(CLONE_COUNT, Math.min(CLONE_COUNT + N - 1, nearest));
-        snapToItem(clamped);
-        wheelTmrRef.current = setTimeout(startAuto, 1600);
-      }
-    };
-
-    const onWheel = (e) => {
-      e.preventDefault();
-      if (teleportRef.current) return;
-      stopAuto();
-      clearTimeout(wheelTmrRef.current);
-      cancelAnimationFrame(momentumRef.current.rafId);
-
-      const m = momentumRef.current;
-      // Accumulate velocity — trackpads fire many small events, mice fire a few big ones.
-      // Cap per-event contribution so a single large tick doesn't overshoot.
-      const contribution = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY) * 0.55, 18);
-      m.velocity = (m.active ? m.velocity : 0) + contribution;
-      m.target = offsetRef.current;
-      m.active = true;
-      m.rafId = requestAnimationFrame(runMomentum);
-    };
-
-    const onTilt = (e) => {
-      if (dragRef.current.active) return;
-      const card = trackRef.current?.querySelector(".svc-card.pos-center");
-      if (!card) return;
-      const r = stage.getBoundingClientRect();
-      const mx = (e.clientX - r.left) / r.width - 0.5;
-      const my = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transform = `scale(1) translateZ(0) rotateY(${mx * -7}deg) rotateX(${my * 4}deg)`;
-    };
-    const onTiltLeave = () => {
-      const card = trackRef.current?.querySelector(".svc-card.pos-center");
-      if (card) card.style.transform = "scale(1) rotateY(0deg) rotateX(0deg) translateZ(0)";
-    };
-
-    stage.addEventListener("mousedown", onMouseDown);
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
-    stage.addEventListener("touchstart", onTouchStart, { passive: true });
-    stage.addEventListener("touchmove", onTouchMove, { passive: true });
-    stage.addEventListener("touchend", onTouchEnd);
-    stage.addEventListener("wheel", onWheel, { passive: false });
-    stage.addEventListener("mousemove", onTilt);
-    stage.addEventListener("mouseleave", onTiltLeave);
-
+    const stage = stageRef.current; if (!stage) return;
+    const md  = (e) => { if (teleportRef.current) return; stopAuto(); if (trackRef.current) trackRef.current.style.transition = "none"; dragRef.current = { active:true, startX:e.clientX, startOffset:offsetRef.current }; };
+    const mm  = (e) => { if (!dragRef.current.active) return; applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.clientX)); };
+    const mu  = () => { if (!dragRef.current.active) return; dragRef.current.active = false; snapFromRaw(); scheduleRestart(); };
+    const ts  = (e) => { if (teleportRef.current) return; stopAuto(); if (trackRef.current) trackRef.current.style.transition = "none"; dragRef.current = { active:true, startX:e.touches[0].clientX, startOffset:offsetRef.current }; };
+    const tm  = (e) => { if (!dragRef.current.active) return; applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.touches[0].clientX) * 1.5); };
+    const te  = () => { if (!dragRef.current.active) return; dragRef.current.active = false; snapFromRaw(); scheduleRestart(); };
+    const wh  = (e) => { const isH = Math.abs(e.deltaX) > Math.abs(e.deltaY); if (isH) e.preventDefault(); if (teleportRef.current) return; const now = Date.now(); if (now - lastWheelRef.current < 420) return; const val = isH ? e.deltaX : e.deltaY; if (Math.abs(val) < 15) return; lastWheelRef.current = now; stopAuto(); snapStep(val > 0 ? 1 : -1); scheduleRestart(2000); };
+    const smm = (e) => { if (dragRef.current.active) return; const card = trackRef.current?.children[itemIdxRef.current]; if (!card) return; const r = stageRectRef.current; if (!r) return; card.style.setProperty("--tilt-y", `${((e.clientX - r.left)/r.width - 0.5)*-8}deg`); card.style.setProperty("--tilt-x", `${((e.clientY - r.top)/r.height - 0.5)*5}deg`); };
+    const sml = () => { const card = trackRef.current?.children[itemIdxRef.current]; if (!card) return; card.style.setProperty("--tilt-y","0deg"); card.style.setProperty("--tilt-x","0deg"); };
+    stage.addEventListener("mousedown", md); window.addEventListener("mousemove", mm); window.addEventListener("mouseup", mu);
+    stage.addEventListener("touchstart", ts, { passive:true }); stage.addEventListener("touchmove", tm, { passive:true }); stage.addEventListener("touchend", te);
+    stage.addEventListener("wheel", wh, { passive:false }); stage.addEventListener("mousemove", smm); stage.addEventListener("mouseleave", sml);
     return () => {
-      stage.removeEventListener("mousedown", onMouseDown);
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
-      stage.removeEventListener("touchstart", onTouchStart);
-      stage.removeEventListener("touchmove", onTouchMove);
-      stage.removeEventListener("touchend", onTouchEnd);
-      stage.removeEventListener("wheel", onWheel);
-      stage.removeEventListener("mousemove", onTilt);
-      stage.removeEventListener("mouseleave", onTiltLeave);
-      clearTimeout(wheelTmrRef.current);
+      stage.removeEventListener("mousedown", md); window.removeEventListener("mousemove", mm); window.removeEventListener("mouseup", mu);
+      stage.removeEventListener("touchstart", ts); stage.removeEventListener("touchmove", tm); stage.removeEventListener("touchend", te);
+      stage.removeEventListener("wheel", wh); stage.removeEventListener("mousemove", smm); stage.removeEventListener("mouseleave", sml);
     };
-  }, []); // eslint-disable-line
+  }, [applyOffset, snapFromRaw, snapStep, stopAuto, scheduleRestart]);
 
-  const posClass = (realIdx) => {
-    let d = realIdx - centerIdx;
-    if (d > N / 2) d -= N;
-    if (d < -N / 2) d += N;
-    if (d === 0) return "svc-card pos-center";
-    if (d === -1) return "svc-card pos-l1";
-    if (d === -2) return "svc-card pos-l2";
-    if (d === 1) return "svc-card pos-r1";
-    if (d === 2) return "svc-card pos-r2";
-    return "svc-card";
-  };
+  const posClass = (ri) => { let d = ri - centerIdx; if (d > N/2) d -= N; if (d < -N/2) d += N; if (d===0) return "svc-card pos-center"; if (d===-1) return "svc-card pos-l1"; if (d===-2) return "svc-card pos-l2"; if (d===1) return "svc-card pos-r1"; if (d===2) return "svc-card pos-r2"; return "svc-card"; };
 
   return (
     <section className="svc-section section--alt">
       <div className="svc-header">
-        <div>
-          <div className="kicker reveal">Services</div>
-          <h2 className="h2 reveal" style={{ fontSize: "clamp(1.9rem,3.5vw,2.4rem)", marginTop: 8 }}>
-            Simple, focused offerings
-          </h2>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div><div className="kicker reveal">Services</div><h2 className="h2 reveal" style={{ marginTop:8 }}>End-to-end solutions, built to scale</h2></div>
+        <div style={{ display:"flex", alignItems:"center", gap:12 }}>
           <div className="svc-nav">
-            <button className="svc-nav-btn" aria-label="Previous"
-              onClick={() => { stopAuto(); snapStep(-1); startAuto(); }}>←</button>
-            <button className="svc-nav-btn" aria-label="Next"
-              onClick={() => { stopAuto(); snapStep(1); startAuto(); }}>→</button>
+            <button className="svc-nav-btn" onClick={() => { stopAuto(); snapStep(-1); scheduleRestart(); }}>←</button>
+            <button className="svc-nav-btn" onClick={() => { stopAuto(); snapStep(1);  scheduleRestart(); }}>→</button>
           </div>
           <Link className="btn btn--ghost btn--sm" to="/services">View all</Link>
         </div>
       </div>
-
       <div className="svc-stage" ref={stageRef}>
         <div className="svc-persp">
-          <div className="svc-track" ref={trackRef} style={{ paddingLeft: padX, paddingRight: padX }}>
+          <div className="svc-track" ref={trackRef} style={{ paddingLeft:padX, paddingRight:padX }}
+            onTransitionEnd={(ev) => { if (ev.propertyName !== "transform" || ev.target !== trackRef.current) return; trackRef.current.style.transition = "none"; teleportIfClone(itemIdxRef.current); }}
+          >
             {allItems.map((s) => (
-              <div key={s._key} className={posClass(s._real)}
-                onClick={() => { stopAuto(); snapToReal(s._real); startAuto(); }}>
-                <div className="svc-card-img">
-                  <img src={s.image} alt={s.title} loading="lazy" />
-                  <div className="svc-card-img-fade" />
-                </div>
+              <div key={s._key} className={posClass(s._real)} onClick={() => { stopAuto(); snapToReal(s._real); scheduleRestart(); }}>
+                <div className="svc-card-img"><img src={s.image} alt={s.title} loading="lazy" draggable={false} /><div className="svc-card-img-fade" /></div>
                 <div className="svc-card-body">
                   <div className="svc-card-badge">{s.badge}</div>
                   <h3 className="svc-card-title">{s.title}</h3>
                   <p className="svc-card-desc">{s.desc}</p>
                   <div className="svc-card-footer">
-                    <Link to="/services" className="btn btn--ghost btn--sm">Learn more</Link>
-                    <div className="svc-card-arr">
-                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
+                    <Link to={s.path} className="btn btn--ghost btn--sm" onClick={(e) => e.stopPropagation()}>Learn more</Link>
+                    <div className="svc-card-arr"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg></div>
                   </div>
                 </div>
               </div>
@@ -780,13 +519,8 @@ function ServicesCarousel() {
           </div>
         </div>
       </div>
-
       <div className="svc-dots">
-        {offerings.map((_, i) => (
-          <button key={i} className={`svc-dot${i === centerIdx ? " active" : ""}`}
-            onClick={() => { stopAuto(); snapToReal(i); startAuto(); }}
-            aria-label={`Go to ${offerings[i].title}`} />
-        ))}
+        {offerings.map((s, i) => (<button key={i} className={`svc-dot${i===centerIdx?" active":""}`} onClick={() => { stopAuto(); snapToReal(i); scheduleRestart(); }} aria-label={s.title} />))}
       </div>
     </section>
   );
@@ -796,9 +530,9 @@ function ServicesCarousel() {
 
 export default function Home() {
   useReveal();
-  useLottieScript();           // ← loads lottie-player for trust cards
+  useLottieScript();
   const twWord = useTypewriter();
-  const toast = useFomoToast();
+  const toast  = useFomoToast();
   const ctaRef = useRef(null);
   useBarFillOnScroll(ctaRef);
 
@@ -806,81 +540,153 @@ export default function Home() {
     <div>
       <style>{pageStyles}</style>
 
-      {/* FOMO Toast */}
       {toast && (
         <div className={`fomo-toast ${toast.phase}`}>
           <div className="fomo-dot" />
-          <span style={{ fontSize: 12, color: "#1a1a1a", lineHeight: 1.4 }}>{toast.text}</span>
+          <span style={{ fontSize:12, color:"#1a1a1a", lineHeight:1.4 }}>{toast.text}</span>
         </div>
       )}
 
-      {/* ── HERO ── */}
+      {/* ══ HERO ══ */}
       <section className="section">
-        <div className="container grid grid-2" style={{ alignItems: "center", gap: 40 }}>
-
-          {/* Left col */}
-          <div>
-            <div className="kicker h-anim-1">Enterprise IT services</div>
-            <h1 className="h1 h-anim-2" style={{ marginTop: 12 }}>
-              Transformative solutions for{" "}
-              <span style={{ whiteSpace: "nowrap" }}>
-                {twWord}<span className="tw-cursor" aria-hidden="true" />
-              </span>
-            </h1>
-            <p className="lead h-anim-3" style={{ marginTop: 16, maxWidth: "65ch" }}>
-              We provide a unique and flexible delivery model to help you address short-term skill gaps, deliver project results, and transform your organization by creating the right team that can scale up or down quickly and cost effectively to fit your needs.
-When you need deep expertise and a tailored approach to consulting, you know Protiviti. But what if you need critical or scarce skillsets, help with implementing the right technology, optimizing finance and accounting solutions, or finding the right partner to build a project team or outsource a business function?
-
-            </p>
-            <div className="h-anim-4" style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 24 }}>
-              <Link className="btn btn--primary" to="/contact">Get in touch</Link>
-              <Link className="btn btn--ghost" to="/services">View services</Link>
+        <div className="container">
+          <div className="grid grid-2 hero-grid" style={{ alignItems:"center", gap:40 }}>
+            <div>
+              <div className="kicker h-anim-1">Enterprise IT services</div>
+              <h1 className="h1 h-anim-2" style={{ marginTop:12 }}>
+                Build, scale, and transform your technology faster —
+                <span className="tw-word-block">{twWord}<span className="tw-cursor" aria-hidden="true" /></span>
+              </h1>
+              <p className="lead h-anim-3" style={{ marginTop:20, maxWidth:"58ch" }}>
+                Flexible consulting, staffing, and data solutions designed to help you deliver results —
+                without long-term overhead. We adapt to your needs, quickly and cost-effectively.
+              </p>
+              <div className="h-anim-4 btn-row" style={{ display:"flex", gap:10, marginTop:24 }}>
+                <Link className="btn btn--primary" to="/contact">Get in touch</Link>
+                <Link className="btn btn--ghost"   to="/services">View services</Link>
+              </div>
             </div>
-            <div className="grid grid-3 h-anim-5" style={{ marginTop: 24 }}>
-              {[["12+", "Industries served"], ["Global", "USA · Mexico · Canada · India"], ["NDA", "Ready on day one"]].map(([a, b]) => (
-                <div key={a} className="card card__p card-lift" style={{ textAlign: "center" }}>
-                  <div style={{ fontFamily: "var(--font)", fontWeight: 800, fontSize: 20, color: "var(--text)" }}>{a}</div>
-                  <div className="lead" style={{ fontSize: 13, marginTop: 4 }}>{b}</div>
+            <div className="h-anim-5">
+              <HeroImageCarousel />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ SERVICES CAROUSEL ══ */}
+      <ServicesCarousel />
+
+      {/* ══ WHAT WE DO INTRO ══ */}
+      <section className="section">
+        <div className="container">
+          <div className="kicker reveal">What we do</div>
+          <h2 className="h2 reveal" style={{ marginTop:8 }}>
+            The right talent, tools, and strategy —<br />exactly when you need them
+          </h2>
+          <div className="section-divider reveal" />
+          <div className="grid content-two-col reveal" style={{ gap:48, marginTop:8, alignItems:"stretch" }}>
+            <div className="intro-band">
+              <p>
+                We help businesses solve complex technology challenges by providing the right people and expertise — on demand. Whether you're filling a short-term skill gap or delivering a large-scale transformation, our flexible model adapts to your timeline and budget.
+              </p>
+              <p style={{ marginTop:16 }}>
+                When you need deep expertise and a tailored approach, you know InionData. From critical technical skills to full project delivery — we're ready to become an extension of your team, immediately.
+              </p>
+            </div>
+            <div className="our-svc-strip">
+              <div className="kicker" style={{ marginBottom:16 }}>Our Services</div>
+              <p>
+                From IT staffing to strategic consulting and data engineering, we offer a comprehensive range of services tailored to modern businesses. One partner, every capability — so you can focus on what matters most: delivering results.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ STAFFING SOLUTIONS ══ */}
+      <section className="section section--alt">
+        <div className="container">
+          <div className="grid content-two-col" style={{ gap:64, alignItems:"center" }}>
+            <div className="reveal">
+              <div className="kicker">Staffing</div>
+              <h2 className="h2" style={{ marginTop:10 }}>Get the right talent — at the right time</h2>
+              <div className="section-divider" />
+              <p className="lead" style={{ fontSize:15 }}>
+                Build high-performing teams without the hiring overhead. We provide pre-vetted professionals who are ready to contribute from day one — matched to your technical requirements and team culture.
+              </p>
+              <div style={{ marginTop:28 }}>
+                <Link className="btn btn--primary" to="/services">Explore staffing</Link>
+              </div>
+            </div>
+            <div className="reveal-group" style={{ display:"flex", flexDirection:"column", gap:16 }}>
+              {staffingItems.map((item, i) => (
+                <div key={item.num} className="staffing-card reveal" style={{ "--i": i }}>
+                  <div className="staffing-num">{item.num}</div>
+                  <div className="staffing-title">{item.title}</div>
+                  <p className="staffing-desc">{item.desc}</p>
                 </div>
               ))}
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Right col */}
-          <div className="h-anim-5" style={{ display: "grid", gap: 14 }}>
-            <div style={{ height: 210, borderRadius: 16, overflow: "hidden", position: "relative" }}>
-              <img
-                className="img-cover ken-burns"
-                src="https://www.iniondata.com/images/3.png"
-                alt="Team working on data dashboards"
-                onError={(e) => { e.currentTarget.style.display = "none"; }}
-              />
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top,rgba(0,0,0,.45) 0%,transparent 60%)", pointerEvents: "none" }} />
-              <span style={{ position: "absolute", bottom: 12, left: 14, background: "rgba(255,255,255,.92)", color: "#1a1a1a", fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20, letterSpacing: "0.04em" }}>
-                Delivery health
-              </span>
-            </div>
-
-            <div className="card" style={{ padding: 22 }}>
-              <div className="kicker" style={{ marginBottom: 14 }}>Snapshot</div>
-              <div className="card card-i" style={{ padding: 16, borderRadius: 14 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                  <div>
-                    <div style={{ fontWeight: 800, fontSize: 16, color: "var(--text)" }}>On-time trend</div>
-                    <div className="lead" style={{ fontSize: 13 }}>On-time / on-budget</div>
+      {/* ══ CONSULTING SERVICES ══ */}
+      <section className="section">
+        <div className="container">
+          <div className="grid content-two-col" style={{ gap:64, alignItems:"flex-start" }}>
+            <div className="reveal">
+              <div className="icon-list">
+                {consultingItems.map((item) => (
+                  <div key={item.title} className="icon-item">
+                    <div className="icon-item-icon">{item.icon}</div>
+                    <div className="icon-item-body">
+                      <h4>{item.title}</h4>
+                      <p>{item.desc}</p>
+                    </div>
                   </div>
-                  <svg width="96" height="36" viewBox="0 0 96 36" fill="none" aria-hidden="true">
-                    <path className="sparkline-path" d="M4 28 C18 20,28 24,40 16 C52 8,62 14,74 10 C82 7,88 10,92 8" stroke="#14b8a6" strokeWidth="2.5" strokeLinecap="round" />
-                    <path d="M4 30H92" stroke="rgba(255,255,255,.07)" strokeWidth="1" />
-                  </svg>
-                </div>
+                ))}
               </div>
-              <div className="grid grid-2" style={{ marginTop: 12 }}>
-                {[["Quality", "Review-led", "PR checks + handover docs"], ["Security", "Least access", "Tight scopes & auditability"]].map(([k, v, d]) => (
-                  <div key={k} className="card card-i card-lift" style={{ padding: 14, borderRadius: 14 }}>
-                    <div className="kicker" style={{ marginBottom: 6 }}>{k}</div>
-                    <div style={{ fontWeight: 800, fontSize: 17, color: "var(--text)" }}>{v}</div>
-                    <div className="lead" style={{ fontSize: 12, marginTop: 4 }}>{d}</div>
+            </div>
+            <div className="reveal" style={{ position:"sticky", top:120 }}>
+              <div className="kicker">Advisory</div>
+              <h2 className="h2" style={{ marginTop:10 }}>Expert guidance for complex technology decisions</h2>
+              <div className="section-divider" />
+              <p className="lead" style={{ fontSize:15 }}>
+                Turn technology challenges into strategic advantages. Our consultants bring deep domain expertise and a track record of delivering results across industries — so you get guidance from people who've solved problems like yours before.
+              </p>
+              <div style={{ marginTop:28 }}>
+                <Link className="btn btn--primary" to="/services/consulting">Learn more</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ PROJECT MANAGEMENT ══ */}
+      <section className="section section--alt">
+        <div className="container">
+          <div className="grid content-two-col" style={{ gap:64, alignItems:"flex-start" }}>
+            <div className="reveal" style={{ position:"sticky", top:120 }}>
+              <div className="kicker">Delivery</div>
+              <h2 className="h2" style={{ marginTop:10 }}>Deliver projects on time — and with confidence</h2>
+              <div className="section-divider" />
+              <p className="lead" style={{ fontSize:15 }}>
+                We ensure your projects stay on track, within scope, and aligned with your goals. End-to-end ownership, from kickoff to go-live — so nothing falls through the cracks.
+              </p>
+              <div style={{ marginTop:28 }}>
+                <Link className="btn btn--primary" to="/services/project-management">Learn more</Link>
+              </div>
+            </div>
+            <div className="reveal">
+              <div className="icon-list">
+                {pmItems.map((item) => (
+                  <div key={item.title} className="icon-item">
+                    <div className="icon-item-icon">{item.icon}</div>
+                    <div className="icon-item-body">
+                      <h4>{item.title}</h4>
+                      <p>{item.desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -889,100 +695,59 @@ When you need deep expertise and a tailored approach to consulting, you know Pro
         </div>
       </section>
 
-      {/* ── TRUST ── */}
-      <section className="section section--alt">
+      {/* ══ TRUST ══ */}
+      <section className="section">
         <div className="container">
           <div className="kicker reveal">Why teams trust us</div>
-          <h2 className="h2 reveal" style={{ fontSize: "clamp(1.9rem,3.5vw,2.4rem)", marginTop: 8 }}>
-            Built for enterprise-scale delivery
-          </h2>
-
-          <div className="reveal" style={{ marginTop: 24, borderRadius: 16, overflow: "hidden", height: 170, position: "relative" }}>
-            <img
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=75"
-              alt="Collaborative team" loading="lazy"
-              onError={(e) => { e.currentTarget.style.display = "none"; }}
-            />
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(0,0,0,.58) 0%,transparent 65%)", pointerEvents: "none" }} />
-            <div style={{ position: "absolute", bottom: 18, left: 22, color: "#fff" }}>
-              <div style={{ fontSize: 13, opacity: 0.8, marginBottom: 4 }}>Trusted by enterprises across Financial Services, Healthcare, Retail, Manufacturing & more</div>
-              <div style={{ fontSize: 18, fontWeight: 600 }}>Specialised. Scalable. Results-driven.</div>
+          <h2 className="h2 reveal" style={{ marginTop:8 }}>Built for enterprise-scale delivery</h2>
+          <div className="reveal trust-banner" style={{ marginTop:24, borderRadius:16, overflow:"hidden", height:170, position:"relative" }}>
+            <img style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=75" alt="Team" loading="lazy" onError={(e)=>{e.currentTarget.style.display="none";}} />
+            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to right,rgba(0,0,0,.58) 0%,transparent 65%)", pointerEvents:"none" }} />
+            <div style={{ position:"absolute", bottom:18, left:22, color:"#fff" }}>
+              <div style={{ fontSize:13, opacity:0.8, marginBottom:4 }}>Trusted by enterprises across Financial Services, Healthcare, Retail, Manufacturing &amp; more</div>
+              <div style={{ fontSize:18, fontWeight:600 }}>Specialised. Scalable. Results-driven.</div>
             </div>
           </div>
-
-          <div className="marquee-wrap reveal" style={{ marginTop: 24, padding: "8px 0" }}>
+          <div className="marquee-wrap reveal" style={{ marginTop:24, padding:"8px 0" }}>
             <div className="marquee-track">
-              {[...clientLogos, ...clientLogos].map((name, i) => (
-                <span key={i} style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--muted)", whiteSpace: "nowrap", userSelect: "none" }}>
-                  {name}
-                </span>
-              ))}
+              {[...clientLogos,...clientLogos].map((name,i)=>(<span key={i} style={{ fontSize:13, fontWeight:600, letterSpacing:"0.07em", textTransform:"uppercase", color:"var(--muted)", whiteSpace:"nowrap", userSelect:"none" }}>{name}</span>))}
             </div>
           </div>
-
-          {/* ── Trust cards with Lottie ── */}
-          <div className="grid grid-3 reveal-group" style={{ marginTop: 22 }}>
-            {trust.map((t, i) => (
-              <div key={t.title} className="card card-lift trust-card " style={{ "--i": i }}>
-                {/* Lottie animation panel */}
-                <div className="trust-lottie-wrap">
-                  <lottie-player
-                    autoplay
-                    loop
-                    mode="normal"
-                    src={t.lottie}
-                  />
-                </div>
-                {/* Text body */}
-                <div className="trust-card-body">
-                  <h3>{t.title}</h3>
-                  <p>{t.desc}</p>
-                </div>
+          <div className="grid grid-3 trust-grid reveal-group" style={{ marginTop:22 }}>
+            {trust.map((t,i)=>(
+              <div key={t.title} className="card card-lift trust-card reveal" style={{"--i":i}}>
+                <div className="trust-lottie-wrap"><lottie-player autoplay loop mode="normal" src={t.lottie} /></div>
+                <div className="trust-card-body"><h3>{t.title}</h3><p>{t.desc}</p></div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── SERVICES 3D CAROUSEL ── */}
-      <ServicesCarousel />
-
-      {/* ── CTA ── */}
+      {/* ══ CTA ══ */}
       <section className="section section--alt">
-        <div className="container card reveal" style={{ padding: 0, overflow: "hidden" }}>
-          <div className="grid grid-2" style={{ alignItems: "stretch", gap: 0 }}>
-            <div style={{ padding: 36 }}>
+        <div className="container card reveal" style={{ padding:0, overflow:"hidden" }}>
+          <div className="grid grid-2 cta-grid" style={{ alignItems:"stretch", gap:0 }}>
+            <div style={{ padding:"clamp(24px,4vw,40px)" }}>
               <div className="kicker">Next step</div>
-              <h2 className="h2" style={{ fontSize: "clamp(1.7rem,3vw,2.1rem)", marginTop: 10 }}>
-                Tell us what you need to transform.
-              </h2>
-              <p className="lead" style={{ marginTop: 10, fontSize: 15 }}>
-                From greenfield migrations to post-Go-Live support — we bring speed, precision, and reliability to your digital initiatives.
-              </p>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 22 }}>
-                <Link className="btn btn--primary" to="/contact">Contact</Link>
-                <Link className="btn btn--ghost" to="/about">About us</Link>
+              <h2 className="h2" style={{ marginTop:10 }}>Tell us what you need to build.</h2>
+              <p className="lead" style={{ marginTop:10, fontSize:15 }}>From greenfield projects to post-Go-Live support — we bring speed, precision, and reliability to every engagement. Let's make it happen.</p>
+              <div className="btn-row" style={{ display:"flex", gap:10, marginTop:22 }}>
+                <Link className="btn btn--primary" to="/contact">Contact us</Link>
+                <Link className="btn btn--ghost"   to="/about">About us</Link>
               </div>
             </div>
-            <div ref={ctaRef} style={{ position: "relative", minHeight: 240, overflow: "hidden" }}>
-              <img
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=700&q=75"
-                alt="Team collaborating" loading="lazy"
-                onError={(e) => { e.currentTarget.style.display = "none"; }}
-              />
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to left,transparent 35%,rgba(7,16,14,0.96) 100%)", pointerEvents: "none" }} />
-              <div className="card" style={{ position: "absolute", bottom: 16, right: 16, padding: "14px 18px", minWidth: 176, backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}>
-                <div className="kicker" style={{ marginBottom: 10 }}>Timeline</div>
-                <div style={{ display: "grid", gap: 9 }}>
-                  {[["Discovery", 24], ["Plan", 48], ["Deliver", 72]].map(([label, pct]) => (
-                    <div key={label} style={{ display: "grid", gridTemplateColumns: "68px 1fr 38px", alignItems: "center", gap: 8, fontSize: 12 }}>
-                      <div style={{ fontWeight: 600, color: "var(--text)" }}>{label}</div>
-                      <div className="bar-track">
-                        <div className="bar-fill-js" data-target-width={`${pct}%`} />
-                      </div>
-                      <div style={{ fontWeight: 800, color: "var(--muted)", textAlign: "right" }}>{pct}h</div>
+            <div className="cta-photo" ref={ctaRef} style={{ position:"relative", minHeight:240, overflow:"hidden" }}>
+              <img style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=700&q=75" alt="Team" loading="lazy" onError={(e)=>{e.currentTarget.style.display="none";}} />
+              <div style={{ position:"absolute", inset:0, background:"linear-gradient(to left,transparent 35%,rgba(7,16,14,0.96) 100%)", pointerEvents:"none" }} />
+              <div className="card" style={{ position:"absolute", bottom:16, right:16, padding:"14px 18px", minWidth:176, backdropFilter:"blur(8px)", WebkitBackdropFilter:"blur(8px)" }}>
+                <div className="kicker" style={{ marginBottom:10 }}>Timeline</div>
+                <div style={{ display:"grid", gap:9 }}>
+                  {[["Discovery",24],["Plan",48],["Deliver",72]].map(([label,pct])=>(
+                    <div key={label} style={{ display:"grid", gridTemplateColumns:"68px 1fr 38px", alignItems:"center", gap:8, fontSize:12 }}>
+                      <div style={{ fontWeight:600, color:"var(--text)" }}>{label}</div>
+                      <div className="bar-track"><div className="bar-fill-js" data-target-width={`${pct}%`} /></div>
+                      <div style={{ fontWeight:800, color:"var(--muted)", textAlign:"right" }}>{pct}h</div>
                     </div>
                   ))}
                 </div>
