@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 import { useReveal, ANIM_CSS } from "../../animations";
 
-// ── DATA ─────────────────────────────────────────
-// All copy word-for-word from WebSite_Content.docx
-
 const capabilities = [
   {
     title: "Data Strategy & Consulting",
@@ -61,7 +58,6 @@ const capabilities = [
   },
 ];
 
-// Delivery approach – word-for-word from docx
 const deliverySteps = [
   { n: "01", title: "Discovery & Assessment", desc: "We analyze your current data landscape, challenges, and goals." },
   { n: "02", title: "Architecture & Roadmap", desc: "We design scalable, future-proof data architecture tailored to your business." },
@@ -69,17 +65,13 @@ const deliverySteps = [
   { n: "04", title: "Optimization & Support", desc: "We monitor, refine, and evolve your data ecosystem as your needs grow." },
 ];
 
-// ★ Added by Claude — impact metrics
 const metrics = [
   { value: "6×", label: "Faster time-to-insight" },
   { value: "80%", label: "Reduction in manual reporting" },
   { value: "100%", label: "Cloud-native delivery" },
 ];
 
-// Industries from docx "Industries We Support" section
 const industries = ["Financial Services", "Healthcare & Life Sciences", "Retail & eCommerce", "Manufacturing", "Technology & SaaS", "Logistics & Supply Chain"];
-
-// ── STYLES ───────────────────────────────────────
 
 const styles = `
 @keyframes da-bar  { from{transform:scaleY(0)} to{transform:scaleY(1)} }
@@ -90,6 +82,10 @@ const styles = `
 .da-hero { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; position:relative; }
 .da-hero-visual { position:relative; display:flex; align-items:center; justify-content:center; animation:da-drift 7s ease-in-out infinite; }
 .da-hero-visual::before { content:''; position:absolute; inset:-60px; border-radius:50%; background:radial-gradient(circle,rgba(20,184,166,.12),transparent 65%); pointer-events:none; animation:da-pulse 5s ease-in-out infinite; }
+
+/* Mobile hero image */
+.da-hero-img-mobile { display:none; width:100%; border-radius:20px; overflow:hidden; margin-top:8px; }
+.da-hero-img-mobile img { width:100%; display:block; border-radius:20px; max-height:260px; object-fit:cover; }
 
 .da-stat-band { display:grid; grid-template-columns:repeat(3,1fr); margin-top:60px; border-radius:20px; overflow:hidden; border:1px solid rgba(255,255,255,.08); }
 .da-stat { padding:32px 28px; text-align:center; background:rgba(255,255,255,.03); border-right:1px solid rgba(255,255,255,.08); transition:.25s; }
@@ -127,11 +123,25 @@ const styles = `
 
 .da-cta-blurb { margin-top:56px; padding:40px 44px; border-radius:20px; background:rgba(20,184,166,.05); border:1px solid rgba(20,184,166,.18); }
 
-@media(max-width:1000px) { .da-hero { grid-template-columns:1fr } .da-hero-visual { display:none } .da-grid { grid-template-columns:1fr 1fr } .da-delivery { grid-template-columns:1fr 1fr } .da-connector { display:none } }
-@media(max-width:640px) { .da-grid { grid-template-columns:1fr } .da-stat-band { grid-template-columns:1fr } .da-stat { border-right:none; border-bottom:1px solid rgba(255,255,255,.08) } .da-delivery { grid-template-columns:1fr } }
+@media(max-width:1000px) {
+  .da-hero { grid-template-columns:1fr; gap:32px }
+  .da-hero-visual { display:none }
+  .da-hero-img-mobile { display:block }
+  .da-grid { grid-template-columns:1fr 1fr }
+  .da-delivery { grid-template-columns:1fr 1fr }
+  .da-connector { display:none }
+  .da-cta-blurb { padding:28px 24px }
+}
+@media(max-width:640px) {
+  .da-grid { grid-template-columns:1fr }
+  .da-stat-band { grid-template-columns:1fr }
+  .da-stat { border-right:none; border-bottom:1px solid rgba(255,255,255,.08) }
+  .da-stat:last-child { border-bottom:none }
+  .da-delivery { grid-template-columns:1fr }
+  .da-cta-blurb { padding:20px 16px }
+}
 `;
 
-// SVG icon map
 const daIcons = {
   target: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>,
   merge: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 009 9"/></svg>,
@@ -148,7 +158,6 @@ export default function DataAnalytics() {
       <style>{styles}</style>
       <style>{ANIM_CSS}</style>
 
-      {/* HERO */}
       <section className="section" style={{ overflow: "hidden" }}>
         <div className="container da-hero">
           <div>
@@ -159,7 +168,6 @@ export default function DataAnalytics() {
                 strategic insight.
               </span>
             </h1>
-            {/* Word-for-word from docx */}
             <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
               At InionData, we help you move beyond data collection to data-driven decision-making. Whether you're just starting out or scaling fast, we transform complex data into clear, actionable strategies that unlock growth and innovation.
             </p>
@@ -167,9 +175,16 @@ export default function DataAnalytics() {
               <Link className="btn btn--primary" to="/contact">Start a project</Link>
               <Link className="btn btn--ghost" to="/services">All services</Link>
             </div>
+            <div className="da-hero-img-mobile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&q=75"
+                alt="Data analytics dashboard"
+                loading="lazy"
+                onError={(e) => { e.currentTarget.style.display = "none"; }}
+              />
+            </div>
           </div>
 
-          {/* ★ Added by Claude — bar chart + trend line SVG using site palette */}
           <div className="da-hero-visual reveal">
             <svg viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", maxWidth: 420 }}>
               {[0,1,2,3,4].map(i => (
@@ -199,7 +214,6 @@ export default function DataAnalytics() {
           </div>
         </div>
 
-        {/* Stats — ★ Added by Claude */}
         <div className="container">
           <div className="da-stat-band reveal">
             {metrics.map(m => (
@@ -212,7 +226,6 @@ export default function DataAnalytics() {
         </div>
       </section>
 
-      {/* CAPABILITIES — word-for-word from docx */}
       <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Capabilities</div>
@@ -230,7 +243,6 @@ export default function DataAnalytics() {
         </div>
       </section>
 
-      {/* DELIVERY APPROACH — word-for-word from docx */}
       <section className="section">
         <div className="container">
           <div className="kicker reveal">Our approach</div>
@@ -250,7 +262,6 @@ export default function DataAnalytics() {
         </div>
       </section>
 
-      {/* INDUSTRIES */}
       <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Industries</div>
@@ -258,7 +269,6 @@ export default function DataAnalytics() {
           <div className="da-industries reveal">
             {industries.map(i => <div key={i} className="da-ind-pill">{i}</div>)}
           </div>
-          {/* Word-for-word from docx */}
           <div className="da-cta-blurb reveal">
             <h3 style={{ margin: "0 0 12px", fontSize: 22, fontWeight: 800 }}>Let's Build Your Data Advantage</h3>
             <p style={{ margin: "0 0 24px", fontSize: 15, color: "var(--muted)", lineHeight: 1.7 }}>
@@ -269,7 +279,6 @@ export default function DataAnalytics() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="section">
         <div className="container">
           <div className="cta-band reveal">

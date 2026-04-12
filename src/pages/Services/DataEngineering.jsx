@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 import { useReveal, ANIM_CSS } from "../../animations";
 
-// ── DATA ─────────────────────────────────────────
-// All copy word-for-word from WebSite_Content.docx
-
 const capabilities = [
   {
     title: "Modern Data Architecture",
@@ -67,7 +64,6 @@ const capabilities = [
   },
 ];
 
-// Delivery approach – word-for-word from docx
 const deliverySteps = [
   { n: "01", title: "Discovery & Assessment", desc: "We analyze your current data landscape, challenges, and goals." },
   { n: "02", title: "Architecture & Roadmap", desc: "We design scalable, future-proof data architecture tailored to your business." },
@@ -75,27 +71,26 @@ const deliverySteps = [
   { n: "04", title: "Optimization & Support", desc: "We monitor, refine, and evolve your data ecosystem as your needs grow." },
 ];
 
-// ★ Added by Claude — DE tech stack
 const techStack = ["Apache Spark", "dbt", "Airflow", "Kafka", "Databricks", "Snowflake", "Azure Data Factory", "BigQuery", "Redshift", "Great Expectations", "Terraform", "dlt"];
 
-// ★ Added by Claude — impact metrics
 const metrics = [
   { value: "10×", label: "Pipeline throughput gains" },
   { value: "99.9%", label: "Data availability SLA" },
   { value: "50%", label: "Cloud cost reduction" },
 ];
 
-// ── STYLES ───────────────────────────────────────
-
 const styles = `
 @keyframes de-flow  { 0%{stroke-dashoffset:200} 100%{stroke-dashoffset:0} }
 @keyframes de-pulse { 0%,100%{opacity:.14} 50%{opacity:.26} }
 @keyframes de-in    { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
-.lead { font-size:17px; font-weight:300; color:var(--muted); line-height:1.5; text-align: justify;text-justify: inter-word; }
 
 .de-hero { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
 .de-pipeline-wrap { position:relative; display:flex; align-items:center; justify-content:center; animation:de-in .9s var(--ease) both; }
 .de-pipeline-wrap::before { content:''; position:absolute; inset:-40px; border-radius:50%; background:radial-gradient(circle,rgba(20,184,166,.12),transparent 65%); animation:de-pulse 5s ease-in-out infinite; }
+
+/* Mobile hero image */
+.de-hero-img-mobile { display:none; width:100%; border-radius:20px; overflow:hidden; margin-top:8px; }
+.de-hero-img-mobile img { width:100%; display:block; border-radius:20px; max-height:260px; object-fit:cover; }
 
 .de-stat-band { display:grid; grid-template-columns:repeat(3,1fr); margin-top:60px; border-radius:20px; overflow:hidden; border:1px solid rgba(255,255,255,.08); }
 .de-stat { padding:32px 28px; text-align:center; background:rgba(255,255,255,.03); border-right:1px solid rgba(255,255,255,.08); transition:.25s; }
@@ -129,11 +124,24 @@ const styles = `
 
 .de-banner { padding:40px 44px; border-radius:20px; background:rgba(20,184,166,.05); border:1px solid rgba(20,184,166,.18); display:grid; grid-template-columns:1fr auto; align-items:center; gap:32px; margin-top:56px; }
 
-@media(max-width:1000px) { .de-hero { grid-template-columns:1fr } .de-pipeline-wrap { display:none } .de-grid { grid-template-columns:1fr 1fr } .de-delivery { grid-template-columns:1fr 1fr } .de-banner { grid-template-columns:1fr } }
-@media(max-width:640px) { .de-grid { grid-template-columns:1fr } .de-stat-band { grid-template-columns:1fr } .de-stat { border-right:none; border-bottom:1px solid rgba(255,255,255,.08) } .de-delivery { grid-template-columns:1fr } }
+@media(max-width:1000px) {
+  .de-hero { grid-template-columns:1fr; gap:32px }
+  .de-pipeline-wrap { display:none }
+  .de-hero-img-mobile { display:block }
+  .de-grid { grid-template-columns:1fr 1fr }
+  .de-delivery { grid-template-columns:1fr 1fr }
+  .de-banner { grid-template-columns:1fr; padding:28px 24px }
+}
+@media(max-width:640px) {
+  .de-grid { grid-template-columns:1fr }
+  .de-stat-band { grid-template-columns:1fr }
+  .de-stat { border-right:none; border-bottom:1px solid rgba(255,255,255,.08) }
+  .de-stat:last-child { border-bottom:none }
+  .de-delivery { grid-template-columns:1fr }
+  .de-banner { padding:20px 16px }
+}
 `;
 
-// SVG icon map
 const deIcons = {
   arch: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>,
   bolt: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
@@ -150,7 +158,6 @@ export default function DataEngineering() {
       <style>{styles}</style>
       <style>{ANIM_CSS}</style>
 
-      {/* HERO */}
       <section className="section" style={{ overflow: "hidden" }}>
         <div className="container de-hero">
           <div>
@@ -161,7 +168,6 @@ export default function DataEngineering() {
                 Strategic Advantage.
               </span>
             </h1>
-            {/* Word-for-word from docx */}
             <p className="lead reveal" style={{ marginTop: 16, maxWidth: "65ch" }}>
               InionData generates more data than ever, but turning that raw information into reliable, actionable insight requires the right foundation. Our Data Engineering Services help you build that foundation — scalable, secure, and designed for real-world decision-making.
             </p>
@@ -172,9 +178,16 @@ export default function DataEngineering() {
               <Link className="btn btn--primary" to="/contact">Start a project</Link>
               <Link className="btn btn--ghost" to="/services">All services</Link>
             </div>
+            <div className="de-hero-img-mobile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=700&q=75"
+                alt="Data engineering pipelines"
+                loading="lazy"
+                onError={(e) => { e.currentTarget.style.display = "none"; }}
+              />
+            </div>
           </div>
 
-          {/* ★ Added by Claude — pipeline flow SVG using site palette */}
           <div className="de-pipeline-wrap reveal">
             <svg viewBox="0 0 420 380" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", maxWidth: 420 }}>
               <defs>
@@ -183,29 +196,24 @@ export default function DataEngineering() {
                   <stop offset="100%" stopColor="#22c55e" stopOpacity=".3"/>
                 </linearGradient>
               </defs>
-              {/* Source nodes */}
               {[[60,80],[60,190],[60,300]].map(([cx,cy],i) => (
                 <g key={i}>
                   <rect x={cx-28} y={cy-18} width={56} height={36} rx="8" fill="rgba(20,184,166,.1)" stroke="rgba(20,184,166,.35)" strokeWidth="1.5"/>
                   <rect x={cx-14} y={cy-6} width={28} height={12} rx="3" fill="rgba(20,184,166,.22)"/>
                 </g>
               ))}
-              {/* Flow paths to centre */}
               {[[60,80],[60,190],[60,300]].map(([sx,sy],i) => (
                 <path key={i} d={`M${sx+28},${sy} C${sx+80},${sy} 150,190 180,190`}
                   stroke="url(#de-grad)" strokeWidth="2" fill="none" strokeDasharray="200"
                   style={{ animation: `de-flow ${1.5+i*.3}s linear infinite` }}/>
               ))}
-              {/* Centre processor */}
               <rect x={160} y={160} width={100} height={60} rx="14" fill="rgba(20,184,166,.14)" stroke="#14b8a6" strokeWidth="2"/>
               <text x={210} y={195} textAnchor="middle" fill="#2dd4bf" fontSize="10" fontWeight="700">PIPELINE</text>
-              {/* Output paths */}
               {[[360,110],[360,190],[360,270]].map(([dx,dy],i) => (
                 <path key={i} d={`M260,190 C290,190 320,${dy} ${dx-28},${dy}`}
                   stroke="url(#de-grad)" strokeWidth="2" fill="none" strokeDasharray="200"
                   style={{ animation: `de-flow ${1.8+i*.25}s linear infinite` }}/>
               ))}
-              {/* Destination nodes */}
               {[[360,110],[360,190],[360,270]].map(([cx,cy],i) => (
                 <g key={i}>
                   <rect x={cx-28} y={cy-18} width={56} height={36} rx="8" fill="rgba(34,197,94,.08)" stroke="rgba(34,197,94,.35)" strokeWidth="1.5"/>
@@ -216,7 +224,6 @@ export default function DataEngineering() {
           </div>
         </div>
 
-        {/* Stats — ★ Added by Claude */}
         <div className="container">
           <div className="de-stat-band reveal">
             {metrics.map(m => (
@@ -229,7 +236,6 @@ export default function DataEngineering() {
         </div>
       </section>
 
-      {/* CORE CAPABILITIES — word-for-word from docx */}
       <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Core Capabilities</div>
@@ -247,7 +253,6 @@ export default function DataEngineering() {
         </div>
       </section>
 
-      {/* TECH STACK — ★ Added by Claude */}
       <section className="section">
         <div className="container">
           <div className="kicker reveal">Tech ecosystem</div>
@@ -259,7 +264,6 @@ export default function DataEngineering() {
         </div>
       </section>
 
-      {/* DELIVERY APPROACH — word-for-word from docx */}
       <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Our approach</div>
@@ -274,7 +278,6 @@ export default function DataEngineering() {
               </div>
             ))}
           </div>
-          {/* Word-for-word from docx */}
           <div className="de-banner reveal">
             <div>
               <h3 style={{ margin: "0 0 10px", fontSize: 22, fontWeight: 800 }}>Let's Build Your Data Advantage</h3>
@@ -287,7 +290,6 @@ export default function DataEngineering() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="section">
         <div className="container">
           <div className="cta-band reveal">

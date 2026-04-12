@@ -72,8 +72,16 @@ const styles = `
   gap:60px;
   align-items:center;
 }
-.pm-lottie-col { display:flex; align-items:center; justify-content:center; }
-.pm-lottie-col lottie-player { max-width:420px; width:100%; }
+.pm-lottie-col {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.pm-lottie-col img {
+  width:100%;
+  border-radius:20px;
+  display:block;
+}
 
 /* METRICS */
 .pm-metrics-row {
@@ -136,9 +144,6 @@ const styles = `
   display:flex; align-items:center; justify-content:space-between;
 }
 .pm-gantt-title { font-size:14px; font-weight:700 }
-.pm-gantt-legend { display:flex; gap:16px }
-.pm-gantt-legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted) }
-.pm-gantt-legend-dot { width:10px; height:10px; border-radius:2px }
 
 .pm-gantt-body { padding:20px 24px; }
 .pm-gantt-row { margin-bottom:12px; }
@@ -157,7 +162,6 @@ const styles = `
   display:grid;
   grid-template-columns:repeat(10,1fr);
   margin-top:12px;
-  padding:0 0;
 }
 .pm-gantt-week {
   text-align:center;
@@ -238,21 +242,72 @@ const styles = `
 .pm-case-body li { font-size:14px; color:var(--muted); margin-bottom:8px }
 .pm-case-body li strong { color:#2dd4bf }
 
-/* RESPONSIVE */
+/* DELIVERY GRID */
+.pm-delivery-grid {
+  margin-top:40px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+.pm-delivery-card {
+  padding:28px 24px;
+  border-radius:20px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  position:relative;
+  transition:.25s;
+}
+.pm-delivery-card:hover { border-color:rgba(20,184,166,.3) }
+.pm-delivery-num {
+  font-size:48px; font-weight:800; line-height:1;
+  color:rgba(20,184,166,.18);
+  margin-bottom:16px;
+  letter-spacing:-0.04em;
+}
+.pm-delivery-card h3 { margin:0 0 10px; font-size:16px; font-weight:700 }
+.pm-delivery-card p { margin:0; font-size:13px; color:var(--muted); line-height:1.65 }
+
+/* ── RESPONSIVE ── */
 @media(max-width:1000px) {
-  .pm-hero { grid-template-columns:1fr }
-  .pm-lottie-col { display:none }
-  .pm-metrics-row { grid-template-columns:1fr }
+  .pm-hero { grid-template-columns:1fr; gap:32px }
+  .pm-lottie-col { display:flex }
+  .pm-lottie-col img { max-height:280px; object-fit:cover }
+  .pm-metrics-row { grid-template-columns:1fr 1fr }
   .pm-comms { grid-template-columns:1fr }
   .pm-case { grid-template-columns:1fr }
+  .pm-case-img { min-height:240px }
+  .pm-case-img::after {
+    background:linear-gradient(to bottom,transparent 40%,rgba(7,16,14,.95));
+  }
+  .pm-case-body { padding:28px 24px }
+  .pm-delivery-grid { grid-template-columns:1fr 1fr }
 }
+
 @media(max-width:700px) {
+  .pm-hero { gap:24px }
   .pm-process-row { grid-template-columns:1fr 1fr }
   .pm-process-track { display:none }
+  .pm-metrics-row { grid-template-columns:1fr }
+  .pm-metric-val { font-size:36px }
+  .pm-resp-card { grid-template-columns:48px 1fr; gap:14px; padding:18px }
+  .pm-resp-icon { width:44px; height:44px; font-size:18px }
+  .pm-delivery-grid { grid-template-columns:1fr }
+  .pm-comms { grid-template-columns:1fr }
+  .pm-comm-card { flex-direction:column; gap:10px }
+  .pm-gantt-week { font-size:9px }
+  .pm-case-body { padding:20px 16px }
+  .pm-case-body h2 { font-size:18px }
 }
 `;
 
 // ── PAGE ─────────────────────────────────────────
+
+const deliverySteps = [
+  { n: "01", title: "Discovery & Assessment", desc: "We analyse your current landscape, challenges, and business goals — through stakeholder interviews, technical audits, and scope definition." },
+  { n: "02", title: "Architecture & Roadmap", desc: "We design scalable, future-proof architecture tailored to your business — with a phased delivery plan, tech stack selection, and risk mapping." },
+  { n: "03", title: "Build & Implement", desc: "We develop applications, pipelines, integrations, and governance frameworks in structured sprints with weekly stakeholder updates." },
+  { n: "04", title: "Optimise & Support", desc: "We monitor, refine, and evolve your solution as your needs grow — with performance tracking, continuous improvement, and post-delivery support." },
+];
 
 export default function ProjectManagement() {
   useReveal();
@@ -287,7 +342,6 @@ export default function ProjectManagement() {
               src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=700&q=75"
               alt="Project planning"
               loading="lazy"
-              style={{ width: "100%", borderRadius: 20, display: "block" }}
               onError={(e) => { e.currentTarget.style.display = "none"; }}
             />
           </div>
@@ -443,7 +497,6 @@ export default function ProjectManagement() {
         </div>
       </section>
 
-
       {/* DELIVERY APPROACH */}
       <section className="section section--alt">
         <div className="container">
@@ -454,34 +507,17 @@ export default function ProjectManagement() {
             where things stand and what comes next.
           </p>
 
-          <div className="reveal" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
-            {[
-              { n: "01", title: "Discovery & Assessment", desc: "We analyse your current landscape, challenges, and business goals — through stakeholder interviews, technical audits, and scope definition." },
-              { n: "02", title: "Architecture & Roadmap", desc: "We design scalable, future-proof architecture tailored to your business — with a phased delivery plan, tech stack selection, and risk mapping." },
-              { n: "03", title: "Build & Implement", desc: "We develop applications, pipelines, integrations, and governance frameworks in structured sprints with weekly stakeholder updates." },
-              { n: "04", title: "Optimise & Support", desc: "We monitor, refine, and evolve your solution as your needs grow — with performance tracking, continuous improvement, and post-delivery support." },
-            ].map((step, i) => (
-              <div key={step.n} style={{
-                padding: "28px 24px",
-                borderRadius: 20,
-                background: "rgba(255,255,255,.04)",
-                border: "1px solid rgba(255,255,255,.07)",
-                position: "relative",
-                transition: ".25s",
-              }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
-              onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
+          <div className="pm-delivery-grid reveal">
+            {deliverySteps.map((step) => (
+              <div
+                key={step.n}
+                className="pm-delivery-card"
+                onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
+                onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
               >
-                <div style={{
-                  fontSize: 48, fontWeight: 800, lineHeight: 1,
-                  color: "rgba(20,184,166,.18)",
-                  marginBottom: 16,
-                  letterSpacing: "-0.04em",
-                }}>
-                  {step.n}
-                </div>
-                <h3 style={{ margin: "0 0 10px", fontSize: 16, fontWeight: 700 }}>{step.title}</h3>
-                <p style={{ margin: 0, fontSize: 13, color: "var(--muted)", lineHeight: 1.65 }}>{step.desc}</p>
+                <div className="pm-delivery-num">{step.n}</div>
+                <h3>{step.title}</h3>
+                <p>{step.desc}</p>
               </div>
             ))}
           </div>

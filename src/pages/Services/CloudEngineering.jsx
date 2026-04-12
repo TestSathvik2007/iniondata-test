@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 import { useReveal, ANIM_CSS } from "../../animations";
 
-// ── DATA ─────────────────────────────────────────
-// All copy word-for-word from WebSite_Content.docx
-
 const capabilities = [
   {
     title: "Cloud Strategy & Consulting",
@@ -55,7 +52,6 @@ const capabilities = [
   },
 ];
 
-// Delivery approach – word-for-word from docx
 const deliverySteps = [
   { n: "01", title: "Discovery & Assessment", desc: "We analyze your current data landscape, challenges, and goals." },
   { n: "02", title: "Architecture & Roadmap", desc: "We design scalable, future-proof data architecture tailored to your business." },
@@ -63,7 +59,6 @@ const deliverySteps = [
   { n: "04", title: "Optimization & Support", desc: "We monitor, refine, and evolve your data ecosystem as your needs grow." },
 ];
 
-// ★ Added by Claude
 const cloudProviders = ["Microsoft Azure", "Amazon Web Services", "Google Cloud Platform"];
 const tools = ["Kubernetes", "Docker", "Terraform", "Ansible", "GitHub Actions", "Prometheus", "Grafana", "ArgoCD", "Helm", "Vault"];
 const metrics = [
@@ -72,16 +67,18 @@ const metrics = [
   { value: "3×", label: "Deployment frequency" },
 ];
 
-// ── STYLES ───────────────────────────────────────
-
 const styles = `
 @keyframes ce-orbit  { from{transform:rotate(0deg)   translateX(110px) rotate(0deg)}    to{transform:rotate(360deg)  translateX(110px) rotate(-360deg)} }
 @keyframes ce-orbit2 { from{transform:rotate(120deg) translateX(72px)  rotate(-120deg)} to{transform:rotate(480deg)  translateX(72px)  rotate(-480deg)} }
 @keyframes ce-orbit3 { from{transform:rotate(240deg) translateX(48px)  rotate(-240deg)} to{transform:rotate(600deg)  translateX(48px)  rotate(-600deg)} }
 @keyframes ce-glow   { 0%,100%{opacity:.13} 50%{opacity:.25} }
 @keyframes ce-in     { from{opacity:0;transform:scale(.92)} to{opacity:1;transform:scale(1)} }
+@keyframes ce-float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+@keyframes ce-shimmer{ 0%{background-position:-200% 0} 100%{background-position:200% 0} }
 
 .ce-hero { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+
+/* Orbit visual (desktop) */
 .ce-orbit-wrap { position:relative; width:340px; height:340px; margin:0 auto; animation:ce-in .8s var(--ease) both; }
 .ce-orbit-wrap::before { content:''; position:absolute; inset:-60px; border-radius:50%; background:radial-gradient(circle,rgba(20,184,166,.14),transparent 60%); animation:ce-glow 5s ease-in-out infinite; }
 .ce-orbit-ring { position:absolute; top:50%; left:50%; border-radius:50%; border:1px dashed rgba(20,184,166,.22); transform:translate(-50%,-50%); }
@@ -90,6 +87,16 @@ const styles = `
 .ce-orbit-node-1 { animation:ce-orbit  8s linear infinite }
 .ce-orbit-node-2 { animation:ce-orbit2 6s linear infinite }
 .ce-orbit-node-3 { animation:ce-orbit3 4.5s linear infinite }
+
+/* Mobile hero image fallback */
+.ce-hero-img-mobile {
+  display:none;
+  width:100%;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:8px;
+}
+.ce-hero-img-mobile img { width:100%; display:block; border-radius:20px; max-height:260px; object-fit:cover; }
 
 .ce-stat-band { display:grid; grid-template-columns:repeat(3,1fr); margin-top:60px; border-radius:20px; overflow:hidden; border:1px solid rgba(255,255,255,.08); }
 .ce-stat { padding:32px 28px; text-align:center; background:rgba(255,255,255,.03); border-right:1px solid rgba(255,255,255,.08); transition:.25s; }
@@ -129,11 +136,25 @@ const styles = `
 .ce-step h3 { margin:0 0 10px; font-size:16px; font-weight:700 }
 .ce-step p { margin:0; font-size:13px; color:var(--muted); line-height:1.65 }
 
-@media(max-width:1000px) { .ce-hero { grid-template-columns:1fr } .ce-orbit-wrap { display:none } .ce-grid { grid-template-columns:1fr 1fr } .ce-providers { grid-template-columns:1fr } .ce-delivery { grid-template-columns:1fr 1fr } }
-@media(max-width:640px) { .ce-grid { grid-template-columns:1fr } .ce-stat-band { grid-template-columns:1fr } .ce-stat { border-right:none; border-bottom:1px solid rgba(255,255,255,.08) } .ce-delivery { grid-template-columns:1fr } }
+@media(max-width:1000px) {
+  .ce-hero { grid-template-columns:1fr; gap:32px }
+  .ce-orbit-wrap { display:none }
+  .ce-hero-img-mobile { display:block }
+  .ce-grid { grid-template-columns:1fr 1fr }
+  .ce-providers { grid-template-columns:1fr }
+  .ce-delivery { grid-template-columns:1fr 1fr }
+  .ce-stat-band { grid-template-columns:1fr 1fr 1fr }
+}
+@media(max-width:640px) {
+  .ce-grid { grid-template-columns:1fr }
+  .ce-stat-band { grid-template-columns:1fr }
+  .ce-stat { border-right:none; border-bottom:1px solid rgba(255,255,255,.08) }
+  .ce-stat:last-child { border-bottom:none }
+  .ce-delivery { grid-template-columns:1fr }
+  .ce-providers { grid-template-columns:1fr }
+}
 `;
 
-// SVG icon map
 const ceIcons = {
   map: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>,
   rocket: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>,
@@ -150,7 +171,6 @@ export default function CloudEngineering() {
       <style>{styles}</style>
       <style>{ANIM_CSS}</style>
 
-      {/* HERO */}
       <section className="section" style={{ overflow: "hidden" }}>
         <div className="container ce-hero">
           <div>
@@ -161,7 +181,6 @@ export default function CloudEngineering() {
                 Innovate in the Cloud.
               </span>
             </h1>
-            {/* Word-for-word from docx */}
             <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
               At InionData, we design and deliver cloud solutions that enhance agility, scalability, and performance. From migration to optimization, we help businesses modernize their infrastructure and accelerate innovation.
             </p>
@@ -169,9 +188,17 @@ export default function CloudEngineering() {
               <Link className="btn btn--primary" to="/contact">Start a project</Link>
               <Link className="btn btn--ghost" to="/services">All services</Link>
             </div>
+            {/* Mobile image */}
+            <div className="ce-hero-img-mobile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=700&q=75"
+                alt="Cloud infrastructure"
+                loading="lazy"
+                onError={(e) => { e.currentTarget.style.display = "none"; }}
+              />
+            </div>
           </div>
 
-          {/* ★ Added by Claude — CSS orbiting nodes using site palette */}
           <div className="reveal" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div className="ce-orbit-wrap">
               <div className="ce-orbit-ring" style={{ width: 220, height: 220 }} />
@@ -193,7 +220,6 @@ export default function CloudEngineering() {
           </div>
         </div>
 
-        {/* Stats — ★ Added by Claude */}
         <div className="container">
           <div className="ce-stat-band reveal">
             {metrics.map(m => (
@@ -206,7 +232,6 @@ export default function CloudEngineering() {
         </div>
       </section>
 
-      {/* CAPABILITIES — word-for-word from docx */}
       <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Capabilities</div>
@@ -224,7 +249,6 @@ export default function CloudEngineering() {
         </div>
       </section>
 
-      {/* CLOUD PROVIDERS + TOOLS — ★ Added by Claude */}
       <section className="section">
         <div className="container">
           <div className="kicker reveal">Tech ecosystem</div>
@@ -246,7 +270,6 @@ export default function CloudEngineering() {
         </div>
       </section>
 
-      {/* DELIVERY APPROACH — word-for-word from docx */}
       <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Our approach</div>
@@ -264,7 +287,6 @@ export default function CloudEngineering() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="section">
         <div className="container">
           <div className="cta-band reveal">
