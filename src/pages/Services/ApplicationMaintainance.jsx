@@ -465,7 +465,7 @@ export default function ApplicationMaintenance() {
             where things stand and what comes next.
           </p>
 
-          <div className="reveal" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
+          <div className="reveal grid grid-4" style={{ marginTop: 40, gap: 16 }}>
             {[
               { n: "01", title: "Discovery & Assessment", desc: "We analyse your current landscape, challenges, and business goals — through stakeholder interviews, technical audits, and scope definition." },
               { n: "02", title: "Architecture & Roadmap", desc: "We design scalable, future-proof architecture tailored to your business — with a phased delivery plan, tech stack selection, and risk mapping." },

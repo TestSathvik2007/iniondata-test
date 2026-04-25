@@ -640,3 +640,24 @@ img, svg  { display: block; max-width: 100%; }
 
   .int-hero-lottie { display: none !important; }
 }
+
+@media (max-width: 480px) {
+  :root { --pad: 16px; }
+
+  /* Additional mobile optimizations for tiny screens */
+  .section { padding: 48px 0; }
+  .section__header { margin-bottom: 32px; }
+
+  /* Font sizing tweaks */
+  .h1 { font-size: clamp(32px, 8vw, 40px); }
+  .h2 { font-size: clamp(26px, 7vw, 32px); }
+  .h3 { font-size: clamp(20px, 6vw, 24px); }
+  .lead { font-size: 15px; }
+  
+  /* Buttons */
+  .btn { padding: 10px 18px; font-size: 13px; }
+  .btn--lg { padding: 12px 24px; font-size: 14px; }
+  
+  /* Ensure all process rows and grids stay 1-col */
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr !important; }
+}
