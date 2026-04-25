@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useReveal, ANIM_CSS } from "../animations";
 import { useRef } from "react";
 
@@ -16,58 +16,66 @@ import service9  from "../assets/images/fast_growth.png";
 /* ── DATA ── */
 const offerings = [
   {
-    title: "Application Design & Development",
-    desc: "Full-cycle development from requirements to release.",
-    bullets: ["End-to-end development lifecycle", "UI/UX design & prototyping", "QA testing & release management"],
+    title: "Application Development",
+    path: "/services/app-development",
+    desc: "Transforming heritage portfolios to flexible, modular application development.",
+    bullets: ["Agile methods for rapid deployment", "Automation & business integration", "Enhance digital transformation & CX"],
     image: service1,
     slug: "/services/app-development",
   },
   {
-    title: "Application Integration",
-    desc: "Seamless connectivity between systems.",
-    bullets: ["REST, GraphQL & event-driven APIs", "Legacy system modernisation", "Real-time data pipelines"],
+    title: "Application Design, Development and Integration",
+    path: "/services/app-integration",
+    desc: "Full range of requirements gathering, prototyping, implementation, and integration.",
+    bullets: ["Designing Rich UI/UX for applications", "Builds for QA and client UAT", "API, Web services and connectors"],
     image: service2,
     slug: "/services/app-integration",
   },
   {
-    title: "Application Management",
-    desc: "Keep apps running reliably.",
-    bullets: ["24/7 uptime monitoring & alerting", "Incident management & root-cause analysis", "Performance optimisation & release management"],
+    title: "Application Management and Support",
+    path: "/services/app-management",
+    desc: "Providing management and support service for new and existing applications.",
+    bullets: ["Application management and support", "Resolving technical issues", "Resolving functional issues"],
     image: service3,
     slug: "/services/app-management",
   },
   {
     title: "Application Maintenance",
-    desc: "Performance & health optimization.",
-    bullets: ["Proactive bug resolution & patching", "Security & dependency hygiene", "Feature iterations alongside stable baseline"],
+    path: "/services/app-maintenance",
+    desc: "Conducting reviews and ensuring standards.",
+    bullets: ["Reviews for standards and requirements", "Ensuring systems perform optimally", "Ongoing support and maintenance"],
     image: service4,
     slug: "/services/app-maintenance",
   },
   {
     title: "Project Management",
-    desc: "End-to-end delivery management.",
-    bullets: ["Scope, timeline & budget governance", "Risk register & mitigation planning", "Stakeholder communication & transparent reporting"],
+    path: "/services/project-management",
+    desc: "Establishing and managing timelines to budget.",
+    bullets: ["Establishing timelines", "Managing agreed-to-budget", "Assessing and managing risks"],
     image: service5,
     slug: "/services/project-management",
   },
   {
     title: "Consulting Services",
-    desc: "Strategic technical guidance.",
-    bullets: ["Architecture review & technology selection", "Feasibility & trade-off analysis", "Phased implementation roadmaps"],
+    path: "/services/consulting",
+    desc: "Assessing needs, requirements, and goals for cross-functional applications.",
+    bullets: ["Reviewing technical design documents", "Analyzing feasibility & performance", "Addressing security & scalability"],
     image: service6,
     slug: "/services/consulting",
   },
   {
-    title: "Teams Integration",
-    desc: "Microsoft Teams solutions.",
-    bullets: ["Intelligent bots & adaptive card workflows", "Message extensions & data retrieval commands", "Embedded tab apps & meeting integrations"],
+    title: "Teams Application Development and Integration",
+    path: "/services/teams-integration",
+    desc: "Developing bots, message extensions, and Teams integrations.",
+    bullets: ["Bots and message extensions", "Integration into Microsoft Teams", "Web app embedded as Tab"],
     image: service7,
     slug: "/services/teams-integration",
   },
   {
-    title: "Operational Efficiency",
-    desc: "Modernize legacy systems.",
-    bullets: ["Cloud spend audits & right-sizing", "Legacy modernisation with strangler-fig pattern", "Developer workflow & CI/CD pipeline optimisation"],
+    title: "Operational Efficiency and Fast Growth",
+    path: "/services/operational-efficiency",
+    desc: "Ensure efficient and cost-effective application development.",
+    bullets: ["Efficient app development management", "Expand legacy app capabilities", "Boost growth by reinventing applications"],
     image: service8,
     slug: "/services/operational-efficiency",
   },
@@ -389,7 +397,7 @@ export default function Services() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ── 3. SERVICES GRID ── */}
       <section className="section">
