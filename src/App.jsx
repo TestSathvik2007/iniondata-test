@@ -3,12 +3,12 @@ import { useEffect, lazy, Suspense } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-const Home = lazy(() => import("./pages/Home"));
-const About = lazy(() => import("./pages/About"));
-const Services = lazy(() => import("./pages/Services"));
-const Contact = lazy(() => import("./pages/Contact"));
-const AIEnablement = lazy(() => import("./pages/AIEnablement"));
-const AppDevelopment = lazy(() => import("./pages/Services/ApplicationDevelopment"));
+const Home                   = lazy(() => import("./pages/Home"));
+const About                  = lazy(() => import("./pages/About"));
+const Services               = lazy(() => import("./pages/Services"));
+const Contact                = lazy(() => import("./pages/Contact"));
+const AIEnablement           = lazy(() => import("./pages/AIEnablement"));
+const AppDevelopment         = lazy(() => import("./pages/Services/ApplicationDevelopment"));
 const ApplicationIntegration = lazy(() => import("./pages/Services/ApplicationIntegration"));
 const ApplicationManagement = lazy(() => import("./pages/Services/ApplicationManagement"));
 const ApplicationMaintainance = lazy(() => import("./pages/Services/ApplicationMaintainance"));
