@@ -56,12 +56,12 @@ const plans = [
   },
 ];
 
-const metrics = [
-  { value: "99.9%", label: "Target uptime SLA" },
-  { value: "< 4h", label: "P1 response time" },
-  { value: "60%", label: "Fewer production incidents" },
-  { value: "3×", label: "Faster mean time to resolve" },
-];
+// const metrics = [
+//   { value: "99.9%", label: "Target uptime SLA" },
+//   { value: "< 4h", label: "P1 response time" },
+//   { value: "60%", label: "Fewer production incidents" },
+//   { value: "3×", label: "Faster mean time to resolve" },
+// ];
 
 // ── STYLES ───────────────────────────────────────
 
@@ -287,15 +287,14 @@ export default function ApplicationMaintenance() {
       <section className="section">
         <div className="container amn-hero">
           <div>
-            <div className="kicker reveal">Application Maintenance</div>
+            <div className="kicker reveal">Service</div>
             <h1 className="h1 reveal" style={{ marginTop: 14 }}>
-              Your app, always{" "}
               <span style={{ background: "linear-gradient(135deg,#14b8a6,#22c55e)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                at its best.
+                Application Maintenance
               </span>
             </h1>
             <p className="lead reveal" style={{ marginTop: 16, maxWidth: 500 }}>
-              Production systems degrade without attention. We handle the monitoring, patching, performance tuning, and incident response — so your engineering team stays focused on building, not firefighting. Proactive maintenance is how InionData keeps enterprise applications stable, secure, and fast across your entire portfolio.
+              Conducting reviews to ensure standards and requirements are being met, while ensuring systems are performing optimally. We proactively monitor, patch, and tune your applications so your engineering team stays focused on building — not firefighting.
             </p>
 
             {/* ECG line */}
@@ -327,7 +326,7 @@ export default function ApplicationMaintenance() {
         </div>
 
         {/* Metrics strip */}
-        <div className="container">
+        {/* <div className="container">
           <div className="amn-metrics-strip reveal">
             {metrics.map(m => (
               <div key={m.label} className="amn-metric-cell">
@@ -336,7 +335,7 @@ export default function ApplicationMaintenance() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </section>
 
       {/* WHAT WE DO */}
@@ -421,7 +420,7 @@ export default function ApplicationMaintenance() {
         </div>
       </section> */}
 
-      {/* CASE STUDY */}
+      {/* CASE STUDY
       <section className="section">
         <div className="container">
           <div className="kicker reveal">Case study</div>
@@ -453,7 +452,7 @@ export default function ApplicationMaintenance() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
 
       {/* DELIVERY APPROACH */}
@@ -481,8 +480,8 @@ export default function ApplicationMaintenance() {
                 position: "relative",
                 transition: ".25s",
               }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
-              onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
+                onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
+                onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
               >
                 <div style={{
                   fontSize: 48, fontWeight: 800, lineHeight: 1,

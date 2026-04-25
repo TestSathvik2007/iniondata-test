@@ -3,36 +3,36 @@ import { useReveal, ANIM_CSS } from "../../animations";
 
 // ── DATA ─────────────────────────────────────────
 
-const capabilities = [
-  {
-    title: "24/7 Uptime Monitoring",
-    desc: "Synthetic checks, real-user monitoring, and alerting pipelines that wake our engineers — not yours — when something breaks at 2 AM.",
-    icon: "📡",
-    stat: "99.95%",
-    statLabel: "avg uptime",
-  },
-  {
-    title: "Incident Management",
-    desc: "Structured runbooks, escalation paths, and post-mortems. Every incident is a learning event — we document root causes and close gaps to prevent recurrence.",
-    icon: "🚨",
-    stat: "< 15min",
-    statLabel: "MTTA",
-  },
-  {
-    title: "Performance Optimisation",
-    desc: "From slow database queries to oversized JS bundles — we instrument, profile, and fix. Measurable improvements tracked against your baseline each sprint.",
-    icon: "📈",
-    stat: "40%",
-    statLabel: "avg perf gain",
-  },
-  {
-    title: "Release & Change Management",
-    desc: "Controlled deployments with feature flags, rollback capabilities, and change advisory boards. We de-risk every release so your team ships with confidence.",
-    icon: "🚢",
-    stat: "0",
-    statLabel: "rollback failures",
-  },
-];
+// const capabilities = [
+//   {
+//     title: "24/7 Uptime Monitoring",
+//     desc: "Synthetic checks, real-user monitoring, and alerting pipelines that wake our engineers — not yours — when something breaks at 2 AM.",
+//     icon: "📡",
+//     stat: "99.95%",
+//     statLabel: "avg uptime",
+//   },
+//   {
+//     title: "Incident Management",
+//     desc: "Structured runbooks, escalation paths, and post-mortems. Every incident is a learning event — we document root causes and close gaps to prevent recurrence.",
+//     icon: "🚨",
+//     stat: "< 15min",
+//     statLabel: "MTTA",
+//   },
+//   {
+//     title: "Performance Optimisation",
+//     desc: "From slow database queries to oversized JS bundles — we instrument, profile, and fix. Measurable improvements tracked against your baseline each sprint.",
+//     icon: "📈",
+//     stat: "40%",
+//     statLabel: "avg perf gain",
+//   },
+//   {
+//     title: "Release & Change Management",
+//     desc: "Controlled deployments with feature flags, rollback capabilities, and change advisory boards. We de-risk every release so your team ships with confidence.",
+//     icon: "🚢",
+//     stat: "0",
+//     statLabel: "rollback failures",
+//   },
+// ];
 
 const lifecycle = [
   { title: "Onboarding", desc: "System audit, runbook creation, alert configuration" },
@@ -263,15 +263,14 @@ export default function ApplicationManagement() {
       <section className="section">
         <div className="container am-hero">
           <div>
-            <div className="kicker reveal">Application Management</div>
+            <div className="kicker reveal">Service</div>
             <h1 className="h1 reveal" style={{ marginTop: 14 }}>
-              You build the product.{" "}
               <span style={{ background: "linear-gradient(135deg,#14b8a6,#22c55e)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                We keep it running.
+                Application Management and Support
               </span>
             </h1>
             <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
-              End-to-end application management — monitoring, incident response, performance optimisation, and controlled releases. As a trusted Services Partner with decades of combined leadership experience, InionData provides the operational backbone your applications need to run reliably at enterprise scale.
+              Providing application management and support services for new and existing applications. We resolve technical and functional issues as needed, keeping your systems running reliably so your teams stay focused on delivering value.
             </p>
             <div className="reveal" style={{ marginTop: 28, display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link className="btn btn--primary" to="/contact">Talk to us</Link>
@@ -305,7 +304,7 @@ export default function ApplicationManagement() {
       </section>
 
       {/* CAPABILITIES */}
-      <section className="section section--alt">
+      {/* <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Capabilities</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>What we manage</h2>
@@ -329,7 +328,7 @@ export default function ApplicationManagement() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* LIFECYCLE */}
       <section className="section">
@@ -388,7 +387,7 @@ export default function ApplicationManagement() {
       </section>
 
       {/* CASE STUDY */}
-      <section className="section section--alt">
+      {/* <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Case study</div>
           <h2 className="h2 reveal" style={{ marginTop: 10, marginBottom: 30 }}>99.95% uptime for a global SaaS product</h2>
@@ -421,7 +420,7 @@ export default function ApplicationManagement() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
 
       {/* DELIVERY APPROACH */}
@@ -449,8 +448,8 @@ export default function ApplicationManagement() {
                 position: "relative",
                 transition: ".25s",
               }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
-              onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
+                onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
+                onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
               >
                 <div style={{
                   fontSize: 48, fontWeight: 800, lineHeight: 1,

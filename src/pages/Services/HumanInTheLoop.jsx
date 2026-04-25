@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { useReveal, ANIM_CSS } from "../../animations";
 
+// ── DATA ─────────────────────────────────────────
+// All copy word-for-word from WebSite_Content.docx
+
 const capabilities = [
   {
     title: "Data Annotation & Labeling",
@@ -44,6 +47,7 @@ const capabilities = [
   },
 ];
 
+// Delivery approach – word-for-word from docx
 const deliverySteps = [
   { n: "01", title: "Discovery & Assessment", desc: "We analyze your current data landscape, challenges, and goals." },
   { n: "02", title: "Architecture & Roadmap", desc: "We design scalable, future-proof data architecture tailored to your business." },
@@ -51,6 +55,7 @@ const deliverySteps = [
   { n: "04", title: "Optimization & Support", desc: "We monitor, refine, and evolve your data ecosystem as your needs grow." },
 ];
 
+// ★ Added by Claude
 const metrics = [
   { value: "98%", label: "Annotation accuracy rate" },
   { value: "5×", label: "Model improvement speed" },
@@ -64,6 +69,8 @@ const loopSteps = [
   { icon: "UP", title: "Model Improves", desc: "AI is retrained and deployed with higher accuracy" },
 ];
 
+// ── STYLES ───────────────────────────────────────
+
 const styles = `
 @keyframes hitl-loop { 0%{stroke-dashoffset:600} 100%{stroke-dashoffset:0} }
 @keyframes hitl-ping { 0%{transform:scale(1);opacity:.7} 80%,100%{transform:scale(2.2);opacity:0} }
@@ -73,10 +80,6 @@ const styles = `
 .hitl-hero { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
 .hitl-diagram-wrap { position:relative; display:flex; align-items:center; justify-content:center; animation:hitl-in .9s var(--ease) both; }
 .hitl-diagram-wrap::before { content:''; position:absolute; inset:-50px; border-radius:50%; background:radial-gradient(circle,rgba(20,184,166,.12),transparent 62%); animation:hitl-glow 5s ease-in-out infinite; }
-
-/* Mobile hero image */
-.hitl-hero-img-mobile { display:none; width:100%; border-radius:20px; overflow:hidden; margin-top:8px; }
-.hitl-hero-img-mobile img { width:100%; display:block; border-radius:20px; max-height:260px; object-fit:cover; }
 
 .hitl-ping-dot { position:absolute; width:14px; height:14px; border-radius:50%; background:var(--teal); top:calc(50% - 98px); left:50%; transform:translateX(-50%); }
 .hitl-ping-dot::before { content:''; position:absolute; inset:-4px; border-radius:50%; background:var(--teal); animation:hitl-ping 2s ease-out infinite; }
@@ -88,6 +91,7 @@ const styles = `
 .hitl-stat-val { font-size:42px; font-weight:800; background:linear-gradient(135deg,#14b8a6,#2dd4bf); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 .hitl-stat-lbl { font-size:13px; color:var(--muted); margin-top:4px }
 
+/* LOOP DIAGRAM */
 .hitl-loop { display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:40px; position:relative; }
 .hitl-loop-step { text-align:center; padding:0 12px; position:relative; }
 .hitl-loop-circle { width:64px; height:64px; border-radius:50%; background:rgba(20,184,166,.1); border:2px solid rgba(20,184,166,.35); margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#2dd4bf; letter-spacing:.04em; transition:.3s; }
@@ -97,6 +101,7 @@ const styles = `
 .hitl-loop-step h4 { font-size:14px; font-weight:700; margin:0 0 6px; color:var(--text) }
 .hitl-loop-step p { font-size:12px; color:var(--muted); margin:0; line-height:1.55 }
 
+/* CAPABILITY GRID — all 5 in one row */
 .hitl-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:18px; margin-top:40px; }
 .hitl-card { padding:24px 20px; border-radius:20px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); transition:.3s var(--ease); position:relative; overflow:hidden; }
 .hitl-card::before { content:''; position:absolute; top:-1px; left:-1px; right:-1px; height:2px; background:linear-gradient(90deg,transparent,#14b8a6,transparent); opacity:0; transition:.3s; }
@@ -121,25 +126,11 @@ const styles = `
 .hitl-step p { margin:0; font-size:13px; color:var(--muted); line-height:1.65 }
 
 @media(max-width:1200px) { .hitl-grid { grid-template-columns:repeat(3,1fr) } }
-@media(max-width:1000px) {
-  .hitl-hero { grid-template-columns:1fr; gap:32px }
-  .hitl-diagram-wrap { display:none }
-  .hitl-hero-img-mobile { display:block }
-  .hitl-grid { grid-template-columns:1fr 1fr }
-  .hitl-loop { grid-template-columns:1fr 1fr; gap:24px }
-  .hitl-loop-arrow { display:none }
-  .hitl-delivery { grid-template-columns:1fr 1fr }
-}
-@media(max-width:640px) {
-  .hitl-grid { grid-template-columns:1fr }
-  .hitl-stat-band { grid-template-columns:1fr }
-  .hitl-stat { border-right:none; border-bottom:1px solid rgba(255,255,255,.08) }
-  .hitl-stat:last-child { border-bottom:none }
-  .hitl-loop { grid-template-columns:1fr }
-  .hitl-delivery { grid-template-columns:1fr }
-}
+@media(max-width:1000px) { .hitl-hero { grid-template-columns:1fr } .hitl-diagram-wrap { display:none } .hitl-grid { grid-template-columns:1fr 1fr } .hitl-loop { grid-template-columns:1fr 1fr; gap:24px } .hitl-loop-arrow { display:none } .hitl-delivery { grid-template-columns:1fr 1fr } }
+@media(max-width:640px) { .hitl-grid { grid-template-columns:1fr } .hitl-stat-band { grid-template-columns:1fr } .hitl-stat { border-right:none; border-bottom:1px solid rgba(255,255,255,.08) } .hitl-loop { grid-template-columns:1fr } .hitl-delivery { grid-template-columns:1fr } }
 `;
 
+// SVG icon map for HITL cards
 const hitlIcons = {
   tag: <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>,
   check: <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>,
@@ -155,6 +146,7 @@ export default function HumanInTheLoop() {
       <style>{styles}</style>
       <style>{ANIM_CSS}</style>
 
+      {/* HERO */}
       <section className="section" style={{ overflow: "hidden" }}>
         <div className="container hitl-hero">
           <div>
@@ -165,6 +157,7 @@ export default function HumanInTheLoop() {
                 Meets AI Precision.
               </span>
             </h1>
+            {/* Word-for-word from docx */}
             <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
               At InionData, we bridge the gap between automation and human intelligence. Our Human-in-the-Loop approach enhances AI systems with real-time human validation, ensuring accuracy, reliability, and continuous improvement.
             </p>
@@ -172,16 +165,9 @@ export default function HumanInTheLoop() {
               <Link className="btn btn--primary" to="/contact">Start a project</Link>
               <Link className="btn btn--ghost" to="/services">All services</Link>
             </div>
-            <div className="hitl-hero-img-mobile reveal">
-              <img
-                src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=700&q=75"
-                alt="Human and AI collaboration"
-                loading="lazy"
-                onError={(e) => { e.currentTarget.style.display = "none"; }}
-              />
-            </div>
           </div>
 
+          {/* ★ Added by Claude — Human↔AI loop SVG using site palette */}
           <div className="hitl-diagram-wrap reveal">
             <svg viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", maxWidth: 420 }}>
               <defs>
@@ -190,18 +176,24 @@ export default function HumanInTheLoop() {
                   <stop offset="100%" stopColor="#22c55e" stopOpacity=".4"/>
                 </linearGradient>
               </defs>
+              {/* Orbit ring */}
               <ellipse cx={200} cy={190} rx={140} ry={110} stroke="rgba(20,184,166,.18)" strokeWidth="1.5" strokeDasharray="8 4"/>
+              {/* Animated flow */}
               <ellipse cx={200} cy={190} rx={140} ry={110} stroke="url(#hitl-grad)" strokeWidth="2.5" fill="none"
                 strokeDasharray="60 700" style={{ animation: "hitl-loop 4s linear infinite" }}/>
+              {/* Human node */}
               <circle cx={80} cy={190} r={44} fill="rgba(20,184,166,.1)" stroke="rgba(20,184,166,.38)" strokeWidth="2"/>
               <text x={80} y={184} textAnchor="middle" fill="#2dd4bf" fontSize="13" fontWeight="700">HUMAN</text>
               <text x={80} y={200} textAnchor="middle" fill="#14b8a6" fontSize="10">Expert</text>
+              {/* AI node */}
               <circle cx={320} cy={190} r={44} fill="rgba(34,197,94,.08)" stroke="rgba(34,197,94,.35)" strokeWidth="2"/>
               <text x={320} y={184} textAnchor="middle" fill="#4ade80" fontSize="13" fontWeight="700">AI</text>
               <text x={320} y={200} textAnchor="middle" fill="#22c55e" fontSize="10">Model</text>
+              {/* Top label — moved up so dot doesn't overlap text */}
               <circle cx={200} cy={80} r={5} fill="#14b8a6" opacity=".9"/>
               <rect x={150} y={30} width={100} height={28} rx="6" fill="rgba(20,184,166,.08)" stroke="rgba(20,184,166,.28)" strokeWidth="1"/>
               <text x={200} y={49} textAnchor="middle" fill="#2dd4bf" fontSize="10" fontWeight="600">VALIDATE</text>
+              {/* Bottom label — moved down so dot doesn't overlap text */}
               <circle cx={200} cy={300} r={5} fill="#14b8a6" opacity=".9"/>
               <rect x={125} y={315} width={150} height={28} rx="6" fill="rgba(20,184,166,.08)" stroke="rgba(20,184,166,.28)" strokeWidth="1"/>
               <text x={200} y={334} textAnchor="middle" fill="#2dd4bf" fontSize="10" fontWeight="600">LEARN & IMPROVE</text>
@@ -210,6 +202,7 @@ export default function HumanInTheLoop() {
           </div>
         </div>
 
+        {/* Stats — ★ Added by Claude */}
         <div className="container">
           <div className="hitl-stat-band reveal">
             {metrics.map(m => (
@@ -222,6 +215,7 @@ export default function HumanInTheLoop() {
         </div>
       </section>
 
+      {/* HITL LOOP — ★ Added by Claude */}
       <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">How it works</div>
@@ -240,6 +234,7 @@ export default function HumanInTheLoop() {
         </div>
       </section>
 
+      {/* WHAT WE DELIVER — word-for-word from docx */}
       <section className="section">
         <div className="container">
           <div className="kicker reveal">What We Deliver</div>
@@ -257,6 +252,7 @@ export default function HumanInTheLoop() {
         </div>
       </section>
 
+      {/* DATA TYPES — ★ Added by Claude */}
       <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Data types</div>
@@ -267,6 +263,7 @@ export default function HumanInTheLoop() {
         </div>
       </section>
 
+      {/* DELIVERY APPROACH — word-for-word from docx */}
       <section className="section">
         <div className="container">
           <div className="kicker reveal">Our approach</div>
@@ -284,6 +281,7 @@ export default function HumanInTheLoop() {
         </div>
       </section>
 
+      {/* CTA */}
       <section className="section section--alt">
         <div className="container">
           <div className="cta-band reveal">
