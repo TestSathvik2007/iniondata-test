@@ -506,7 +506,7 @@ export default function ApplicationDevelopment() {
                         Every InionData engagement follows the same proven four-step model — so you always know where things stand and what comes next.
                     </p>
 
-                    <div className="reveal" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
+                    <div className="reveal grid grid-4" style={{ marginTop: 40, gap: 16 }}>
                         {[
                             { n: "01", title: "Discovery & Assessment", desc: "We analyse your current application landscape, business goals, and transformation priorities through stakeholder interviews and technical audits." },
                             { n: "02", title: "Architecture & Planning", desc: "We design scalable, modular architecture with a phased delivery plan, technology stack selection, and risk mapping." },
