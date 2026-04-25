@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from "../assets/images/logo.png";
 
 const nav = [
   {
@@ -82,33 +83,16 @@ const footerStyles = `
   .footer__brandMark {
     display: inline-flex;
     align-items: center;
-    gap: clamp(6px, 2vw, 8px);
     margin-bottom: clamp(8px, 1.5vh, 12px);
     text-decoration: none;
+    transition: opacity 0.2s ease;
   }
+  .footer__brandMark:hover { opacity: 0.8; }
 
-  .footer__iconCircle {
-    width: clamp(26px, 5vw, 32px);
-    height: clamp(26px, 5vw, 32px);
-    border-radius: 6px;
-    background: rgba(29, 158, 117, 0.15);
-    border: 1px solid rgba(29, 158, 117, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--teal, #1D9E75);
-    flex-shrink: 0;
-  }
-
-  .footer__brandText {
-    font-size: clamp(14px, 2.8vw, 17px);
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.02em;
-  }
-
-  .footer__brandText span {
-    color: var(--teal, #1D9E75);
+  .footer__logo {
+    height: 30px;
+    width: auto;
+    display: block;
   }
 
   .footer__tagline {
@@ -166,7 +150,7 @@ const footerStyles = `
     margin: 0 clamp(12px, 4vw, 24px);
   }
 
-  /* ── Bottom bar — ULTRA COMPACT ON MOBILE ── */
+  /* ── Bottom bar ── */
   .footer__bottom {
     display: flex;
     align-items: center;
@@ -206,7 +190,6 @@ const footerStyles = `
     color: rgba(255, 255, 255, 0.6);
   }
 
-  /* Dot separator */
   .footer__dot {
     width: 3px;
     height: 3px;
@@ -216,7 +199,6 @@ const footerStyles = `
     flex-shrink: 0;
   }
 
-  /* Prevent horizontal scroll on small screens */
   @media (max-width: 480px) {
     .footer {
       overflow: hidden;
@@ -239,26 +221,7 @@ export default function Footer() {
         {/* Brand column */}
         <div className="footer__brandCol">
           <Link to="/" className="footer__brandMark">
-            <div className="footer__iconCircle" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M9.2 12.2l1.9 1.9 3.7-4.1"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <span className="footer__brandText">
-              Inion<span>Data</span>
-            </span>
+            <img src={logo} alt="InionData" className="footer__logo" />
           </Link>
 
           <p className="footer__tagline">
@@ -280,11 +243,7 @@ export default function Footer() {
             {col.items?.map((item) => {
               if (item.href) {
                 return (
-                  <a
-                    key={item.text}
-                    href={item.href}
-                    className="footer__contactItem"
-                  >
+                  <a key={item.text} href={item.href} className="footer__contactItem">
                     {item.text}
                   </a>
                 );
@@ -304,25 +263,13 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="footer__bottom">
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", justifyContent: "center" }}>
           <div className="footer__dot" aria-hidden="true" />
           <span>© {year} InionData.</span>
         </div>
         <div className="footer__bottomLinks">
-          <a href="#privacy" className="footer__legalLink">
-            Privacy
-          </a>
-          <a href="#terms" className="footer__legalLink">
-            Terms
-          </a>
+          <a href="#privacy" className="footer__legalLink">Privacy</a>
+          <a href="#terms" className="footer__legalLink">Terms</a>
         </div>
       </div>
     </footer>

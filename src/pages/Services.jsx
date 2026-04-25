@@ -79,48 +79,6 @@ const offerings = [
     image: service8,
     slug: "/services/operational-efficiency",
   },
-  {
-    title: "Fast Growth",
-    desc: "Boost growth by reinventing your applications.",
-    bullets: ["Shorten release cycles with CI/CD & feature flags", "Cut maintenance overhead with targeted refactoring", "Architect for 10× growth capacity"],
-    image: service9,
-    slug: "/services/fast-growth",
-  },
-  {
-    title: "Data & Analytics",
-    desc: "Turn your data into strategic insight.",
-    bullets: ["Data strategy, maturity assessment & governance", "Advanced analytics, ML & BI dashboards", "Data visualization & storytelling"],
-    image: service1,
-    slug: "/services/data-analytics",
-  },
-  {
-    title: "Data Engineering",
-    desc: "Transform your data into a strategic advantage.",
-    bullets: ["Modern data architecture & cloud-native platforms", "ETL/ELT pipelines & real-time stream processing", "Data quality, governance & compliance frameworks"],
-    image: service2,
-    slug: "/services/data-engineering",
-  },
-  {
-    title: "Cloud Engineering",
-    desc: "Scale, secure, and innovate in the cloud.",
-    bullets: ["Cloud strategy, migration & architecture", "DevOps, CI/CD & containerization", "Cloud security, compliance & managed ops"],
-    image: service3,
-    slug: "/services/cloud-engineering",
-  },
-  {
-    title: "Data Science",
-    desc: "Make your data work smarter.",
-    bullets: ["Predictive modelling, NLP & computer vision", "Decision intelligence & MLOps at scale", "Story-driven insight experiences"],
-    image: service4,
-    slug: "/services/data-science",
-  },
-  {
-    title: "Human in the Loop (HITL)",
-    desc: "Where human judgment meets AI precision.",
-    bullets: ["Data annotation & labeling for all modalities", "AI model validation & continuous feedback loops", "Content moderation & exception handling"],
-    image: service5,
-    slug: "/services/human-in-the-loop",
-  },
 ];
 
 const processSteps = [
@@ -397,7 +355,7 @@ export default function Services() {
             ))}
           </div>
         </div>
-      </section> */}
+      </section>
 
       {/* ── 3. SERVICES GRID ── */}
       <section className="section">
