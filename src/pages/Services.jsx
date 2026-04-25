@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useReveal, ANIM_CSS } from "../animations";
 import { useEffect, useRef, useState } from "react";
 
@@ -11,7 +11,7 @@ import service5 from "../assets/images/project_management.png";
 import service6 from "../assets/images/consulting_services.png";
 import service7 from "../assets/images/teams_application.png";
 import service8 from "../assets/images/operational_efficiency.png";
-import service9  from "../assets/images/fast_growth.png";
+import service9 from "../assets/images/fast_growth.png";
 // New data service images — swap these paths for your actual assets when ready
 import service10 from "../assets/images/app_development.png";
 import service11 from "../assets/images/application_integration.png";
@@ -23,134 +23,74 @@ import service14 from "../assets/images/project_management.png";
 
 const offerings = [
   {
-    title: "Application Design & Development",
-    desc: "Full-cycle development from requirements to release.",
-    bullets: ["End-to-end development lifecycle", "UI/UX design & prototyping", "QA testing & release management"],
+    title: "Application Development",
+    path: "/services/app-development",
+    desc: "Transforming heritage portfolios to flexible, modular application development.",
+    bullets: ["Agile methods for rapid deployment", "Automation & business integration", "Enhance digital transformation & CX"],
     image: service1,
-    slug: "/services/app-development",   // ← detail page
+    fullText: "Enterprise organizations are transforming heritage portfolios to flexible, modular application development management portfolios by implementing next-generation processes defined by speed, efficiency and resilience. By adopting agile methods, what used to take developers months to release can now take mere seconds to deploy. Adding automation and business integration into the mix makes for an efficient process. Organizations are adopting the agile approach to application development to enhance their digital transformation smartly, while keeping pace with the competition and the changing marketplace with positive customer experiences."
   },
   {
-    title: "Application Integration",
-    desc: "Seamless connectivity between systems.",
-    bullets: ["REST, GraphQL & event-driven APIs", "Legacy system modernisation", "Real-time data pipelines"],
+    title: "Application Design, Development and Integration",
+    path: "/services/app-integration",
+    desc: "Full range of requirements gathering, prototyping, implementation, and integration.",
+    bullets: ["Designing Rich UI/UX for applications", "Builds for QA and client UAT", "API, Web services and connectors"],
     image: service2,
-    slug: "/services/app-integration", // ← detail page
+    fullText: "Providing a full range of gathering requirements, designing prototypes, testing, implementation, and integration.\nDesigning a Rich User Interface (UI) and User Experience (UX) for applications\nCreating builds for software releases for quality assurance and client user acceptance testing\nEnabling integration between applications and systems.\nWorking with API, Web services and connectors"
   },
   {
-    title: "Application Management",
-    desc: "Keep apps running reliably.",
-    bullets: ["24/7 uptime monitoring & alerting", "Incident management & root-cause analysis", "Performance optimisation & release management"],
+    title: "Application Management and Support",
+    path: "/services/app-management",
+    desc: "Providing management and support service for new and existing applications.",
+    bullets: ["Application management and support", "Resolving technical issues", "Resolving functional issues"],
     image: service3,
-    slug: "/services/app-management",   // ← detail page
+    fullText: "Providing application management and support service for new and existing applications.\nResolving technical and functional issues as needed."
   },
   {
     title: "Application Maintenance",
-    desc: "Performance & health optimization.",
-    bullets: ["Proactive bug resolution & patching", "Security & dependency hygiene", "Feature iterations alongside stable baseline"],
+    path: "/services/app-maintenance",
+    desc: "Conducting reviews and ensuring standards.",
+    bullets: ["Reviews for standards and requirements", "Ensuring systems perform optimally", "Ongoing support and maintenance"],
     image: service4,
-    slug: "/services/app-maintenance", // ← detail page
+    fullText: "Conducting reviews to ensure standards and requirements are being met.\nEnsuring systems are performing optimally."
   },
   {
     title: "Project Management",
-    desc: "End-to-end delivery management.",
-    bullets: ["Scope, timeline & budget governance", "Risk register & mitigation planning", "Stakeholder communication & transparent reporting"],
+    path: "/services/project-management",
+    desc: "Establishing and managing timelines to budget.",
+    bullets: ["Establishing timelines", "Managing agreed-to-budget", "Assessing and managing risks"],
     image: service5,
-    slug: "/services/project-management", // ← detail page
+    fullText: "Establishing and managing timelines.\nManaging the project to the agreed-to-budget.\nAssessing and managing risks throughout the process\nDocumenting features, fixes and configurations\nCommunicating with stakeholders."
   },
   {
     title: "Consulting Services",
-    desc: "Strategic technical guidance.",
-    bullets: ["Architecture review & technology selection", "Feasibility & trade-off analysis", "Phased implementation roadmaps"],
+    path: "/services/consulting",
+    desc: "Assessing needs, requirements, and goals for cross-functional applications.",
+    bullets: ["Reviewing technical design documents", "Analyzing feasibility & performance", "Addressing security & scalability"],
     image: service6,
-    slug: "/services/consulting", // ← detail page
+    fullText: "Assessing needs, requirements, and goals for the development of new cross-functional, multi-platform applications.\nReviewing technical design documents to ensure solutions properly leverage the company’s technology stack\nAnalyzing the feasibility, costs, time, compatibility, and performance of applications\nAddressing performance, scalability, caching, security, encryption, and testing requirements\nPresenting potential solutions to stakeholders across the organization"
   },
   {
-    title: "Teams Integration",
-    desc: "Microsoft Teams solutions.",
-    bullets: ["Intelligent bots & adaptive card workflows", "Message extensions & data retrieval commands", "Embedded tab apps & meeting integrations"],
+    title: "Teams Application Development and Integration",
+    path: "/services/teams-integration",
+    desc: "Developing bots, message extensions, and Teams integrations.",
+    bullets: ["Bots and message extensions", "Integration into Microsoft Teams", "Web app embedded as Tab"],
     image: service7,
-    slug: "/services/teams-integration", // ← detail page
+    fullText: "Developing bots and message extension based on user story and integration into Microsoft Teams.\nDeveloping Web application and integrating as Tab"
   },
   {
-    title: "Operational Efficiency",
-    desc: "Modernize legacy systems.",
-    bullets: ["Cloud spend audits & right-sizing", "Legacy modernisation with strangler-fig pattern", "Developer workflow & CI/CD pipeline optimisation"],
+    title: "Operational Efficiency and Fast Growth",
+    path: "/services/operational-efficiency",
+    desc: "Ensure efficient and cost-effective application development.",
+    bullets: ["Efficient app development management", "Expand legacy app capabilities", "Boost growth by reinventing applications"],
     image: service8,
-    slug: "/services/operational-efficiency", // ← detail page
-  },
-  {
-    title: "Fast Growth",
-    desc: "Boost growth by reinventing your applications.",
-    bullets: [
-      "Shorten release cycles with CI/CD & feature flags",
-      "Cut maintenance overhead with targeted refactoring",
-      "Architect for 10× growth capacity",
-      "Modernise stack to unlock developer velocity",
-    ],
-    image: service9,
-    slug: "/services/fast-growth", // ← detail page
-  },
-  // ── NEW DATA SERVICES ─────────────────────────────────────────────────────
-  {
-    title: "Data & Analytics",
-    desc: "Turn your data into strategic insight.",
-    bullets: [
-      "Data strategy, maturity assessment & governance",
-      "Advanced analytics, ML & BI dashboards",
-      "Data visualization & storytelling",
-    ],
-    image: service10,
-    slug: "/services/data-analytics",
-  },
-  {
-    title: "Data Engineering",
-    desc: "Transform your data into a strategic advantage.",
-    bullets: [
-      "Modern data architecture & cloud-native platforms",
-      "ETL/ELT pipelines & real-time stream processing",
-      "Data quality, governance & compliance frameworks",
-    ],
-    image: service11,
-    slug: "/services/data-engineering",
-  },
-  {
-    title: "Cloud Engineering",
-    desc: "Scale, secure, and innovate in the cloud.",
-    bullets: [
-      "Cloud strategy, migration & architecture",
-      "DevOps, CI/CD & containerization",
-      "Cloud security, compliance & managed ops",
-    ],
-    image: service12,
-    slug: "/services/cloud-engineering",
-  },
-  {
-    title: "Data Science",
-    desc: "Make your data work smarter.",
-    bullets: [
-      "Predictive modelling, NLP & computer vision",
-      "Decision intelligence & MLOps at scale",
-      "Story-driven insight experiences",
-    ],
-    image: service13,
-    slug: "/services/data-science",
-  },
-  {
-    title: "Human in the Loop (HITL)",
-    desc: "Where human judgment meets AI precision.",
-    bullets: [
-      "Data annotation & labeling for all modalities",
-      "AI model validation & continuous feedback loops",
-      "Content moderation & exception handling",
-    ],
-    image: service14,
-    slug: "/services/human-in-the-loop",
-  },
+    fullText: "Ensure efficient and cost-effective application development management while using secure practices.\nExpand the capabilities of your legacy applications and enhance use experience by leveraging modern technology. \nBoost growth by reinventing your applications. Speed up the application development process while minimizing maintenance needs."
+  }
 ];
 
-const metrics     = [["12+","Industries served"],["4","Global locations"],["10×","Faster releases"],["100%","Budget adherence"]];
-const clientLogos = ["Accenture","Deloitte","ThoughtWorks","KPMG","McKinsey","Bain & Co","BCG","PwC"];
-const fomoLeads   = ["A SaaS team in Austin just got in touch.","A fintech startup booked a discovery call.","An e-commerce company requested a proposal.","A logistics firm just reached out."];
+// const metrics = [["12+", "Industries served"], ["4", "Global locations"], ["10×", "Faster releases"], ["100%", "Budget adherence"]];
+// const clientLogos = ["Accenture", "Deloitte", "ThoughtWorks", "KPMG", "McKinsey", "Bain & Co", "BCG", "PwC"];
+// const fomoLeads = ["A SaaS team in Austin just got in touch.", "A fintech startup booked a discovery call.", "An e-commerce company requested a proposal.", "A logistics firm just reached out."];
 
 // ── STYLES ────────────────────────────────────────────────────────────────────
 
@@ -209,6 +149,8 @@ const pageStyles = `
   .btn--ghost{background:transparent;border-color:rgba(20,184,166,0.22);color:var(--teal-2)}
   .btn--ghost:hover{background:rgba(20,184,166,0.08);border-color:rgba(20,184,166,0.40)}
   .btn--sm{padding:8px 16px;font-size:13px} .btn--lg{padding:15px 30px;font-size:16px} .btn--full{width:100%}
+
+
 
   /* ── SHARED: CARDS ── */
   .card{position:relative;border-radius:var(--radius);border:1px solid var(--border);background:rgba(255,255,255,0.03);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:var(--shadow-soft);transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease),border-color var(--dur) var(--ease)}
@@ -300,10 +242,12 @@ const pageStyles = `
   .card-lift{transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease}
   .card-lift:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
 
-  .svc-hero-img{width:100%;border-radius:16px;overflow:hidden;aspect-ratio:21/7;margin-top:40px;position:relative;box-shadow:0 12px 40px rgba(0,0,0,.14)}
+  .svc-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .svc-hero-img{width:100%;border-radius:16px;overflow:hidden;aspect-ratio:4/3;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.45)}
   .svc-hero-img img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.8) brightness(.85)}
-  .svc-hero-img-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,148,136,.3) 0%,transparent 60%);pointer-events:none}
-  .svc-hero-img-label{position:absolute;left:24px;bottom:20px;color:#fff;font-size:13px;font-weight:700;letter-spacing:.04em;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .svc-hero-img-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(13,148,136,.25) 0%,transparent 60%);pointer-events:none}
+  .svc-hero-img-label{position:absolute;left:18px;bottom:16px;color:#fff;font-size:12px;font-weight:700;letter-spacing:.04em;text-shadow:0 2px 8px rgba(0,0,0,.5);background:rgba(7,16,14,.6);padding:4px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12)}
+  @media(max-width:900px){.svc-hero-grid{grid-template-columns:1fr}.svc-hero-img{aspect-ratio:16/7;margin-top:32px}}
 
   .offerings-bento{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:auto;gap:16px}
   .offering-cell{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;position:relative;transition:border-color .25s ease,background .25s ease}
@@ -354,7 +298,7 @@ function useFomoToast() {
       setTimeout(() => setToast(null), 3900);
     };
     const first = setTimeout(show, 4000);
-    const iv    = setInterval(show, 7000);
+    const iv = setInterval(show, 7000);
     return () => { clearTimeout(first); clearInterval(iv); };
   }, []);
   return toast;
@@ -366,35 +310,26 @@ export default function Services() {
   useReveal();
   const barRef = useRef(null);
   useBarFillOnScroll(barRef);
-  const toast  = useFomoToast();
+  const toast = useFomoToast();
+  const navigate = useNavigate();
 
   return (
     <div>
       <style>{pageStyles}</style>
       <style>{ANIM_CSS}</style>
 
-      {toast && (
-        <div className={`fomo-toast ${toast.phase}`}>
-          <div className="fomo-dot" />
-          <span style={{ fontSize: 12, color: "#1a1a1a", lineHeight: 1.4 }}>{toast.text}</span>
-        </div>
-      )}
-
       {/* ── HERO ── */}
       <section className="section">
-        <div className="container">
-          <div className="ha ha-1"><span className="kicker">Services</span></div>
-          <h1 className="h1 ha ha-2" style={{ fontSize: "clamp(2.2rem,4.5vw,3.2rem)", lineHeight: 1.1, marginTop: 10, maxWidth: "18ch" }}>Enterprise IT services, end to end.</h1>
-          <p className="lead ha ha-3" style={{ marginTop: 16, maxWidth: "60ch" }}>At InionData, we offer a comprehensive range of data services designed to meet the diverse needs of businesses in today's digital landscape. From IT staffing to strategic consulting, we provide tailored solutions that empower our clients to succeed. Explore our services below to learn how we can help you achieve your business goals.</p>
-          <div className="ha ha-4" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginTop: 36 }}>
-            {metrics.map(([v, l]) => (
-              <div key={l} className="card card-i" style={{ padding: "20px 16px", borderRadius: 14, textAlign: "center" }}>
-                <div className="stat-num">{v}</div>
-                <div className="lead" style={{ fontSize: 12, marginTop: 6 }}>{l}</div>
-              </div>
-            ))}
+        <div className="container svc-hero-grid">
+          {/* Left — text */}
+          <div>
+            <div className="ha ha-1"><span className="kicker">Services</span></div>
+            <h1 className="h1 ha ha-2" style={{ fontSize: "clamp(2.2rem,4.5vw,3.2rem)", lineHeight: 1.1, marginTop: 10, maxWidth: "18ch" }}>Enterprise IT services, end to end.</h1>
+            <p className="lead ha ha-3" style={{ marginTop: 16, maxWidth: "52ch" }}>At InionData, we offer a comprehensive range of data services designed to meet the diverse needs of businesses in today's digital landscape. From IT staffing to strategic consulting, we provide tailored solutions that empower our clients to succeed. Explore our services below to learn how we can help you achieve your business goals.</p>
           </div>
-          <div className="svc-hero-img ha ha-5">
+
+          {/* Right — image */}
+          <div className="svc-hero-img ha ha-4">
             <img className="ken-burns" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1400&auto=format&fit=crop&q=80" alt="Developer writing code" loading="lazy" />
             <div className="svc-hero-img-overlay" />
             <div className="svc-hero-img-label">Full-lifecycle application delivery</div>
@@ -403,7 +338,7 @@ export default function Services() {
       </section>
 
       {/* ── OVERVIEW 2-col ── */}
-      <section className="section section--alt">
+      {/* <section className="section section--alt">
         <div className="container grid grid-2" style={{ alignItems: "start", gap: 24 }}>
           <div ref={barRef} className="card card__p rv">
             <div className="accent-bar" />
@@ -411,7 +346,7 @@ export default function Services() {
             <div className="h2" style={{ fontSize: 18, marginTop: 6 }}>Predictable delivery metrics</div>
             <p className="lead" style={{ marginTop: 8, fontSize: 14 }}>We aim for clear ownership and measurable outcomes on every engagement.</p>
             <div style={{ marginTop: 20, display: "grid", gap: 14 }}>
-              {[["Clarity",92],["Quality",88],["Security",90]].map(([l, v]) => (
+              {[["Clarity", 92], ["Quality", 88], ["Security", 90]].map(([l, v]) => (
                 <div key={l} style={{ display: "grid", gridTemplateColumns: "90px 1fr 42px", gap: 12, alignItems: "center" }}>
                   <div style={{ fontWeight: 700, fontSize: 13, color: "var(--text)" }}>{l}</div>
                   <div className="bar-track"><div className="bar-fill-js" data-target-width={`${v}%`} /></div>
@@ -426,7 +361,7 @@ export default function Services() {
             <div className="kicker">What you get</div>
             <div className="h2" style={{ fontSize: 18, marginTop: 6 }}>Every engagement includes</div>
             <div className="grid grid-2" style={{ marginTop: 16, gap: 10 }}>
-              {[["Agile delivery","Weeks to release, not months."],["Fast growth","Reinvent apps, boost velocity."],["Clean handover","Docs + knowledge transfer."],["Confidentiality","NDA-ready, least-access ops."]].map(([t, d]) => (
+              {[["Agile delivery", "Weeks to release, not months."], ["Fast growth", "Reinvent apps, boost velocity."], ["Clean handover", "Docs + knowledge transfer."], ["Confidentiality", "NDA-ready, least-access ops."]].map(([t, d]) => (
                 <div key={t} className="card card-i" style={{ padding: 14, borderRadius: 14 }}>
                   <div style={{ fontWeight: 800, fontSize: 13, color: "var(--text)", marginBottom: 5 }}>{t}</div>
                   <div className="lead" style={{ fontSize: 12 }}>{d}</div>
@@ -436,7 +371,7 @@ export default function Services() {
             <div style={{ marginTop: 16 }}><Link to="/contact" className="btn btn--primary btn--full">Request a quick call</Link></div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ── OFFERINGS BENTO ── */}
       <section className="section">
@@ -448,60 +383,41 @@ export default function Services() {
             <p className="lead" style={{ marginTop: 10, maxWidth: "58ch" }}>From IT staffing to data engineering and AI — we cover the full spectrum of enterprise technology needs.</p>
           </div>
 
-          <div className="marquee-wrap rv" style={{ marginBottom: 24, padding: "8px 0" }}>
-            <div className="marquee-track">
-              {[...clientLogos, ...clientLogos].map((name, i) => (
-                <span key={i} style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--muted,#64748b)", whiteSpace: "nowrap", userSelect: "none" }}>{name}</span>
-              ))}
-            </div>
-          </div>
-
           <div className="offerings-bento rv-group">
             {offerings.map((o) => (
               <div
                 key={o.title}
-                className={`offering-cell rv${o.slug ? " offering-cell--linked" : ""}`}
+                className={`offering-cell rv offering-cell--linked`}
               >
                 {/* Image wrapper — gets the "View details →" pill on hover for linked cards */}
                 <div
                   className="offering-cell-img-wrap"
-                  style={{ width: "100%", height: 200, overflow: "hidden", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+                  style={{ width: "100%", height: 200, overflow: "hidden", borderBottom: "1px solid rgba(255,255,255,0.06)", cursor: "pointer" }}
+                  onClick={() => navigate(o.path)}
                 >
-                  {o.slug ? (
-                    <Link to={o.slug} style={{ display: "block", width: "100%", height: "100%" }}>
-                      <img
-                        src={o.image}
-                        alt={o.title}
-                        loading="lazy"
-                        style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .45s var(--ease)" }}
-                      />
-                    </Link>
-                  ) : (
-                    <img
-                      src={o.image}
-                      alt={o.title}
-                      loading="lazy"
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                    />
-                  )}
+                  <img
+                    src={o.image}
+                    alt={o.title}
+                    loading="lazy"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .45s var(--ease)" }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                  />
                 </div>
 
                 <div className="offering-cell__body">
                   <div className="offering-cell__head">
                     <div className="icon-badge">{o.icon}</div>
-                    {/* Title is a link for cards that have a detail page */}
-                    {o.slug ? (
-                      <Link
-                        to={o.slug}
-                        className="h2"
-                        style={{ fontSize: 17, color: "inherit", transition: "color .2s" }}
-                        onMouseEnter={(e) => { e.currentTarget.style.color = "var(--teal-2)"; }}
-                      >
-                        {o.title}
-                      </Link>
-                    ) : (
-                      <div className="h2" style={{ fontSize: 17 }}>{o.title}</div>
-                    )}
+                    {/* Title triggers navigation */}
+                    <Link
+                      to={o.path}
+                      className="h2"
+                      style={{ fontSize: 17, color: "inherit", transition: "color .2s", background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer", display: "inline-block" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = "var(--teal-2)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = "inherit"; }}
+                    >
+                      {o.title}
+                    </Link>
                   </div>
 
                   <p className="lead" style={{ fontSize: 13, marginBottom: 14 }}>{o.desc}</p>
@@ -515,13 +431,13 @@ export default function Services() {
                   </ul>
 
                   <div className="offering-cell__footer">
-                    {/* Primary action: detail page if available, else contact */}
+                    {/* Primary action: Navigate */}
                     <Link
                       className="btn btn--primary"
-                      to={o.slug ?? "/contact"}
+                      to={o.path}
                       style={{ fontSize: 13, padding: "8px 16px" }}
                     >
-                      {o.slug ? "Explore" : "Enquire"}
+                      Explore
                     </Link>
                     <Link className="btn btn--ghost" to="/about" style={{ fontSize: 13, padding: "8px 16px" }}>How we work</Link>
                   </div>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useReveal, ANIM_CSS } from "../../animations";
+import projectImg from "../../assets/images/project-management.jpg";
 
 // ── DATA ─────────────────────────────────────────
 
@@ -283,7 +284,7 @@ export default function ProjectManagement() {
 
           <div className="pm-lottie-col reveal">
             <img
-              src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=700&q=75"
+              src={projectImg}
               alt="Project planning"
               loading="lazy"
               style={{ width: "100%", borderRadius: 20, display: "block" }}
