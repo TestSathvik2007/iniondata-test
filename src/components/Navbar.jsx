@@ -32,8 +32,8 @@ const navStyles = `
     align-items: center;
     justify-content: space-between;
     height: 64px;
-    padding: 0 24px;
-    max-width: 1200px;
+    padding: 0 clamp(20px, 5vw, 60px);
+    max-width: 1600px;
     margin: 0 auto;
   }
 
