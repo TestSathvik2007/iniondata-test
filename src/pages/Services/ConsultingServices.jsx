@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { useReveal, ANIM_CSS } from "../../animations";
 
 // ── DATA ─────────────────────────────────────────
@@ -66,18 +67,11 @@ const deliverables = [
   "Follow-up Q&A session included",
 ];
 
-const metrics = [
-  { value: "40%", label: "Average infrastructure cost reduction" },
-  { value: "2×", label: "Faster stakeholder alignment" },
-  { value: "6wk", label: "Average engagement length" },
-];
-
-const deliverySteps = [
-  { n: "01", title: "Discovery & Assessment", desc: "We analyse your current landscape, challenges, and business goals — through stakeholder interviews, technical audits, and scope definition." },
-  { n: "02", title: "Architecture & Roadmap", desc: "We design scalable, future-proof architecture tailored to your business — with a phased delivery plan, tech stack selection, and risk mapping." },
-  { n: "03", title: "Build & Implement", desc: "We develop applications, pipelines, integrations, and governance frameworks in structured sprints with weekly stakeholder updates." },
-  { n: "04", title: "Optimise & Support", desc: "We monitor, refine, and evolve your solution as your needs grow — with performance tracking, continuous improvement, and post-delivery support." },
-];
+// const metrics = [
+//   { value: "40%", label: "Average infrastructure cost reduction" },
+//   { value: "2×", label: "Faster stakeholder alignment" },
+//   { value: "6wk", label: "Average engagement length" },
+// ];
 
 // ── STYLES ───────────────────────────────────────
 
@@ -97,7 +91,7 @@ const styles = `
   z-index:0;
 }
 
-/* HERO */
+/* HERO — editorial left-heavy */
 .cs-hero {
   display:grid;
   grid-template-columns:1.1fr 1fr;
@@ -261,61 +255,19 @@ const styles = `
 .cs-case-body li { font-size:14px; color:var(--muted); margin-bottom:8px }
 .cs-case-body li strong { color:#2dd4bf }
 
-/* DELIVERY GRID */
-.cs-delivery-grid {
-  margin-top:40px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-}
-.cs-delivery-card {
-  padding:28px 24px;
-  border-radius:20px;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.07);
-  position:relative;
-  transition:.25s;
-}
-.cs-delivery-card:hover { border-color:rgba(20,184,166,.3) }
-.cs-delivery-num {
-  font-size:48px; font-weight:800; line-height:1;
-  color:rgba(20,184,166,.18);
-  margin-bottom:16px;
-  letter-spacing:-0.04em;
-}
-.cs-delivery-card h3 { margin:0 0 10px; font-size:16px; font-weight:700 }
-.cs-delivery-card p { margin:0; font-size:13px; color:var(--muted); line-height:1.65 }
-
-/* ── RESPONSIVE ── */
+/* RESPONSIVE */
 @media(max-width:1000px) {
-  .cs-hero { grid-template-columns:1fr; gap:32px }
-  .cs-lottie-col { display:flex; justify-content:center }
-  .cs-lottie-col lottie-player { max-width:100% }
+  .cs-hero { grid-template-columns:1fr }
+  .cs-lottie-col { display:none }
   .cs-eval { grid-template-columns:1fr }
   .cs-deliverables { grid-template-columns:1fr }
-  .cs-metrics { grid-template-columns:1fr 1fr }
+  .cs-metrics { grid-template-columns:1fr }
   .cs-case { grid-template-columns:1fr }
-  .cs-case-img { min-height:240px }
-  .cs-case-img::after {
-    background:linear-gradient(to bottom,transparent 40%,rgba(7,16,14,.95));
-  }
-  .cs-case-body { padding:28px 24px }
-  .cs-delivery-grid { grid-template-columns:1fr 1fr }
 }
-
 @media(max-width:700px) {
-  .cs-hero-badge { font-size:11px; padding:8px 14px }
   .cs-process-row { grid-template-columns:1fr 1fr }
   .cs-process-track { display:none }
   .cs-advisory-num { font-size:32px }
-  .cs-advisory-row { grid-template-columns:56px 1fr; gap:16px }
-  .cs-metrics { grid-template-columns:1fr }
-  .cs-metric-val { font-size:36px }
-  .cs-eval { grid-template-columns:1fr }
-  .cs-deliverables { grid-template-columns:1fr }
-  .cs-delivery-grid { grid-template-columns:1fr }
-  .cs-case-body { padding:20px 16px }
-  .cs-case-body h2 { font-size:18px }
 }
 `;
 
@@ -323,6 +275,15 @@ const styles = `
 
 export default function ConsultingServices() {
   useReveal();
+
+  useEffect(() => {
+    if (!customElements.get("lottie-player")) {
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js";
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  }, []);
 
   return (
     <div className="cs-page">
@@ -334,18 +295,14 @@ export default function ConsultingServices() {
       <section className="section" style={{ position: "relative", zIndex: 1 }}>
         <div className="container cs-hero">
           <div>
-            <div className="cs-hero-badge reveal">
-              <div className="cs-hero-badge-dot" />
-              Technical Advisory · Strategy · Architecture
-            </div>
-            <h1 className="h1 reveal">
-              Make the right calls{" "}
+            <div className="kicker reveal">Service</div>
+            <h1 className="h1 reveal" style={{ marginTop: 14 }}>
               <span style={{ background: "linear-gradient(135deg,#14b8a6,#22c55e)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                before they cost you.
+                Consulting Services
               </span>
             </h1>
             <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
-              Bad architectural decisions compound. InionData brings deep industry knowledge and customised consulting strategies to help you evaluate your options rigorously — from requirement analysis and architecture reviews to feasibility studies and phased implementation roadmaps. Every recommendation aligns technical decisions with your business goals.
+              Assessing needs, requirements, and goals for the development of new cross-functional, multi-platform applications. We review technical design documents, analyze feasibility, costs, time, compatibility, and performance — addressing scalability, security, and testing requirements before presenting solutions to stakeholders across your organization.
             </p>
             <div className="reveal" style={{ marginTop: 28, display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link className="btn btn--primary" to="/contact">Book a consultation</Link>
@@ -362,8 +319,8 @@ export default function ConsultingServices() {
         </div>
 
         {/* Metrics */}
-        <div className="container">
-          <div className="cs-metrics reveal">
+        {/* <div className="container">
+          <div className="cs-metrics reveal" style={{ marginTop: 60 }}>
             {metrics.map(m => (
               <div key={m.label} className="cs-metric">
                 <div className="cs-metric-val">{m.value}</div>
@@ -371,7 +328,7 @@ export default function ConsultingServices() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </section>
 
       {/* ADVISORY */}
@@ -416,7 +373,7 @@ export default function ConsultingServices() {
       </section>
 
       {/* EVALUATION AREAS */}
-      <section className="section section--alt" style={{ position: "relative", zIndex: 1 }}>
+      {/* <section className="section section--alt" style={{ position: "relative", zIndex: 1 }}>
         <div className="container">
           <div className="kicker reveal">Scope</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>What we evaluate</h2>
@@ -431,10 +388,10 @@ export default function ConsultingServices() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* DELIVERABLES */}
-      <section className="section" style={{ position: "relative", zIndex: 1 }}>
+      {/* <section className="section" style={{ position: "relative", zIndex: 1 }}>
         <div className="container">
           <div className="kicker reveal">Deliverables</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>What you walk away with</h2>
@@ -448,10 +405,10 @@ export default function ConsultingServices() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CASE STUDY */}
-      <section className="section section--alt" style={{ position: "relative", zIndex: 1 }}>
+      {/* <section className="section section--alt" style={{ position: "relative", zIndex: 1 }}>
         <div className="container">
           <div className="kicker reveal">Case study</div>
           <h2 className="h2 reveal" style={{ marginTop: 10, marginBottom: 30 }}>Avoiding a $1.2M rewrite</h2>
@@ -482,10 +439,11 @@ export default function ConsultingServices() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+
 
       {/* DELIVERY APPROACH */}
-      <section className="section section--alt" style={{ position: "relative", zIndex: 1 }}>
+      <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Our approach</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>How every engagement runs</h2>
@@ -494,17 +452,34 @@ export default function ConsultingServices() {
             where things stand and what comes next.
           </p>
 
-          <div className="cs-delivery-grid reveal">
-            {deliverySteps.map((step) => (
-              <div
-                key={step.n}
-                className="cs-delivery-card"
+          <div className="reveal" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
+            {[
+              { n: "01", title: "Discovery & Assessment", desc: "We analyse your current landscape, challenges, and business goals — through stakeholder interviews, technical audits, and scope definition." },
+              { n: "02", title: "Architecture & Roadmap", desc: "We design scalable, future-proof architecture tailored to your business — with a phased delivery plan, tech stack selection, and risk mapping." },
+              { n: "03", title: "Build & Implement", desc: "We develop applications, pipelines, integrations, and governance frameworks in structured sprints with weekly stakeholder updates." },
+              { n: "04", title: "Optimise & Support", desc: "We monitor, refine, and evolve your solution as your needs grow — with performance tracking, continuous improvement, and post-delivery support." },
+            ].map((step, i) => (
+              <div key={step.n} style={{
+                padding: "28px 24px",
+                borderRadius: 20,
+                background: "rgba(255,255,255,.04)",
+                border: "1px solid rgba(255,255,255,.07)",
+                position: "relative",
+                transition: ".25s",
+              }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
                 onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
               >
-                <div className="cs-delivery-num">{step.n}</div>
-                <h3>{step.title}</h3>
-                <p>{step.desc}</p>
+                <div style={{
+                  fontSize: 48, fontWeight: 800, lineHeight: 1,
+                  color: "rgba(20,184,166,.18)",
+                  marginBottom: 16,
+                  letterSpacing: "-0.04em",
+                }}>
+                  {step.n}
+                </div>
+                <h3 style={{ margin: "0 0 10px", fontSize: 16, fontWeight: 700 }}>{step.title}</h3>
+                <p style={{ margin: 0, fontSize: 13, color: "var(--muted)", lineHeight: 1.65 }}>{step.desc}</p>
               </div>
             ))}
           </div>

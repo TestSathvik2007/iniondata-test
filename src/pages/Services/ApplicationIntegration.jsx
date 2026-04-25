@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { useReveal, ANIM_CSS } from "../../animations";
-import service1 from "../../assets/images/app_development.png";
 
 // ── DATA ─────────────────────────────────────────
 
@@ -44,11 +44,11 @@ const coreTech = [
 
 const tools = ["Node.js", "Python", "RabbitMQ", "Redis", "PostgreSQL", "Elasticsearch", "Terraform", "GitHub Actions"];
 
-const metrics = [
-  { value: "3×", label: "Faster data sync" },
-  { value: "65%", label: "Fewer manual errors" },
-  { value: "99.9%", label: "Pipeline uptime" },
-];
+// const metrics = [
+//   { value: "3×", label: "Faster data sync" },
+//   { value: "65%", label: "Fewer manual errors" },
+//   { value: "99.9%", label: "Pipeline uptime" },
+// ];
 
 // ── STYLES ───────────────────────────────────────
 
@@ -288,6 +288,15 @@ const styles = `
 export default function ApplicationIntegration() {
   useReveal();
 
+  useEffect(() => {
+    if (!customElements.get("lottie-player")) {
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js";
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  }, []);
+
   return (
     <div className="int-page">
       <style>{styles}</style>
@@ -297,15 +306,14 @@ export default function ApplicationIntegration() {
       <section className="section" style={{ overflow: "hidden" }}>
         <div className="container int-hero">
           <div>
-            <div className="kicker reveal">Application Integration</div>
+            <div className="kicker reveal">Service </div>
             <h1 className="h1 reveal" style={{ marginTop: 14 }}>
-              Every system,<br />
               <span style={{ background: "linear-gradient(135deg,#14b8a6,#22c55e)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                speaking the same language.
+                Application Design, Development and Integration
               </span>
             </h1>
             <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
-              We integrate your applications, APIs, and cloud services into a unified ecosystem — eliminating data silos, reducing manual handoffs, and enabling real-time automation. Our rigorous vetting process and scalable delivery model means we can connect one workflow or rebuild an entire integration layer.
+              Providing a full range of gathering requirements, designing prototypes, testing, implementation, and integration. We design rich User Interfaces (UI) and User Experiences (UX), create builds for quality assurance and client user acceptance testing, and enable integration between applications and systems — working with APIs, web services, and connectors.
             </p>
             <div className="reveal" style={{ marginTop: 28, display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link className="btn btn--primary" to="/contact">Start a project</Link>
@@ -325,7 +333,7 @@ export default function ApplicationIntegration() {
         </div>
 
         {/* Stats band */}
-        <div className="container">
+        {/* <div className="container">
           <div className="int-stat-band reveal">
             {metrics.map(m => (
               <div key={m.label} className="int-stat">
@@ -334,7 +342,7 @@ export default function ApplicationIntegration() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </section>
 
       {/* WHAT WE INTEGRATE */}
@@ -404,7 +412,7 @@ export default function ApplicationIntegration() {
       </section>
 
       {/* CASE STUDY */}
-      <section className="section">
+      {/* <section className="section">
         <div className="container">
           <div className="kicker reveal">Case study</div>
           <h2 className="h2 reveal" style={{ marginTop: 10, marginBottom: 30 }}>Retail integration in 6 weeks</h2>
@@ -434,7 +442,7 @@ export default function ApplicationIntegration() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
 
       {/* DELIVERY APPROACH */}
@@ -462,8 +470,8 @@ export default function ApplicationIntegration() {
                 position: "relative",
                 transition: ".25s",
               }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
-              onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
+                onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
+                onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
               >
                 <div style={{
                   fontSize: 48, fontWeight: 800, lineHeight: 1,
