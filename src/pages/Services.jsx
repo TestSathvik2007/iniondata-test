@@ -3,15 +3,15 @@ import { useReveal, ANIM_CSS } from "../animations";
 import { useRef } from "react";
 
 /* ── IMAGES ── */
-import service1  from "../assets/images/app_development.png";
-import service2  from "../assets/images/application_integration.png";
-import service3  from "../assets/images/application_management.png";
-import service4  from "../assets/images/application_maintenance.png";
-import service5  from "../assets/images/project_management.png";
-import service6  from "../assets/images/consulting_services.png";
-import service7  from "../assets/images/teams_application.png";
-import service8  from "../assets/images/operational_efficiency.png";
-import service9  from "../assets/images/fast_growth.png";
+import service1 from "../assets/images/app_development.png";
+import service2 from "../assets/images/application_integration.png";
+import service3 from "../assets/images/application_management.png";
+import service4 from "../assets/images/application_maintenance.png";
+import service5 from "../assets/images/project_management.png";
+import service6 from "../assets/images/consulting_services.png";
+import service7 from "../assets/images/teams_application.png";
+import service8 from "../assets/images/operational_efficiency.png";
+import service9 from "../assets/images/fast_growth.png";
 
 /* ── DATA ── */
 const offerings = [
@@ -97,7 +97,7 @@ const techStack = [
 
 const valueProps = [
   { label: "Agile delivery", detail: "Weeks to release, not months." },
-  { label: "Fast growth",    detail: "Reinvent apps, boost velocity." },
+  { label: "Fast growth", detail: "Reinvent apps, boost velocity." },
   { label: "Clean handover", detail: "Docs + knowledge transfer included." },
   { label: "Confidentiality", detail: "NDA-ready, least-access ops." },
 ];
@@ -342,7 +342,6 @@ export default function Services() {
       <section className="section section--alt">
         <div className="container">
           <div className="rv" style={{ marginBottom: clamp(20, 28) }}>
-            <div className="accent-bar" />
             <span className="kicker">Every engagement</span>
             <h2 className="h2" style={{ marginTop: 10, fontSize: "clamp(18px,2.5vw,28px)" }}>What you get by default</h2>
           </div>
@@ -361,7 +360,6 @@ export default function Services() {
       <section className="section">
         <div className="container">
           <div className="rv" style={{ marginBottom: "clamp(20px,4vw,36px)" }}>
-            <div className="accent-bar" />
             <span className="kicker">Offerings</span>
             <h2 className="h2" style={{ marginTop: 10 }}>Choose what you need</h2>
             <p className="lead" style={{ marginTop: 10, maxWidth: "56ch" }}>
@@ -411,7 +409,6 @@ export default function Services() {
       <section className="section section--alt">
         <div className="container">
           <div className="rv" style={{ marginBottom: "clamp(20px,4vw,36px)" }}>
-            <div className="accent-bar" />
             <span className="kicker">Our Process</span>
             <h2 className="h2" style={{ marginTop: 10 }}>How we deliver excellence</h2>
             <p className="lead" style={{ marginTop: 10, maxWidth: "56ch" }}>
@@ -434,7 +431,6 @@ export default function Services() {
       <section className="section">
         <div className="container">
           <div className="rv" style={{ marginBottom: "clamp(20px,4vw,36px)", textAlign: "center" }}>
-            <div className="accent-bar" style={{ margin: "0 auto 12px" }} />
             <span className="kicker">Technologies</span>
             <h2 className="h2" style={{ marginTop: 10 }}>Powered by modern tools</h2>
           </div>

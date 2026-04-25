@@ -34,45 +34,16 @@ const lifecycle = [
   { label: "Verify", desc: "Post-deploy smoke tests and regression checks before sign-off" },
 ];
 
-const plans = [
-  {
-    name: "Essential",
-    cadence: "Monthly",
-    features: ["Scheduled maintenance windows", "Bug fix SLA: 72h", "Security patch deployment", "Monthly health report"],
-    accent: "rgba(20,184,166,.08)",
-  },
-  {
-    name: "Standard",
-    cadence: "Weekly",
-    features: ["Priority bug queue", "Bug fix SLA: 24h", "Performance monitoring", "Weekly status updates", "Dependency management"],
-    accent: "rgba(34,197,94,.1)",
-    highlight: true,
-  },
-  {
-    name: "Premium",
-    cadence: "Continuous",
-    features: ["24/7 incident response", "Bug fix SLA: 4h", "Proactive monitoring", "Dedicated engineer", "Daily stand-up available", "SLA-backed uptime"],
-    accent: "rgba(20,184,166,.12)",
-  },
-];
-
-// const metrics = [
-//   { value: "99.9%", label: "Target uptime SLA" },
-//   { value: "< 4h", label: "P1 response time" },
-//   { value: "60%", label: "Fewer production incidents" },
-//   { value: "3×", label: "Faster mean time to resolve" },
-// ];
-
 // ── STYLES ───────────────────────────────────────
 
 const styles = `
 /* ── PULSE / HEARTBEAT VISUAL IDENTITY ── */
 
-/* HERO — two-col with lottie right */
+/* HERO — two-col */
 .amn-hero {
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:60px;
+  gap:20px;
   align-items:center;
 }
 .amn-lottie-wrap {
@@ -88,41 +59,32 @@ const styles = `
   margin-top:32px;
   height:40px;
   position:relative;
-  overflow:hidden;
+  overflow:visible;
 }
-.amn-ecg svg { width:100%; height:100%; }
+.amn-ecg svg { width:100%; height:100%; overflow:visible; }
 .amn-ecg-line {
-  stroke-dasharray:600;
-  stroke-dashoffset:600;
-  animation:amn-draw 2.5s ease forwards;
+  stroke-dasharray:700;
+  stroke-dashoffset:700;
+  animation:amn-draw 2.2s cubic-bezier(.4,0,.2,1) .3s forwards;
 }
 @keyframes amn-draw { to { stroke-dashoffset:0 } }
 
-/* METRICS STRIP */
-.amn-metrics-strip {
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:1px;
-  background:rgba(255,255,255,.07);
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:60px;
+/* Travelling pulse dot along ECG */
+.amn-ecg-travel-dot {
+  offset-path: path("M0 20 L80 20 L100 5 L120 35 L140 5 L160 20 L240 20 L260 10 L280 30 L300 10 L320 20 L400 20 L420 8 L440 32 L460 8 L480 20 L600 20");
+  offset-rotate: 0deg;
+  fill: #14b8a6;
+  filter: drop-shadow(0 0 4px #14b8a6) drop-shadow(0 0 8px rgba(20,184,166,.5));
+  opacity: 0;
+  animation: amn-dot-travel 2.2s cubic-bezier(.4,0,.2,1) .3s forwards;
 }
-.amn-metric-cell {
-  padding:28px 20px;
-  text-align:center;
-  background:rgba(7,16,14,1);
-  transition:.25s;
+@keyframes amn-dot-travel {
+  0%   { offset-distance: 0%; opacity: 1; }
+  90%  { offset-distance: 90%; opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
 }
-.amn-metric-cell:hover { background:rgba(20,184,166,.07) }
-.amn-metric-val {
-  font-size:36px; font-weight:800;
-  background:linear-gradient(135deg,#14b8a6,#22c55e);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-}
-.amn-metric-lbl { font-size:12px; color:var(--muted); margin-top:4px; line-height:1.4 }
 
-/* SERVICES — alternate layout: icon + content */
+/* SERVICES — alternate layout */
 .amn-service-list { margin-top:40px; display:flex; flex-direction:column; gap:2px; }
 .amn-service-row {
   display:grid;
@@ -133,12 +95,19 @@ const styles = `
   border-radius:16px;
   background:rgba(255,255,255,.025);
   border:1px solid rgba(255,255,255,.06);
-  transition:.25s;
+  transition: background .25s, border-color .25s, transform .25s;
+  opacity: 0;
+  animation: amn-row-in .5s ease forwards;
+  animation-delay: calc(var(--i, 0) * 110ms + 80ms);
+}
+@keyframes amn-row-in {
+  from { opacity:0; transform: translateX(-12px); }
+  to   { opacity:1; transform: translateX(0); }
 }
 .amn-service-row:hover {
   background:rgba(20,184,166,.05);
   border-color:rgba(20,184,166,.25);
-  transform:translateX(4px);
+  transform:translateX(6px);
 }
 .amn-service-icon {
   width:56px; height:56px;
@@ -148,7 +117,9 @@ const styles = `
   display:flex; align-items:center; justify-content:center;
   font-size:24px;
   flex-shrink:0;
+  transition: background .25s, transform .25s;
 }
+.amn-service-row:hover .amn-service-icon { background:rgba(20,184,166,.18); transform:scale(1.08); }
 .amn-service-row h3 { margin:0 0 8px; font-size:17px; font-weight:700 }
 .amn-service-row p { margin:0; font-size:14px; color:var(--muted); line-height:1.65 }
 
@@ -167,8 +138,9 @@ const styles = `
   background:#14b8a6;
   animation:amn-pulse-move 3s ease-in-out infinite;
   border-radius:2px;
+  box-shadow: 0 0 8px #14b8a6;
 }
-@keyframes amn-pulse-move { 0%{left:0;opacity:1} 80%{left:70%;opacity:1} 100%{left:70%;opacity:0} }
+@keyframes amn-pulse-move { 0%{left:0;opacity:1} 80%{left:calc(100% - 30px);opacity:1} 100%{left:calc(100% - 30px);opacity:0} }
 .amn-lifecycle-row { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
 .amn-lc-step { text-align:center; }
 .amn-lc-circle {
@@ -178,98 +150,54 @@ const styles = `
   border:1.5px solid rgba(20,184,166,.4);
   background:#0c1a16;
   font-weight:700; font-size:13px; color:#2dd4bf;
-  transition:.3s;
+  transition: background .3s, transform .3s, box-shadow .3s;
+  position:relative;
 }
-.amn-lc-step:hover .amn-lc-circle { background:rgba(20,184,166,.18); transform:scale(1.1); box-shadow:0 0 20px rgba(20,184,166,.25) }
+.amn-lc-circle::after {
+  content:'';
+  position:absolute; inset:-5px;
+  border-radius:50%;
+  border:1px solid rgba(20,184,166,.2);
+  opacity:0;
+  transform:scale(.85);
+  transition: opacity .3s, transform .3s;
+}
+.amn-lc-step:hover .amn-lc-circle { background:rgba(20,184,166,.18); transform:scale(1.12); box-shadow:0 0 24px rgba(20,184,166,.25) }
+.amn-lc-step:hover .amn-lc-circle::after { opacity:1; transform:scale(1); }
 .amn-lc-step h4 { margin:0 0 6px; font-size:14px; font-weight:700 }
 .amn-lc-step p { margin:0; font-size:12px; color:var(--muted); line-height:1.5 }
 
-/* PLANS */
-.amn-plans {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-  margin-top:40px;
-  align-items:start;
-}
-.amn-plan {
-  border-radius:22px;
-  border:1px solid rgba(255,255,255,.08);
+/* DELIVERY APPROACH CARDS */
+.amn-approach-card {
+  padding:28px 24px;
+  border-radius:20px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  position:relative;
   overflow:hidden;
-  transition:.3s;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
 }
-.amn-plan:hover { transform:translateY(-6px); }
-.amn-plan-head {
-  padding:28px 28px 20px;
-  border-bottom:1px solid rgba(255,255,255,.07);
-}
-.amn-plan-name { font-size:20px; font-weight:800; margin-bottom:4px }
-.amn-plan-cadence {
-  display:inline-block;
-  padding:3px 10px; border-radius:999px;
-  font-size:11px; font-weight:600;
-  background:rgba(20,184,166,.15);
-  border:1px solid rgba(20,184,166,.3);
-  color:#2dd4bf;
-}
-.amn-plan-body { padding:24px 28px 30px; }
-.amn-plan-body ul { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px }
-.amn-plan-body li {
-  display:flex; align-items:flex-start; gap:10px;
-  font-size:14px; color:var(--muted);
-}
-.amn-plan-body li::before {
-  content:'✓';
-  color:#14b8a6;
-  font-weight:700;
-  flex-shrink:0;
-  margin-top:1px;
-}
-.amn-plan--highlight {
-  border-color:rgba(20,184,166,.4);
-  box-shadow:0 0 40px rgba(20,184,166,.1);
-  transform:translateY(-8px);
-}
-
-/* CASE STUDY */
-.amn-case {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0;
-  border-radius:24px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.08);
-}
-.amn-case-content {
-  padding:48px 44px;
-  background:rgba(255,255,255,.03);
-  display:flex; flex-direction:column; justify-content:center;
-}
-.amn-case-content h2 { font-size:24px; font-weight:800; margin:0 0 14px }
-.amn-case-content p { font-size:14px; color:var(--muted); line-height:1.75; margin:0 0 22px }
-.amn-case-content li { font-size:14px; color:var(--muted); margin-bottom:8px }
-.amn-case-content li strong { color:#2dd4bf }
-.amn-case-img { position:relative; min-height:320px; }
-.amn-case-img img { width:100%; height:100%; object-fit:cover; display:block; }
-.amn-case-img::before {
+.amn-approach-card::before {
   content:'';
-  position:absolute; inset:0; z-index:1;
-  background:linear-gradient(to right,rgba(7,16,14,.9) 0%,transparent 50%);
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:3px;
+  background:linear-gradient(180deg,#14b8a6,#22c55e);
+  transform:scaleY(0);
+  transform-origin:bottom;
+  transition:transform .3s ease;
 }
+.amn-approach-card:hover { border-color:rgba(20,184,166,.3); transform:translateY(-4px); box-shadow:0 12px 36px rgba(20,184,166,.08); }
+.amn-approach-card:hover::before { transform:scaleY(1); }
 
 /* RESPONSIVE */
 @media(max-width:1000px) {
   .amn-hero { grid-template-columns:1fr }
   .amn-lottie-wrap { display:none }
-  .amn-metrics-strip { grid-template-columns:1fr 1fr }
-  .amn-plans { grid-template-columns:1fr }
-  .amn-plan--highlight { transform:none }
-  .amn-case { grid-template-columns:1fr }
 }
 @media(max-width:700px) {
   .amn-lifecycle-row { grid-template-columns:1fr 1fr }
   .amn-lifecycle-track { display:none }
-  .amn-metrics-strip { grid-template-columns:1fr }
 }
 `;
 
@@ -293,18 +221,19 @@ export default function ApplicationMaintenance() {
                 Application Maintenance
               </span>
             </h1>
-            <p className="lead reveal" style={{ marginTop: 16, maxWidth: 500 }}>
+            <p className="lead reveal" style={{ marginTop: 16, maxWidth: 700, textAlign: "justify" }}>
               Conducting reviews to ensure standards and requirements are being met, while ensuring systems are performing optimally. We proactively monitor, patch, and tune your applications so your engineering team stays focused on building — not firefighting.
             </p>
 
-            {/* ECG line */}
-            <div className="amn-ecg reveal" style={{ marginTop: 24, marginBottom: 24 }}>
-              <svg viewBox="0 0 600 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* ECG line with travelling dot */}
+            <div className="amn-ecg reveal" style={{ marginTop: 24, marginBottom: 24, position: "relative" }}>
+              <svg viewBox="0 0 600 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: "visible" }}>
                 <path
                   className="amn-ecg-line"
                   d="M0 20 L80 20 L100 5 L120 35 L140 5 L160 20 L240 20 L260 10 L280 30 L300 10 L320 20 L400 20 L420 8 L440 32 L460 8 L480 20 L600 20"
                   stroke="#14b8a6" strokeWidth="2" strokeLinecap="round" fill="none"
                 />
+                <circle className="amn-ecg-travel-dot" cx="0" cy="0" r="4" />
               </svg>
             </div>
 
@@ -324,18 +253,6 @@ export default function ApplicationMaintenance() {
             />
           </div>
         </div>
-
-        {/* Metrics strip */}
-        {/* <div className="container">
-          <div className="amn-metrics-strip reveal">
-            {metrics.map(m => (
-              <div key={m.label} className="amn-metric-cell">
-                <div className="amn-metric-val">{m.value}</div>
-                <div className="amn-metric-lbl">{m.label}</div>
-              </div>
-            ))}
-          </div>
-        </div> */}
       </section>
 
       {/* WHAT WE DO */}
@@ -343,7 +260,7 @@ export default function ApplicationMaintenance() {
         <div className="container">
           <div className="kicker reveal">Services</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>What's included</h2>
-          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 580 }}>
+          <p className="lead reveal" style={{ marginTop: 10 }}>
             Maintenance isn't just bug fixes. It's a continuous practice that keeps your system healthy, fast, and secure.
           </p>
 
@@ -384,83 +301,12 @@ export default function ApplicationMaintenance() {
         </div>
       </section>
 
-      {/* PLANS */}
-      {/* <section className="section section--alt">
-        <div className="container">
-          <div className="kicker reveal">Pricing</div>
-          <h2 className="h2 reveal" style={{ marginTop: 10 }}>Support plans</h2>
-          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 520 }}>
-            Pick the level of coverage that matches your team's risk tolerance and release cadence.
-          </p>
-
-          <div className="amn-plans">
-            {plans.map((plan, i) => (
-              <div
-                key={plan.name}
-                className={`amn-plan reveal ${plan.highlight ? "amn-plan--highlight" : ""}`}
-                style={{ background: plan.accent, "--i": i }}
-              >
-                <div className="amn-plan-head">
-                  <div className="amn-plan-name">{plan.name}</div>
-                  <div className="amn-plan-cadence">{plan.cadence}</div>
-                </div>
-                <div className="amn-plan-body">
-                  <ul>
-                    {plan.features.map(f => <li key={f}>{f}</li>)}
-                  </ul>
-                  <div style={{ marginTop: 24 }}>
-                    <Link className="btn btn--primary" to="/contact" style={{ width: "100%", justifyContent: "center" }}>
-                      Get started
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
-      {/* CASE STUDY
-      <section className="section">
-        <div className="container">
-          <div className="kicker reveal">Case study</div>
-          <h2 className="h2 reveal" style={{ marginTop: 10, marginBottom: 30 }}>From 40% downtime to 99.9% uptime</h2>
-
-          <div className="amn-case reveal">
-            <div className="amn-case-content">
-              <div className="kicker" style={{ marginBottom: 16 }}>SaaS · B2B Platform</div>
-              <h2>A recurring-incident nightmare, solved.</h2>
-              <p>
-                A B2B SaaS company was experiencing weekly production incidents — each one requiring
-                all-hands war rooms lasting 4–6 hours. Their on-call rotation was burning out the team.
-                We implemented proactive monitoring, an incident runbook, and a structured maintenance cadence.
-              </p>
-              <ul style={{ paddingLeft: 18 }}>
-                <li><strong>50% fewer</strong> production incidents in month one</li>
-                <li>Mean time to resolve dropped from <strong>4h to 35min</strong></li>
-                <li><strong>Zero P1 incidents</strong> in the following quarter</li>
-                <li>Engineering team reclaimed <strong>12h/week</strong> of on-call burden</li>
-              </ul>
-            </div>
-            <div className="amn-case-img">
-              <img
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&q=75"
-                alt="Monitoring dashboard"
-                loading="lazy"
-                onError={(e) => { e.currentTarget.style.display = "none"; }}
-              />
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-
       {/* DELIVERY APPROACH */}
       <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Our approach</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>How every engagement runs</h2>
-          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 580 }}>
+          <p className="lead reveal" style={{ marginTop: 10 }}>
             Every InionData engagement follows the same proven four-step model — so you always know
             where things stand and what comes next.
           </p>
@@ -472,23 +318,8 @@ export default function ApplicationMaintenance() {
               { n: "03", title: "Build & Implement", desc: "We develop applications, pipelines, integrations, and governance frameworks in structured sprints with weekly stakeholder updates." },
               { n: "04", title: "Optimise & Support", desc: "We monitor, refine, and evolve your solution as your needs grow — with performance tracking, continuous improvement, and post-delivery support." },
             ].map((step, i) => (
-              <div key={step.n} style={{
-                padding: "28px 24px",
-                borderRadius: 20,
-                background: "rgba(255,255,255,.04)",
-                border: "1px solid rgba(255,255,255,.07)",
-                position: "relative",
-                transition: ".25s",
-              }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
-                onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
-              >
-                <div style={{
-                  fontSize: 48, fontWeight: 800, lineHeight: 1,
-                  color: "rgba(20,184,166,.18)",
-                  marginBottom: 16,
-                  letterSpacing: "-0.04em",
-                }}>
+              <div key={step.n} className="amn-approach-card" style={{ "--i": i }}>
+                <div style={{ fontSize: 48, fontWeight: 800, lineHeight: 1, color: "rgba(20,184,166,.18)", marginBottom: 16, letterSpacing: "-0.04em" }}>
                   {step.n}
                 </div>
                 <h3 style={{ margin: "0 0 10px", fontSize: 16, fontWeight: 700 }}>{step.title}</h3>

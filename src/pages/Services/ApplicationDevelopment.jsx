@@ -80,7 +80,7 @@ const styles = `
 .ad-hero {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
-  gap: 60px;
+  gap: 20px;
   align-items: center;
 }
 
@@ -99,6 +99,11 @@ const styles = `
   border: 1px solid rgba(20,184,166,.25);
   overflow: hidden;
   box-shadow: 0 24px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(20,184,166,.12);
+  animation: ad-window-in .7s cubic-bezier(.22,.68,0,1.2) .2s both;
+}
+@keyframes ad-window-in {
+  from { opacity: 0; transform: translateY(24px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 .ad-code-titlebar {
   display: flex;
@@ -124,7 +129,17 @@ const styles = `
   font-size: 13px;
   line-height: 1.75;
 }
-.ad-code-line { display: flex; align-items: flex-start; gap: 16px; }
+.ad-code-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  opacity: 0;
+  animation: ad-line-in .35s ease forwards;
+}
+@keyframes ad-line-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
 .ad-code-ln { color: rgba(255,255,255,.18); font-size: 11px; user-select: none; min-width: 16px; padding-top: 1px; }
 .ad-code-kw { color: #2dd4bf; }
 .ad-code-fn { color: #4ade80; }
@@ -143,6 +158,11 @@ const styles = `
   min-width: 180px;
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0,0,0,.35);
+  animation: ad-badge-in .6s cubic-bezier(.22,.68,0,1.2) .9s both;
+}
+@keyframes ad-badge-in {
+  from { opacity: 0; transform: translateY(12px) scale(.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 .ad-sprint-badge-title {
   font-size: 10px;
@@ -168,7 +188,10 @@ const styles = `
 .ad-sprint-bar-fill {
   height: 100%; border-radius: 999px;
   background: linear-gradient(90deg, #14b8a6, #22c55e);
+  width: 0%;
+  transition: width 1.2s cubic-bezier(.22,.68,0,1) 1.1s;
 }
+.ad-sprint-bar-fill.ad-bar-animate { width: var(--bar-width); }
 .ad-sprint-status {
   display: flex; align-items: center; gap: 6px;
   font-size: 11px; color: var(--muted); margin-top: 8px;
@@ -192,9 +215,16 @@ const styles = `
   border-radius: 20px;
   background: rgba(255,255,255,.04);
   border: 1px solid rgba(255,255,255,.07);
-  transition: .3s var(--ease);
+  transition: transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
   position: relative;
   overflow: hidden;
+  opacity: 0;
+  animation: ad-card-in .5s ease forwards;
+  animation-delay: calc(var(--i, 0) * 120ms + 100ms);
+}
+@keyframes ad-card-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 .ad-cap-card::after {
   content: '';
@@ -202,7 +232,7 @@ const styles = `
   background: radial-gradient(circle at top left, rgba(20,184,166,.1), transparent 60%);
   opacity: 0; transition: .3s;
 }
-.ad-cap-card:hover { transform: translateY(-5px); border-color: rgba(20,184,166,.3); }
+.ad-cap-card:hover { transform: translateY(-6px); border-color: rgba(20,184,166,.35); box-shadow: 0 16px 48px rgba(20,184,166,.1); }
 .ad-cap-card:hover::after { opacity: 1; }
 .ad-cap-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
 .ad-cap-icon { font-size: 28px; }
@@ -239,9 +269,20 @@ const styles = `
   border: 1.5px solid rgba(20,184,166,.4);
   background: #0c1a16;
   font-weight: 700; font-size: 13px; color: #2dd4bf;
-  transition: .3s;
+  transition: transform .3s, background .3s, box-shadow .3s;
+  position: relative;
 }
-.ad-lc-step:hover .ad-lc-node { background: rgba(20,184,166,.18); transform: scale(1.1); box-shadow: 0 0 20px rgba(20,184,166,.3); }
+.ad-lc-node::after {
+  content: '';
+  position: absolute; inset: -5px;
+  border-radius: 50%;
+  border: 1px solid rgba(20,184,166,.2);
+  opacity: 0;
+  transform: scale(.85);
+  transition: opacity .3s, transform .3s;
+}
+.ad-lc-step:hover .ad-lc-node { background: rgba(20,184,166,.18); transform: scale(1.12); box-shadow: 0 0 24px rgba(20,184,166,.35); }
+.ad-lc-step:hover .ad-lc-node::after { opacity: 1; transform: scale(1); }
 .ad-lc-step h4 { margin: 0 0 6px; font-size: 14px; font-weight: 700; }
 .ad-lc-step p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
 
@@ -256,9 +297,12 @@ const styles = `
   padding: 24px;
   border-radius: 16px;
   border: 1px solid rgba(255,255,255,.08);
-  transition: .25s;
+  transition: border-color .25s, transform .25s;
   position: relative;
   overflow: hidden;
+  opacity: 0;
+  animation: ad-card-in .5s ease forwards;
+  animation-delay: calc(var(--i, 0) * 100ms + 100ms);
 }
 .ad-tech-card::after {
   content: '';
@@ -266,10 +310,12 @@ const styles = `
   bottom: 0; left: 0; right: 0;
   height: 2px;
   background: linear-gradient(90deg, #14b8a6, #22c55e);
-  opacity: 0; transition: .25s;
+  transform: scaleX(0);
+  transition: transform .3s ease;
+  transform-origin: left;
 }
 .ad-tech-card:hover { border-color: rgba(20,184,166,.3); transform: translateY(-3px); }
-.ad-tech-card:hover::after { opacity: 1; }
+.ad-tech-card:hover::after { transform: scaleX(1); }
 .ad-tech-name { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
 .ad-tech-tag { font-size: 12px; color: var(--muted); }
 
@@ -280,9 +326,9 @@ const styles = `
   background: rgba(255,255,255,.05);
   border: 1px solid rgba(255,255,255,.09);
   font-size: 13px; font-weight: 500;
-  transition: .2s;
+  transition: background .2s, border-color .2s, color .2s, transform .2s;
 }
-.ad-pill:hover { background: rgba(20,184,166,.12); border-color: rgba(20,184,166,.4); color: #2dd4bf; }
+.ad-pill:hover { background: rgba(20,184,166,.12); border-color: rgba(20,184,166,.4); color: #2dd4bf; transform: translateY(-2px); }
 
 /* DELIVERABLES */
 .ad-deliverables {
@@ -296,22 +342,49 @@ const styles = `
   border-radius: 20px;
   background: rgba(255,255,255,.04);
   border: 1px solid rgba(255,255,255,.07);
-  transition: .25s;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+  opacity: 0;
+  animation: ad-card-in .5s ease forwards;
+  animation-delay: calc(var(--i, 0) * 120ms + 100ms);
 }
-.ad-deliverable:hover { border-color: rgba(20,184,166,.3); transform: translateY(-4px); }
+.ad-deliverable:hover { border-color: rgba(20,184,166,.3); transform: translateY(-5px); box-shadow: 0 16px 40px rgba(20,184,166,.08); }
 .ad-deliverable-icon {
   width: 52px; height: 52px; border-radius: 14px;
   background: rgba(20,184,166,.1);
   display: flex; align-items: center; justify-content: center;
   font-size: 22px; margin-bottom: 18px;
+  transition: background .25s, transform .25s;
 }
+.ad-deliverable:hover .ad-deliverable-icon { background: rgba(20,184,166,.18); transform: scale(1.08); }
 .ad-deliverable h3 { margin: 0 0 10px; font-size: 17px; font-weight: 700; }
 .ad-deliverable p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* DELIVERY APPROACH CARDS */
+.ad-approach-card {
+  padding: 28px 24px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  position: relative;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+  overflow: hidden;
+}
+.ad-approach-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #14b8a6, #22c55e);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform .3s ease;
+}
+.ad-approach-card:hover { border-color: rgba(20,184,166,.3); transform: translateY(-4px); box-shadow: 0 12px 36px rgba(20,184,166,.08); }
+.ad-approach-card:hover::before { transform: scaleY(1); }
 
 /* RESPONSIVE */
 @media(max-width: 1000px) {
   .ad-hero { grid-template-columns: 1fr; }
-  .ad-hero-panel { display: none; }
   .ad-caps { grid-template-columns: 1fr; }
   .ad-tech-grid { grid-template-columns: 1fr 1fr; }
   .ad-deliverables { grid-template-columns: 1fr; }
@@ -328,6 +401,16 @@ const styles = `
 export default function ApplicationDevelopment() {
     useReveal();
 
+    // Animate sprint bars after mount
+    const animateBars = (el) => {
+        if (!el) return;
+        setTimeout(() => {
+            el.querySelectorAll(".ad-sprint-bar-fill").forEach(bar => {
+                bar.classList.add("ad-bar-animate");
+            });
+        }, 1200);
+    };
+
     return (
         <div className="ad-page">
             <style>{styles}</style>
@@ -343,7 +426,7 @@ export default function ApplicationDevelopment() {
                                 Application Development
                             </span>
                         </h1>
-                        <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
+                        <p className="lead reveal" style={{ marginTop: 16, maxWidth: 700, textAlign: "justify" }}>
                             Enterprise organisations are transforming heritage portfolios to flexible, modular application development portfolios by implementing next-generation processes defined by speed, efficiency, and resilience. By adopting agile methods, what used to take developers months to release can now take mere seconds to deploy. Adding automation and business integration into the mix makes for an efficient process — keeping pace with the competition and the changing marketplace with positive customer experiences.
                         </p>
                         <div className="reveal" style={{ marginTop: 28, display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -353,7 +436,7 @@ export default function ApplicationDevelopment() {
                     </div>
 
                     {/* Code editor mockup panel */}
-                    <div className="ad-hero-panel reveal">
+                    <div className="ad-hero-panel" ref={animateBars}>
                         <div className="ad-code-window">
                             <div className="ad-code-titlebar">
                                 <div className="ad-code-dot" style={{ background: "#ef4444" }} />
@@ -371,11 +454,11 @@ export default function ApplicationDevelopment() {
                                     [<><span className="ad-code-pu">  strategy: </span><span className="ad-code-str">'blue-green'</span><span className="ad-code-pu">,</span></>],
                                     [<><span className="ad-code-pu">  autoRollback: </span><span className="ad-code-kw">true</span><span className="ad-code-pu">,</span></>],
                                     [<><span className="ad-code-pu">  tests: </span><span className="ad-code-str">'full-suite'</span><span className="ad-code-pu">,</span></>],
-                                    [<><span className="ad-code-pu">{"})"}</span></>],
+                                    [<><span className="ad-code-pu">{"})"};</span></>],
                                     [<></>],
                                     [<><span className="ad-code-cm">// ✅ Deployed in {"<"}3s</span></>],
                                 ].map((content, i) => (
-                                    <div key={i} className="ad-code-line">
+                                    <div key={i} className="ad-code-line" style={{ animationDelay: `${0.5 + i * 0.07}s` }}>
                                         <span className="ad-code-ln">{i + 1}</span>
                                         <span>{content}</span>
                                     </div>
@@ -392,7 +475,7 @@ export default function ApplicationDevelopment() {
                                         <span>{label}</span><span style={{ color: "#2dd4bf" }}>{pct}%</span>
                                     </div>
                                     <div className="ad-sprint-bar-track">
-                                        <div className="ad-sprint-bar-fill" style={{ width: `${pct}%` }} />
+                                        <div className="ad-sprint-bar-fill" style={{ "--bar-width": `${pct}%` }} />
                                     </div>
                                 </div>
                             ))}
@@ -410,19 +493,19 @@ export default function ApplicationDevelopment() {
                 <div className="container">
                     <div className="kicker reveal">Capabilities</div>
                     <h2 className="h2 reveal" style={{ marginTop: 10 }}>How we develop</h2>
-                    <p className="lead reveal" style={{ marginTop: 10, maxWidth: 600 }}>
+                    <p className="lead reveal" style={{ marginTop: 10 }}>
                         From heritage portfolio modernisation to greenfield agile builds — we bring the right process and people to deliver on time, on budget.
                     </p>
 
                     <div className="ad-caps">
-                        {capabilities.map((c) => (
-                            <div key={c.title} className="ad-cap-card reveal">
+                        {capabilities.map((c, i) => (
+                            <div key={c.title} className="ad-cap-card reveal" style={{ "--i": i }}>
                                 <div className="ad-cap-top">
                                     <div className="ad-cap-icon">{c.icon}</div>
-                                    <div className="ad-cap-stat">
+                                    {/* <div className="ad-cap-stat">
                                         <div className="ad-cap-stat-val">{c.stat}</div>
                                         <div className="ad-cap-stat-lbl">{c.statLabel}</div>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <h3>{c.title}</h3>
                                 <p>{c.desc}</p>
@@ -460,8 +543,8 @@ export default function ApplicationDevelopment() {
                     <h2 className="h2 reveal" style={{ marginTop: 10 }}>Built on proven technology</h2>
 
                     <div className="ad-tech-grid">
-                        {techStack.map((t) => (
-                            <div key={t.name} className="ad-tech-card reveal" style={{ background: t.color }}>
+                        {techStack.map((t, i) => (
+                            <div key={t.name} className="ad-tech-card reveal" style={{ background: t.color, "--i": i }}>
                                 <div className="ad-tech-name">{t.name}</div>
                                 <div className="ad-tech-tag">{t.tag}</div>
                             </div>
@@ -481,13 +564,13 @@ export default function ApplicationDevelopment() {
                 <div className="container">
                     <div className="kicker reveal">What you get</div>
                     <h2 className="h2 reveal" style={{ marginTop: 10 }}>Every engagement includes</h2>
-                    <p className="lead reveal" style={{ marginTop: 10, maxWidth: 580 }}>
+                    <p className="lead reveal" style={{ marginTop: 10 }}>
                         We deliver production-ready applications with full documentation, knowledge transfer, and ongoing support built in from the start.
                     </p>
 
                     <div className="ad-deliverables">
-                        {deliverables.map((d) => (
-                            <div key={d.title} className="ad-deliverable reveal">
+                        {deliverables.map((d, i) => (
+                            <div key={d.title} className="ad-deliverable reveal" style={{ "--i": i }}>
                                 <div className="ad-deliverable-icon">{d.icon}</div>
                                 <h3>{d.title}</h3>
                                 <p>{d.desc}</p>
@@ -502,7 +585,7 @@ export default function ApplicationDevelopment() {
                 <div className="container">
                     <div className="kicker reveal">Our approach</div>
                     <h2 className="h2 reveal" style={{ marginTop: 10 }}>How every engagement runs</h2>
-                    <p className="lead reveal" style={{ marginTop: 10, maxWidth: 580 }}>
+                    <p className="lead reveal" style={{ marginTop: 10 }}>
                         Every InionData engagement follows the same proven four-step model — so you always know where things stand and what comes next.
                     </p>
 
@@ -512,13 +595,8 @@ export default function ApplicationDevelopment() {
                             { n: "02", title: "Architecture & Planning", desc: "We design scalable, modular architecture with a phased delivery plan, technology stack selection, and risk mapping." },
                             { n: "03", title: "Agile Build & Deploy", desc: "We develop in structured sprints with CI/CD automation, full test coverage, and weekly stakeholder updates throughout." },
                             { n: "04", title: "Optimise & Evolve", desc: "We monitor performance, iterate on features, and evolve your applications as your business and market demands shift." },
-                        ].map((step) => (
-                            <div
-                                key={step.n}
-                                style={{ padding: "28px 24px", borderRadius: 20, background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.07)", position: "relative", transition: ".25s" }}
-                                onMouseEnter={(e) => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
-                                onMouseLeave={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
-                            >
+                        ].map((step, i) => (
+                            <div key={step.n} className="ad-approach-card" style={{ "--i": i }}>
                                 <div style={{ fontSize: 48, fontWeight: 800, lineHeight: 1, color: "rgba(20,184,166,.18)", marginBottom: 16, letterSpacing: "-0.04em" }}>
                                     {step.n}
                                 </div>

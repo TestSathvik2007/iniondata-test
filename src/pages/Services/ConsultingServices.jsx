@@ -80,22 +80,22 @@ const styles = `
 
 /* Blueprint grid background */
 .cs-page { position:relative; }
-.cs-blueprint-bg {
-  position:fixed;
-  inset:0;
-  background-image:
-    linear-gradient(rgba(20,184,166,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(20,184,166,.025) 1px,transparent 1px);
-  background-size:60px 60px;
-  pointer-events:none;
-  z-index:0;
-}
+// .cs-blueprint-bg {
+//   position:fixed;
+//   inset:0;
+//   background-image:
+//     linear-gradient(rgba(20,184,166,.025) 1px,transparent 1px),
+//     linear-gradient(90deg,rgba(20,184,166,.025) 1px,transparent 1px);
+//   background-size:60px 60px;
+//   pointer-events:none;
+//   z-index:0;
+// }
 
 /* HERO — editorial left-heavy */
 .cs-hero {
   display:grid;
-  grid-template-columns:1.1fr 1fr;
-  gap:60px;
+  grid-template-columns:1.2fr 1fr;
+  gap:20px;
   align-items:center;
 }
 .cs-hero-badge {
@@ -152,8 +152,19 @@ const styles = `
   height:1px;
   background:linear-gradient(90deg,rgba(20,184,166,.6),rgba(20,184,166,.1));
 }
+.cs-process-track::after {
+  content:'';
+  position:absolute;
+  top:-1px; left:0;
+  width:30px; height:3px;
+  background:#14b8a6;
+  border-radius:2px;
+  box-shadow:0 0 8px #14b8a6;
+  animation:cs-track-pulse 3s ease-in-out infinite;
+}
+@keyframes cs-track-pulse { 0%{left:0;opacity:1} 80%{left:calc(100% - 30px);opacity:1} 100%{left:calc(100% - 30px);opacity:0} }
 .cs-process-row { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
-.cs-step { text-align:center; }
+.cs-step { text-align:center; position:relative; }
 .cs-step-node {
   width:56px; height:56px; border-radius:50%;
   margin:0 auto 14px;
@@ -161,9 +172,20 @@ const styles = `
   border:1.5px solid rgba(20,184,166,.4);
   background:#0c1a16;
   font-weight:700; font-size:13px; color:#2dd4bf;
-  transition:.3s;
+  transition: background .3s, transform .3s, box-shadow .3s;
+  position:relative;
 }
-.cs-step:hover .cs-step-node { background:rgba(20,184,166,.18); transform:scale(1.1); box-shadow:0 0 20px rgba(20,184,166,.3) }
+.cs-step-node::after {
+  content:'';
+  position:absolute; inset:-5px;
+  border-radius:50%;
+  border:1px solid rgba(20,184,166,.2);
+  opacity:0;
+  transform:scale(.85);
+  transition: opacity .3s, transform .3s;
+}
+.cs-step:hover .cs-step-node { background:rgba(20,184,166,.18); transform:scale(1.12); box-shadow:0 0 24px rgba(20,184,166,.3) }
+.cs-step:hover .cs-step-node::after { opacity:1; transform:scale(1); }
 .cs-step h4 { margin:0 0 6px; font-size:14px; font-weight:700 }
 .cs-step p { margin:0; font-size:12px; color:var(--muted); line-height:1.5 }
 
@@ -255,10 +277,32 @@ const styles = `
 .cs-case-body li { font-size:14px; color:var(--muted); margin-bottom:8px }
 .cs-case-body li strong { color:#2dd4bf }
 
+/* DELIVERY APPROACH CARDS */
+.cs-approach-card {
+  padding:28px 24px;
+  border-radius:20px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  position:relative;
+  overflow:hidden;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+}
+.cs-approach-card::before {
+  content:'';
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:3px;
+  background:linear-gradient(180deg,#14b8a6,#22c55e);
+  transform:scaleY(0);
+  transform-origin:bottom;
+  transition:transform .3s ease;
+}
+.cs-approach-card:hover { border-color:rgba(20,184,166,.3); transform:translateY(-4px); box-shadow:0 12px 36px rgba(20,184,166,.08); }
+.cs-approach-card:hover::before { transform:scaleY(1); }
+
 /* RESPONSIVE */
 @media(max-width:1000px) {
   .cs-hero { grid-template-columns:1fr }
-  .cs-lottie-col { display:none }
   .cs-eval { grid-template-columns:1fr }
   .cs-deliverables { grid-template-columns:1fr }
   .cs-metrics { grid-template-columns:1fr }
@@ -301,7 +345,7 @@ export default function ConsultingServices() {
                 Consulting Services
               </span>
             </h1>
-            <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
+            <p className="lead reveal" style={{ marginTop: 16, maxWidth: 700, textAlign: "justify" }}>
               Assessing needs, requirements, and goals for the development of new cross-functional, multi-platform applications. We review technical design documents, analyze feasibility, costs, time, compatibility, and performance — addressing scalability, security, and testing requirements before presenting solutions to stakeholders across your organization.
             </p>
             <div className="reveal" style={{ marginTop: 28, display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -447,7 +491,7 @@ export default function ConsultingServices() {
         <div className="container">
           <div className="kicker reveal">Our approach</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>How every engagement runs</h2>
-          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 580 }}>
+          <p className="lead reveal" style={{ marginTop: 10 }}>
             Every InionData engagement follows the same proven four-step model — so you always know
             where things stand and what comes next.
           </p>
@@ -459,23 +503,8 @@ export default function ConsultingServices() {
               { n: "03", title: "Build & Implement", desc: "We develop applications, pipelines, integrations, and governance frameworks in structured sprints with weekly stakeholder updates." },
               { n: "04", title: "Optimise & Support", desc: "We monitor, refine, and evolve your solution as your needs grow — with performance tracking, continuous improvement, and post-delivery support." },
             ].map((step, i) => (
-              <div key={step.n} style={{
-                padding: "28px 24px",
-                borderRadius: 20,
-                background: "rgba(255,255,255,.04)",
-                border: "1px solid rgba(255,255,255,.07)",
-                position: "relative",
-                transition: ".25s",
-              }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
-                onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
-              >
-                <div style={{
-                  fontSize: 48, fontWeight: 800, lineHeight: 1,
-                  color: "rgba(20,184,166,.18)",
-                  marginBottom: 16,
-                  letterSpacing: "-0.04em",
-                }}>
+              <div key={step.n} className="cs-approach-card" style={{ "--i": i }}>
+                <div style={{ fontSize: 48, fontWeight: 800, lineHeight: 1, color: "rgba(20,184,166,.18)", marginBottom: 16, letterSpacing: "-0.04em" }}>
                   {step.n}
                 </div>
                 <h3 style={{ margin: "0 0 10px", fontSize: 16, fontWeight: 700 }}>{step.title}</h3>
