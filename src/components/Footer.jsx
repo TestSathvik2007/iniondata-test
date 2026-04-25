@@ -29,15 +29,9 @@ const nav = [
   },
 ];
 
-const stats = [
-  ["98%",  "Annotation accuracy"],
-  ["50+",  "Enterprise clients"],
-  ["24/7", "Managed operations"],
-];
-
 const footerStyles = `
   /* ═══════════════════════════════════════
-     FOOTER — ULTRA-COMPACT MOBILE
+     FOOTER
   ═══════════════════════════════════════ */
 
   .footer {
@@ -53,8 +47,8 @@ const footerStyles = `
     grid-template-columns: 1.4fr 1fr 1fr 1fr;
     gap: clamp(24px, 4vw, 40px) clamp(20px, 3vw, 32px);
     align-items: start;
-    padding: clamp(36px, 6vh, 56px) clamp(16px, 4vw, 24px) clamp(28px, 5vh, 40px);
-    max-width: 1200px;
+    padding: clamp(36px, 6vh, 56px) clamp(20px, 5vw, 60px);
+    max-width: 1600px;
     margin: 0 auto;
   }
 
@@ -63,7 +57,7 @@ const footerStyles = `
     .footer__grid {
       grid-template-columns: 1fr 1fr;
       gap: clamp(20px, 3vw, 32px) clamp(16px, 3vw, 24px);
-      padding: clamp(28px, 4vh, 40px) clamp(16px, 4vw, 20px) clamp(20px, 3vh, 32px);
+      padding: clamp(28px, 4vh, 40px) clamp(20px, 5vw, 60px);
     }
     .footer__brandCol {
       grid-column: 1 / -1;
@@ -76,7 +70,7 @@ const footerStyles = `
     .footer__grid {
       grid-template-columns: 1fr;
       gap: clamp(16px, 3vw, 20px);
-      padding: clamp(20px, 3vh, 28px) clamp(12px, 3vw, 16px);
+      padding: clamp(20px, 3vh, 28px) clamp(20px, 5vw, 60px);
     }
     .footer__brandCol {
       grid-column: auto;
@@ -123,37 +117,6 @@ const footerStyles = `
     color: rgba(255, 255, 255, 0.45);
     margin-bottom: clamp(12px, 2vh, 16px);
     max-width: 28ch;
-  }
-
-  /* Stats — hide on mobile, show on tablet+ */
-  .footer__stats {
-    display: grid;
-    gap: clamp(6px, 1.5vw, 10px);
-  }
-
-  @media (max-width: 640px) {
-    .footer__stats {
-      display: none;
-    }
-  }
-
-  .footer__stat {
-    display: flex;
-    align-items: center;
-    gap: clamp(8px, 2vw, 12px);
-  }
-
-  .footer__statVal {
-    font-size: clamp(10px, 1.8vw, 12px);
-    font-weight: 800;
-    color: var(--teal, #1D9E75);
-    min-width: 32px;
-    letter-spacing: 0.01em;
-  }
-
-  .footer__statLabel {
-    font-size: clamp(10px, 1.8vw, 12px);
-    color: rgba(255, 255, 255, 0.4);
   }
 
   /* ── Nav columns ── */
@@ -210,8 +173,8 @@ const footerStyles = `
     justify-content: space-between;
     flex-wrap: wrap;
     gap: clamp(8px, 2vw, 12px);
-    padding: clamp(12px, 2vh, 16px) clamp(12px, 4vw, 24px) clamp(16px, 3vh, 20px);
-    max-width: 1200px;
+    padding: clamp(16px, 3vh, 24px) clamp(20px, 5vw, 60px);
+    max-width: 1600px;
     margin: 0 auto;
     font-size: clamp(10px, 1.6vw, 12px);
     color: rgba(255, 255, 255, 0.3);
@@ -223,7 +186,7 @@ const footerStyles = `
       align-items: center;
       text-align: center;
       gap: 6px;
-      padding: clamp(12px, 2vh, 14px) clamp(12px, 3vw, 16px);
+      padding: clamp(16px, 2vh, 20px) clamp(20px, 5vw, 60px);
     }
   }
 
@@ -301,19 +264,9 @@ export default function Footer() {
           <p className="footer__tagline">
             End-to-end data and AI services built for accuracy, scale, and speed.
           </p>
-
-          {/* Stats — hidden on mobile */}
-          <div className="footer__stats">
-            {stats.map(([val, label]) => (
-              <div key={label} className="footer__stat">
-              <div className="footer__statVal">{val}</div>
-                <div className="footer__statLabel">{label}</div>
-              </div>
-            ))}
-          </div>
         </div>
 
-        {/* Nav columns — hidden on small mobile, shown on tablet+ */}
+        {/* Nav columns */}
         {nav.map((col) => (
           <div key={col.title}>
             <div className="footer__colTitle">{col.title}</div>
