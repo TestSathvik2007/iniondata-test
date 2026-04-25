@@ -3,37 +3,6 @@ import { useReveal, ANIM_CSS } from "../../animations";
 
 // ── DATA ─────────────────────────────────────────
 
-// const capabilities = [
-//   {
-//     title: "24/7 Uptime Monitoring",
-//     desc: "Synthetic checks, real-user monitoring, and alerting pipelines that wake our engineers — not yours — when something breaks at 2 AM.",
-//     icon: "📡",
-//     stat: "99.95%",
-//     statLabel: "avg uptime",
-//   },
-//   {
-//     title: "Incident Management",
-//     desc: "Structured runbooks, escalation paths, and post-mortems. Every incident is a learning event — we document root causes and close gaps to prevent recurrence.",
-//     icon: "🚨",
-//     stat: "< 15min",
-//     statLabel: "MTTA",
-//   },
-//   {
-//     title: "Performance Optimisation",
-//     desc: "From slow database queries to oversized JS bundles — we instrument, profile, and fix. Measurable improvements tracked against your baseline each sprint.",
-//     icon: "📈",
-//     stat: "40%",
-//     statLabel: "avg perf gain",
-//   },
-//   {
-//     title: "Release & Change Management",
-//     desc: "Controlled deployments with feature flags, rollback capabilities, and change advisory boards. We de-risk every release so your team ships with confidence.",
-//     icon: "🚢",
-//     stat: "0",
-//     statLabel: "rollback failures",
-//   },
-// ];
-
 const lifecycle = [
   { title: "Onboarding", desc: "System audit, runbook creation, alert configuration" },
   { title: "Monitoring", desc: "Continuous tracking with intelligent noise reduction" },
@@ -66,58 +35,18 @@ const platforms = [
   "Kubernetes Clusters", "PostgreSQL / MongoDB",
 ];
 
-const testimonialMetrics = [
-  { value: "99.95%", label: "Uptime achieved" },
-  { value: "70%", label: "Faster incident resolution" },
-  { value: "12h/wk", label: "Eng time reclaimed" },
-];
-
 // ── STYLES ───────────────────────────────────────
 
 const styles = `
 /* ── CONTROL PANEL / DASHBOARD VISUAL IDENTITY ── */
 
-/* HERO — full-width with lottie panel right */
+/* HERO */
 .am-hero {
   display:grid;
   grid-template-columns:1.1fr 1fr;
-  gap:60px;
+  gap:20px;
   align-items:center;
 }
-
-/* Bento-style capability cards */
-.am-caps {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
-  margin-top:40px;
-}
-.am-cap-card {
-  padding:30px;
-  border-radius:20px;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.07);
-  transition:.3s var(--ease);
-  position:relative;
-  overflow:hidden;
-}
-.am-cap-card::after {
-  content:'';
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at top left,rgba(20,184,166,.1),transparent 60%);
-  opacity:0;
-  transition:.3s;
-}
-.am-cap-card:hover { transform:translateY(-5px); border-color:rgba(20,184,166,.3); }
-.am-cap-card:hover::after { opacity:1 }
-.am-cap-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px }
-.am-cap-icon { font-size:28px }
-.am-cap-stat { text-align:right }
-.am-cap-stat-val { font-size:22px; font-weight:800; color:#14b8a6 }
-.am-cap-stat-lbl { font-size:11px; color:var(--muted) }
-.am-cap-card h3 { margin:0 0 10px; font-size:17px; font-weight:700 }
-.am-cap-card p { margin:0; font-size:13px; color:var(--muted); line-height:1.65 }
 
 /* LOTTIE panel */
 .am-lottie-panel {
@@ -138,20 +67,27 @@ const styles = `
   padding:16px 20px;
   min-width:200px;
   backdrop-filter:blur(8px);
+  animation: am-widget-in .6s cubic-bezier(.22,.68,0,1.2) .4s both;
+}
+@keyframes am-widget-in {
+  from { opacity:0; transform: translateY(12px) scale(.95); }
+  to   { opacity:1; transform: translateY(0) scale(1); }
 }
 .am-dash-widget-title { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:10px }
 .am-uptime-bar { display:flex; gap:3px; margin-bottom:8px }
 .am-uptime-tick {
   flex:1; height:20px; border-radius:3px;
   background:rgba(20,184,166,.7);
-  animation:am-tick-in .3s ease backwards;
+  transform:scaleY(0);
+  transform-origin:bottom;
+  animation:am-tick-in .25s ease forwards;
+  animation-delay: calc(var(--i, 0) * 0.04s + 0.6s);
 }
-.am-uptime-tick:nth-child(28) { background:rgba(239,68,68,.6) }
-.am-uptime-tick:nth-child(n) { animation-delay:calc(var(--i,0) * 0.03s) }
+.am-uptime-tick--incident { background:rgba(239,68,68,.6) !important; }
+@keyframes am-tick-in { from{transform:scaleY(0);opacity:0} to{transform:scaleY(1);opacity:1} }
 .am-dash-status { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted) }
 .am-dash-dot { width:8px; height:8px; border-radius:50%; background:#22c55e; animation:am-blink 2s ease-in-out infinite }
 @keyframes am-blink { 0%,100%{opacity:1} 50%{opacity:.4} }
-@keyframes am-tick-in { from{transform:scaleY(0);opacity:0} to{transform:scaleY(1);opacity:1} }
 
 /* LIFECYCLE HORIZONTAL TIMELINE */
 .am-lifecycle-wrap { margin-top:50px; position:relative; }
@@ -161,6 +97,17 @@ const styles = `
   height:1px;
   background:linear-gradient(90deg,rgba(20,184,166,.6),rgba(20,184,166,.1));
 }
+.am-lifecycle-track::after {
+  content:'';
+  position:absolute;
+  top:-1px; left:0;
+  width:30px; height:3px;
+  background:#14b8a6;
+  border-radius:2px;
+  box-shadow:0 0 8px #14b8a6;
+  animation:am-track-pulse 3s ease-in-out infinite;
+}
+@keyframes am-track-pulse { 0%{left:0;opacity:1} 80%{left:calc(100% - 30px);opacity:1} 100%{left:calc(100% - 30px);opacity:0} }
 .am-lifecycle-row { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
 .am-lc-step { text-align:center; position:relative; }
 .am-lc-node {
@@ -170,9 +117,20 @@ const styles = `
   border:1.5px solid rgba(20,184,166,.4);
   background:#0c1a16;
   font-weight:700; font-size:13px; color:#2dd4bf;
-  transition:.3s;
+  transition: background .3s, transform .3s, box-shadow .3s;
+  position:relative;
 }
-.am-lc-step:hover .am-lc-node { background:rgba(20,184,166,.18); transform:scale(1.1); box-shadow:0 0 20px rgba(20,184,166,.3) }
+.am-lc-node::after {
+  content:'';
+  position:absolute; inset:-5px;
+  border-radius:50%;
+  border:1px solid rgba(20,184,166,.2);
+  opacity:0;
+  transform:scale(.85);
+  transition: opacity .3s, transform .3s;
+}
+.am-lc-step:hover .am-lc-node { background:rgba(20,184,166,.18); transform:scale(1.12); box-shadow:0 0 24px rgba(20,184,166,.3) }
+.am-lc-step:hover .am-lc-node::after { opacity:1; transform:scale(1); }
 .am-lc-step h4 { margin:0 0 6px; font-size:14px; font-weight:700 }
 .am-lc-step p { margin:0; font-size:12px; color:var(--muted); line-height:1.5 }
 
@@ -183,15 +141,24 @@ const styles = `
   border-radius:20px;
   background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.07);
-  transition:.25s;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+  opacity:0;
+  animation: am-card-in .5s ease forwards;
+  animation-delay: calc(var(--i, 0) * 120ms + 80ms);
 }
-.am-op-card:hover { border-color:rgba(20,184,166,.3); transform:translateY(-4px) }
+@keyframes am-card-in {
+  from { opacity:0; transform: translateY(18px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+.am-op-card:hover { border-color:rgba(20,184,166,.3); transform:translateY(-5px); box-shadow:0 16px 40px rgba(20,184,166,.08); }
 .am-op-card-icon {
   width:52px; height:52px; border-radius:14px;
   background:rgba(20,184,166,.1);
   display:flex; align-items:center; justify-content:center;
   font-size:22px; margin-bottom:18px;
+  transition: background .25s, transform .25s;
 }
+.am-op-card:hover .am-op-card-icon { background:rgba(20,184,166,.18); transform:scale(1.08); }
 .am-op-card h3 { margin:0 0 10px; font-size:17px; font-weight:700 }
 .am-op-card p { margin:0; font-size:13px; color:var(--muted); line-height:1.65 }
 
@@ -202,54 +169,48 @@ const styles = `
   background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.09);
   font-size:13px; font-weight:500;
-  transition:.2s;
+  transition: background .2s, border-color .2s, color .2s, transform .2s;
 }
-.am-platform-tag:hover { background:rgba(20,184,166,.12); border-color:rgba(20,184,166,.4); color:#2dd4bf }
+.am-platform-tag:hover { background:rgba(20,184,166,.12); border-color:rgba(20,184,166,.4); color:#2dd4bf; transform:translateY(-2px); }
 
-/* CASE STUDY */
-.am-case {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0;
-  border-radius:24px;
+/* DELIVERY APPROACH CARDS */
+.am-approach-card {
+  padding:28px 24px;
+  border-radius:20px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  position:relative;
   overflow:hidden;
-  border:1px solid rgba(255,255,255,.08);
+  transition: border-color .25s, transform .25s, box-shadow .25s;
 }
-.am-case-img { position:relative; min-height:300px; }
-.am-case-img img { width:100%; height:100%; object-fit:cover; display:block; }
-.am-case-img::after {
+.am-approach-card::before {
   content:'';
-  position:absolute; inset:0;
-  background:linear-gradient(to right,transparent 40%,rgba(7,16,14,.95) 100%);
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:3px;
+  background:linear-gradient(180deg,#14b8a6,#22c55e);
+  transform:scaleY(0);
+  transform-origin:bottom;
+  transition:transform .3s ease;
 }
-.am-case-body {
-  padding:44px 40px;
-  background:rgba(255,255,255,.03);
-  display:flex; flex-direction:column; justify-content:center;
-}
-.am-case-body h2 { font-size:22px; font-weight:800; margin:0 0 12px }
-.am-case-body p { font-size:14px; color:var(--muted); line-height:1.75; margin:0 0 24px }
-.am-case-metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-.am-case-metric { text-align:center; padding:16px 10px; border-radius:14px; background:rgba(20,184,166,.08); border:1px solid rgba(20,184,166,.2) }
-.am-case-metric-val { font-size:22px; font-weight:800; color:#14b8a6 }
-.am-case-metric-lbl { font-size:11px; color:var(--muted); margin-top:3px }
+.am-approach-card:hover { border-color:rgba(20,184,166,.3); transform:translateY(-4px); box-shadow:0 12px 36px rgba(20,184,166,.08); }
+.am-approach-card:hover::before { transform:scaleY(1); }
 
 /* RESPONSIVE */
 @media(max-width:1000px) {
   .am-hero { grid-template-columns:1fr }
-  .am-lottie-panel { display:none }
-  .am-caps { grid-template-columns:1fr }
   .am-ops { grid-template-columns:1fr }
-  .am-case { grid-template-columns:1fr }
 }
 @media(max-width:700px) {
   .am-lifecycle-row { grid-template-columns:1fr 1fr }
   .am-lifecycle-track { display:none }
-  .am-case-metrics { grid-template-columns:1fr }
 }
 `;
 
 // ── PAGE ─────────────────────────────────────────
+
+// Which tick index to show as the incident (red) tick
+const INCIDENT_TICK = 27;
 
 export default function ApplicationManagement() {
   useReveal();
@@ -269,7 +230,7 @@ export default function ApplicationManagement() {
                 Application Management and Support
               </span>
             </h1>
-            <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
+            <p className="lead reveal" style={{ marginTop: 16, maxWidth: 700, textAlign: "justify" }}>
               Providing application management and support services for new and existing applications. We resolve technical and functional issues as needed, keeping your systems running reliably so your teams stay focused on delivering value.
             </p>
             <div className="reveal" style={{ marginTop: 28, display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -278,7 +239,7 @@ export default function ApplicationManagement() {
             </div>
           </div>
 
-          {/* Hero image + fake widget */}
+          {/* Hero image + animated widget */}
           <div className="am-lottie-panel reveal" style={{ position: "relative" }}>
             <img
               src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&q=75"
@@ -291,7 +252,11 @@ export default function ApplicationManagement() {
               <div className="am-dash-widget-title">System status · Live</div>
               <div className="am-uptime-bar">
                 {Array.from({ length: 30 }).map((_, i) => (
-                  <div key={i} className="am-uptime-tick" style={{ "--i": i, opacity: i === 27 ? 0.5 : 1 }} />
+                  <div
+                    key={i}
+                    className={`am-uptime-tick${i === INCIDENT_TICK ? " am-uptime-tick--incident" : ""}`}
+                    style={{ "--i": i }}
+                  />
                 ))}
               </div>
               <div className="am-dash-status">
@@ -302,33 +267,6 @@ export default function ApplicationManagement() {
           </div>
         </div>
       </section>
-
-      {/* CAPABILITIES */}
-      {/* <section className="section section--alt">
-        <div className="container">
-          <div className="kicker reveal">Capabilities</div>
-          <h2 className="h2 reveal" style={{ marginTop: 10 }}>What we manage</h2>
-          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 600 }}>
-            From the first alert to the post-mortem — we own the reliability of your application end-to-end.
-          </p>
-
-          <div className="am-caps">
-            {capabilities.map((c, i) => (
-              <div key={c.title} className="am-cap-card reveal" style={{ "--i": i }}>
-                <div className="am-cap-top">
-                  <div className="am-cap-icon">{c.icon}</div>
-                  <div className="am-cap-stat">
-                    <div className="am-cap-stat-val">{c.stat}</div>
-                    <div className="am-cap-stat-lbl">{c.statLabel}</div>
-                  </div>
-                </div>
-                <h3>{c.title}</h3>
-                <p>{c.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       {/* LIFECYCLE */}
       <section className="section">
@@ -374,7 +312,7 @@ export default function ApplicationManagement() {
         <div className="container">
           <div className="kicker reveal">Coverage</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>Platforms we manage</h2>
-          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 520 }}>
+          <p className="lead reveal" style={{ marginTop: 10 }}>
             We work across the full stack — from frontend SPA to backend microservices to cloud data pipelines.
           </p>
 
@@ -386,49 +324,12 @@ export default function ApplicationManagement() {
         </div>
       </section>
 
-      {/* CASE STUDY */}
-      {/* <section className="section section--alt">
-        <div className="container">
-          <div className="kicker reveal">Case study</div>
-          <h2 className="h2 reveal" style={{ marginTop: 10, marginBottom: 30 }}>99.95% uptime for a global SaaS product</h2>
-
-          <div className="am-case reveal">
-            <div className="am-case-img">
-              <img
-                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=75"
-                alt="Dashboard monitoring"
-                loading="lazy"
-                onError={(e) => { e.currentTarget.style.display = "none"; }}
-              />
-            </div>
-            <div className="am-case-body">
-              <div className="kicker" style={{ marginBottom: 16 }}>Enterprise SaaS</div>
-              <h2>From monthly outages to a year of clean operations</h2>
-              <p>
-                A global SaaS company with users across 14 time zones was experiencing monthly
-                degradations and inconsistent performance. We took over management with a full
-                observability stack, automation runbooks, and a dedicated on-call structure.
-              </p>
-              <div className="am-case-metrics">
-                {testimonialMetrics.map(m => (
-                  <div key={m.label} className="am-case-metric">
-                    <div className="am-case-metric-val">{m.value}</div>
-                    <div className="am-case-metric-lbl">{m.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-
       {/* DELIVERY APPROACH */}
       <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Our approach</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>How every engagement runs</h2>
-          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 580 }}>
+          <p className="lead reveal" style={{ marginTop: 10 }}>
             Every InionData engagement follows the same proven four-step model — so you always know
             where things stand and what comes next.
           </p>
@@ -440,23 +341,8 @@ export default function ApplicationManagement() {
               { n: "03", title: "Build & Implement", desc: "We develop applications, pipelines, integrations, and governance frameworks in structured sprints with weekly stakeholder updates." },
               { n: "04", title: "Optimise & Support", desc: "We monitor, refine, and evolve your solution as your needs grow — with performance tracking, continuous improvement, and post-delivery support." },
             ].map((step, i) => (
-              <div key={step.n} style={{
-                padding: "28px 24px",
-                borderRadius: 20,
-                background: "rgba(255,255,255,.04)",
-                border: "1px solid rgba(255,255,255,.07)",
-                position: "relative",
-                transition: ".25s",
-              }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
-                onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
-              >
-                <div style={{
-                  fontSize: 48, fontWeight: 800, lineHeight: 1,
-                  color: "rgba(20,184,166,.18)",
-                  marginBottom: 16,
-                  letterSpacing: "-0.04em",
-                }}>
+              <div key={step.n} className="am-approach-card" style={{ "--i": i }}>
+                <div style={{ fontSize: 48, fontWeight: 800, lineHeight: 1, color: "rgba(20,184,166,.18)", marginBottom: 16, letterSpacing: "-0.04em" }}>
                   {step.n}
                 </div>
                 <h3 style={{ margin: "0 0 10px", fontSize: 16, fontWeight: 700 }}>{step.title}</h3>

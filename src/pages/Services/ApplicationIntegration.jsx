@@ -44,27 +44,12 @@ const coreTech = [
 
 const tools = ["Node.js", "Python", "RabbitMQ", "Redis", "PostgreSQL", "Elasticsearch", "Terraform", "GitHub Actions"];
 
-// const metrics = [
-//   { value: "3×", label: "Faster data sync" },
-//   { value: "65%", label: "Fewer manual errors" },
-//   { value: "99.9%", label: "Pipeline uptime" },
-// ];
-
 // ── STYLES ───────────────────────────────────────
 
 const styles = `
 /* ── NETWORK / CONNECTIVITY VISUAL IDENTITY ── */
 
 .int-page { --accent-page: #14b8a6; --accent-2-page: #2dd4bf; }
-
-/* Animated node-graph background ornament */
-.int-orb {
-  position:absolute;
-  border-radius:50%;
-  pointer-events:none;
-  filter:blur(90px);
-  opacity:.18;
-}
 
 /* HERO */
 .int-hero {
@@ -85,43 +70,37 @@ const styles = `
   width:100%;
   max-width:420px;
 }
+/* Animated ring behind lottie — connectivity theme */
 .int-hero-lottie::before {
   content:'';
   position:absolute;
-  inset:-20px;
+  inset:-24px;
   border-radius:50%;
-  background:radial-gradient(circle,rgba(20,184,166,.12),transparent 70%);
+  background: conic-gradient(
+    from 0deg,
+    rgba(20,184,166,.18),
+    rgba(34,197,94,.08) 30%,
+    transparent 50%,
+    rgba(20,184,166,.12) 70%,
+    rgba(20,184,166,.18) 100%
+  );
   pointer-events:none;
-  animation:int-pulse 4s ease-in-out infinite;
+}
+.int-hero-lottie::after {
+  content:'';
+  position:absolute;
+  inset:-8px;
+  border-radius:50%;
+  border: 1px solid rgba(20,184,166,.15);
+  animation: int-pulse 4s ease-in-out infinite;
+  pointer-events:none;
 }
 @keyframes int-pulse {
-  0%,100%{transform:scale(1);opacity:1}
-  50%{transform:scale(1.06);opacity:.7}
+  0%,100% { transform:scale(1); opacity:.6; }
+  50%     { transform:scale(1.05); opacity:1; }
 }
 
-/* STATS BAND */
-.int-stat-band {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:0;
-  border-radius:20px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.08);
-  margin-top:60px;
-}
-.int-stat {
-  padding:32px 28px;
-  text-align:center;
-  background:rgba(255,255,255,.03);
-  border-right:1px solid rgba(255,255,255,.08);
-  transition:.25s;
-}
-.int-stat:last-child { border-right:none }
-.int-stat:hover { background:rgba(20,184,166,.08) }
-.int-stat-val { font-size:42px; font-weight:800; background:linear-gradient(135deg,#14b8a6,#2dd4bf); -webkit-background-clip:text; -webkit-text-fill-color:transparent }
-.int-stat-lbl { font-size:13px; color:var(--muted); margin-top:4px }
-
-/* INTEGRATION CARDS — asymmetric 2×2 with image inset */
+/* INTEGRATION CARDS */
 .int-what {
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -133,9 +112,16 @@ const styles = `
   border-radius:20px;
   background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.07);
-  transition:.3s var(--ease);
+  transition: transform .3s var(--ease), border-color .3s, box-shadow .3s;
   position:relative;
   overflow:hidden;
+  opacity:0;
+  animation: int-card-in .5s ease forwards;
+  animation-delay: calc(var(--i, 0) * 120ms + 80ms);
+}
+@keyframes int-card-in {
+  from { opacity:0; transform: translateY(18px); }
+  to   { opacity:1; transform: translateY(0); }
 }
 .int-card::before {
   content:'';
@@ -180,9 +166,20 @@ const styles = `
   border:1.5px solid rgba(20,184,166,.4);
   background:#0c1a16;
   font-weight:700; font-size:13px; color:#2dd4bf;
-  transition:.3s;
+  transition: background .3s, transform .3s, box-shadow .3s;
+  position:relative;
 }
-.int-step:hover .int-step-circle { background:rgba(20,184,166,.2); transform:scale(1.1); box-shadow:0 0 24px rgba(20,184,166,.3) }
+.int-step-circle::after {
+  content:'';
+  position:absolute; inset:-5px;
+  border-radius:50%;
+  border:1px solid rgba(20,184,166,.2);
+  opacity:0;
+  transform:scale(.85);
+  transition: opacity .3s, transform .3s;
+}
+.int-step:hover .int-step-circle { background:rgba(20,184,166,.2); transform:scale(1.12); box-shadow:0 0 24px rgba(20,184,166,.3) }
+.int-step:hover .int-step-circle::after { opacity:1; transform:scale(1); }
 .int-step h4 { margin:0 0 6px; font-size:14px; font-weight:700 }
 .int-step p { margin:0; font-size:12px; color:var(--muted) }
 
@@ -197,9 +194,12 @@ const styles = `
   padding:24px;
   border-radius:16px;
   border:1px solid rgba(255,255,255,.08);
-  transition:.25s;
+  transition: border-color .25s, transform .25s;
   position:relative;
   overflow:hidden;
+  opacity:0;
+  animation: int-card-in .5s ease forwards;
+  animation-delay: calc(var(--i, 0) * 90ms + 80ms);
 }
 .int-tech-card::after {
   content:'';
@@ -211,7 +211,7 @@ const styles = `
   transition:.3s;
   transform-origin:left;
 }
-.int-tech-card:hover { border-color:rgba(20,184,166,.3) }
+.int-tech-card:hover { border-color:rgba(20,184,166,.3); transform:translateY(-3px); }
 .int-tech-card:hover::after { transform:scaleX(1) }
 .int-tech-name { font-weight:700; font-size:15px; margin-bottom:6px }
 .int-tech-tag {
@@ -231,55 +231,44 @@ const styles = `
   background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.08);
   font-size:13px; font-weight:500;
-  transition:.2s;
+  transition: background .2s, border-color .2s, color .2s, transform .2s;
 }
-.int-pill:hover { background:rgba(20,184,166,.12); border-color:rgba(20,184,166,.4); color:#2dd4bf }
+.int-pill:hover { background:rgba(20,184,166,.12); border-color:rgba(20,184,166,.4); color:#2dd4bf; transform:translateY(-2px); }
 
-/* CASE STUDY — image + text split */
-.int-case {
-  border-radius:24px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.08);
-  display:grid;
-  grid-template-columns:1fr 1fr;
-}
-.int-case-img {
+/* DELIVERY APPROACH CARDS */
+.int-approach-card {
+  padding:28px 24px;
+  border-radius:20px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
   position:relative;
-  min-height:300px;
+  overflow:hidden;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
 }
-.int-case-img img {
-  width:100%; height:100%; object-fit:cover; display:block;
-}
-.int-case-img::after {
+.int-approach-card::before {
   content:'';
-  position:absolute; inset:0;
-  background:linear-gradient(to right,transparent 40%,rgba(7,16,14,.95) 100%);
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:3px;
+  background:linear-gradient(180deg,#14b8a6,#22c55e);
+  transform:scaleY(0);
+  transform-origin:bottom;
+  transition:transform .3s ease;
 }
-.int-case-body {
-  padding:44px 40px;
-  background:rgba(255,255,255,.03);
-  display:flex; flex-direction:column; justify-content:center;
-}
-.int-case-body h2 { font-size:22px; font-weight:800; margin:0 0 12px }
-.int-case-body p { font-size:14px; color:var(--muted); margin:0 0 20px; line-height:1.7 }
-.int-case-body ul { margin:0; padding:0 0 0 18px }
-.int-case-body li { font-size:14px; color:var(--muted); margin-bottom:8px }
-.int-case-body li strong { color:var(--teal-2) }
+.int-approach-card:hover { border-color:rgba(20,184,166,.3); transform:translateY(-4px); box-shadow:0 12px 36px rgba(20,184,166,.08); }
+.int-approach-card:hover::before { transform:scaleY(1); }
 
 /* RESPONSIVE */
 @media(max-width:1000px) {
   .int-hero { grid-template-columns:1fr }
-  .int-hero-lottie { display:none }
+  // .int-hero-lottie { display:none }
   .int-what { grid-template-columns:1fr }
   .int-tech-grid { grid-template-columns:1fr 1fr }
-  .int-case { grid-template-columns:1fr }
-  .int-case-img { min-height:200px }
 }
 @media(max-width:700px) {
   .int-process-row { grid-template-columns:1fr 1fr }
   .int-connector { display:none }
-  .int-stat-band { grid-template-columns:1fr }
-  .int-stat { border-right:none; border-bottom:1px solid rgba(255,255,255,.08) }
+  .int-tech-grid { grid-template-columns:1fr }
 }
 `;
 
@@ -312,7 +301,7 @@ export default function ApplicationIntegration() {
                 Application Design, Development and Integration
               </span>
             </h1>
-            <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
+            <p className="lead reveal" style={{ marginTop: 16, maxWidth: 700, textAlign: "justify" }}>
               Providing a full range of gathering requirements, designing prototypes, testing, implementation, and integration. We design rich User Interfaces (UI) and User Experiences (UX), create builds for quality assurance and client user acceptance testing, and enable integration between applications and systems — working with APIs, web services, and connectors.
             </p>
             <div className="reveal" style={{ marginTop: 28, display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -331,18 +320,6 @@ export default function ApplicationIntegration() {
             />
           </div>
         </div>
-
-        {/* Stats band */}
-        {/* <div className="container">
-          <div className="int-stat-band reveal">
-            {metrics.map(m => (
-              <div key={m.label} className="int-stat">
-                <div className="int-stat-val">{m.value}</div>
-                <div className="int-stat-lbl">{m.label}</div>
-              </div>
-            ))}
-          </div>
-        </div> */}
       </section>
 
       {/* WHAT WE INTEGRATE */}
@@ -350,7 +327,7 @@ export default function ApplicationIntegration() {
         <div className="container">
           <div className="kicker reveal">Capabilities</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>What we connect</h2>
-          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 600 }}>
+          <p className="lead reveal" style={{ marginTop: 10 }}>
             Whether you're bridging two SaaS tools or rebuilding an enterprise integration layer from scratch,
             we've handled it before.
           </p>
@@ -395,8 +372,8 @@ export default function ApplicationIntegration() {
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>Built on proven infrastructure</h2>
 
           <div className="int-tech-grid">
-            {coreTech.map(t => (
-              <div key={t.name} className="int-tech-card reveal" style={{ background: t.color }}>
+            {coreTech.map((t, i) => (
+              <div key={t.name} className="int-tech-card reveal" style={{ background: t.color, "--i": i }}>
                 <div className="int-tech-name">{t.name}</div>
                 <div className="int-tech-tag">{t.tag}</div>
               </div>
@@ -411,46 +388,12 @@ export default function ApplicationIntegration() {
         </div>
       </section>
 
-      {/* CASE STUDY */}
-      {/* <section className="section">
-        <div className="container">
-          <div className="kicker reveal">Case study</div>
-          <h2 className="h2 reveal" style={{ marginTop: 10, marginBottom: 30 }}>Retail integration in 6 weeks</h2>
-
-          <div className="int-case reveal">
-            <div className="int-case-img">
-              <img
-                src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=700&q=75"
-                alt="Retail integration"
-                loading="lazy"
-                onError={(e) => { e.currentTarget.style.display = "none"; }}
-              />
-            </div>
-            <div className="int-case-body">
-              <div className="kicker" style={{ marginBottom: 16 }}>Retail · E-commerce</div>
-              <h2>From 7 disconnected tools to one unified platform</h2>
-              <p>
-                A mid-size retail brand had inventory in one system, payments in another, and analytics in a third.
-                Reconciliation took 3 days a month. We unified the stack via a real-time event mesh.
-              </p>
-              <ul>
-                <li><strong>3× faster</strong> order fulfilment workflows</li>
-                <li><strong>65% fewer</strong> manual data entry errors</li>
-                <li><strong>Real-time</strong> inventory visibility across 12 channels</li>
-                <li>Delivered <strong>on schedule</strong> in 6 weeks</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-
       {/* DELIVERY APPROACH */}
       <section className="section section--alt">
         <div className="container">
           <div className="kicker reveal">Our approach</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>How every engagement runs</h2>
-          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 580 }}>
+          <p className="lead reveal" style={{ marginTop: 10 }}>
             Every InionData engagement follows the same proven four-step model — so you always know
             where things stand and what comes next.
           </p>
@@ -462,23 +405,8 @@ export default function ApplicationIntegration() {
               { n: "03", title: "Build & Implement", desc: "We develop applications, pipelines, integrations, and governance frameworks in structured sprints with weekly stakeholder updates." },
               { n: "04", title: "Optimise & Support", desc: "We monitor, refine, and evolve your solution as your needs grow — with performance tracking, continuous improvement, and post-delivery support." },
             ].map((step, i) => (
-              <div key={step.n} style={{
-                padding: "28px 24px",
-                borderRadius: 20,
-                background: "rgba(255,255,255,.04)",
-                border: "1px solid rgba(255,255,255,.07)",
-                position: "relative",
-                transition: ".25s",
-              }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
-                onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
-              >
-                <div style={{
-                  fontSize: 48, fontWeight: 800, lineHeight: 1,
-                  color: "rgba(20,184,166,.18)",
-                  marginBottom: 16,
-                  letterSpacing: "-0.04em",
-                }}>
+              <div key={step.n} className="int-approach-card" style={{ "--i": i }}>
+                <div style={{ fontSize: 48, fontWeight: 800, lineHeight: 1, color: "rgba(20,184,166,.18)", marginBottom: 16, letterSpacing: "-0.04em" }}>
                   {step.n}
                 </div>
                 <h3 style={{ margin: "0 0 10px", fontSize: 16, fontWeight: 700 }}>{step.title}</h3>

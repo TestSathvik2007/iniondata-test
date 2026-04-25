@@ -3,15 +3,15 @@ import { useReveal, ANIM_CSS } from "../animations";
 import { useRef } from "react";
 
 /* ── IMAGES ── */
-import service1  from "../assets/images/app_development.png";
-import service2  from "../assets/images/application_integration.png";
-import service3  from "../assets/images/application_management.png";
-import service4  from "../assets/images/application_maintenance.png";
-import service5  from "../assets/images/project_management.png";
-import service6  from "../assets/images/consulting_services.png";
-import service7  from "../assets/images/teams_application.png";
-import service8  from "../assets/images/operational_efficiency.png";
-import service9  from "../assets/images/fast_growth.png";
+import service1 from "../assets/images/app_development.png";
+import service2 from "../assets/images/application_integration.png";
+import service3 from "../assets/images/application_management.png";
+import service4 from "../assets/images/application_maintenance.png";
+import service5 from "../assets/images/project_management.png";
+import service6 from "../assets/images/consulting_services.png";
+import service7 from "../assets/images/teams_application.png";
+import service8 from "../assets/images/operational_efficiency.png";
+import service9 from "../assets/images/fast_growth.png";
 
 /* ── DATA ── */
 const offerings = [
@@ -79,48 +79,6 @@ const offerings = [
     image: service8,
     slug: "/services/operational-efficiency",
   },
-  {
-    title: "Fast Growth",
-    desc: "Boost growth by reinventing your applications.",
-    bullets: ["Shorten release cycles with CI/CD & feature flags", "Cut maintenance overhead with targeted refactoring", "Architect for 10× growth capacity"],
-    image: service9,
-    slug: "/services/fast-growth",
-  },
-  {
-    title: "Data & Analytics",
-    desc: "Turn your data into strategic insight.",
-    bullets: ["Data strategy, maturity assessment & governance", "Advanced analytics, ML & BI dashboards", "Data visualization & storytelling"],
-    image: service1,
-    slug: "/services/data-analytics",
-  },
-  {
-    title: "Data Engineering",
-    desc: "Transform your data into a strategic advantage.",
-    bullets: ["Modern data architecture & cloud-native platforms", "ETL/ELT pipelines & real-time stream processing", "Data quality, governance & compliance frameworks"],
-    image: service2,
-    slug: "/services/data-engineering",
-  },
-  {
-    title: "Cloud Engineering",
-    desc: "Scale, secure, and innovate in the cloud.",
-    bullets: ["Cloud strategy, migration & architecture", "DevOps, CI/CD & containerization", "Cloud security, compliance & managed ops"],
-    image: service3,
-    slug: "/services/cloud-engineering",
-  },
-  {
-    title: "Data Science",
-    desc: "Make your data work smarter.",
-    bullets: ["Predictive modelling, NLP & computer vision", "Decision intelligence & MLOps at scale", "Story-driven insight experiences"],
-    image: service4,
-    slug: "/services/data-science",
-  },
-  {
-    title: "Human in the Loop (HITL)",
-    desc: "Where human judgment meets AI precision.",
-    bullets: ["Data annotation & labeling for all modalities", "AI model validation & continuous feedback loops", "Content moderation & exception handling"],
-    image: service5,
-    slug: "/services/human-in-the-loop",
-  },
 ];
 
 const processSteps = [
@@ -139,7 +97,7 @@ const techStack = [
 
 const valueProps = [
   { label: "Agile delivery", detail: "Weeks to release, not months." },
-  { label: "Fast growth",    detail: "Reinvent apps, boost velocity." },
+  { label: "Fast growth", detail: "Reinvent apps, boost velocity." },
   { label: "Clean handover", detail: "Docs + knowledge transfer included." },
   { label: "Confidentiality", detail: "NDA-ready, least-access ops." },
 ];
@@ -384,7 +342,6 @@ export default function Services() {
       <section className="section section--alt">
         <div className="container">
           <div className="rv" style={{ marginBottom: clamp(20, 28) }}>
-            <div className="accent-bar" />
             <span className="kicker">Every engagement</span>
             <h2 className="h2" style={{ marginTop: 10, fontSize: "clamp(18px,2.5vw,28px)" }}>What you get by default</h2>
           </div>
@@ -397,13 +354,12 @@ export default function Services() {
             ))}
           </div>
         </div>
-      </section> */}
+      </section>
 
       {/* ── 3. SERVICES GRID ── */}
       <section className="section">
         <div className="container">
           <div className="rv" style={{ marginBottom: "clamp(20px,4vw,36px)" }}>
-            <div className="accent-bar" />
             <span className="kicker">Offerings</span>
             <h2 className="h2" style={{ marginTop: 10 }}>Choose what you need</h2>
             <p className="lead" style={{ marginTop: 10, maxWidth: "56ch" }}>
@@ -453,7 +409,6 @@ export default function Services() {
       <section className="section section--alt">
         <div className="container">
           <div className="rv" style={{ marginBottom: "clamp(20px,4vw,36px)" }}>
-            <div className="accent-bar" />
             <span className="kicker">Our Process</span>
             <h2 className="h2" style={{ marginTop: 10 }}>How we deliver excellence</h2>
             <p className="lead" style={{ marginTop: 10, maxWidth: "56ch" }}>
@@ -476,7 +431,6 @@ export default function Services() {
       <section className="section">
         <div className="container">
           <div className="rv" style={{ marginBottom: "clamp(20px,4vw,36px)", textAlign: "center" }}>
-            <div className="accent-bar" style={{ margin: "0 auto 12px" }} />
             <span className="kicker">Technologies</span>
             <h2 className="h2" style={{ marginTop: 10 }}>Powered by modern tools</h2>
           </div>

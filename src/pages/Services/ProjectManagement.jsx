@@ -69,8 +69,8 @@ const styles = `
 /* HERO */
 .pm-hero {
   display:grid;
-  grid-template-columns:1.1fr 1fr;
-  gap:60px;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
   align-items:center;
 }
 .pm-lottie-col { display:flex; align-items:center; justify-content:center; }
@@ -176,8 +176,19 @@ const styles = `
   height:1px;
   background:linear-gradient(90deg,rgba(20,184,166,.6),rgba(20,184,166,.1));
 }
+.pm-process-track::after {
+  content:'';
+  position:absolute;
+  top:-1px; left:0;
+  width:30px; height:3px;
+  background:#14b8a6;
+  border-radius:2px;
+  box-shadow:0 0 8px #14b8a6;
+  animation:pm-track-pulse 3s ease-in-out infinite;
+}
+@keyframes pm-track-pulse { 0%{left:0;opacity:1} 80%{left:calc(100% - 30px);opacity:1} 100%{left:calc(100% - 30px);opacity:0} }
 .pm-process-row { display:grid; grid-template-columns:repeat(5,1fr); gap:16px }
-.pm-step { text-align:center }
+.pm-step { text-align:center; position:relative; }
 .pm-step-node {
   width:56px; height:56px; border-radius:50%;
   margin:0 auto 14px;
@@ -185,9 +196,20 @@ const styles = `
   border:1.5px solid rgba(20,184,166,.4);
   background:#0c1a16;
   font-weight:700; font-size:13px; color:#2dd4bf;
-  transition:.3s;
+  transition: background .3s, transform .3s, box-shadow .3s;
+  position:relative;
 }
-.pm-step:hover .pm-step-node { background:rgba(20,184,166,.18); transform:scale(1.1); box-shadow:0 0 20px rgba(20,184,166,.3) }
+.pm-step-node::after {
+  content:'';
+  position:absolute; inset:-5px;
+  border-radius:50%;
+  border:1px solid rgba(20,184,166,.2);
+  opacity:0;
+  transform:scale(.85);
+  transition: opacity .3s, transform .3s;
+}
+.pm-step:hover .pm-step-node { background:rgba(20,184,166,.18); transform:scale(1.12); box-shadow:0 0 24px rgba(20,184,166,.3) }
+.pm-step:hover .pm-step-node::after { opacity:1; transform:scale(1); }
 .pm-step h4 { margin:0 0 6px; font-size:14px; font-weight:700 }
 .pm-step p { margin:0; font-size:12px; color:var(--muted); line-height:1.5 }
 
@@ -239,10 +261,32 @@ const styles = `
 .pm-case-body li { font-size:14px; color:var(--muted); margin-bottom:8px }
 .pm-case-body li strong { color:#2dd4bf }
 
+/* DELIVERY APPROACH CARDS */
+.pm-approach-card {
+  padding:28px 24px;
+  border-radius:20px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  position:relative;
+  overflow:hidden;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+}
+.pm-approach-card::before {
+  content:'';
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:3px;
+  background:linear-gradient(180deg,#14b8a6,#22c55e);
+  transform:scaleY(0);
+  transform-origin:bottom;
+  transition:transform .3s ease;
+}
+.pm-approach-card:hover { border-color:rgba(20,184,166,.3); transform:translateY(-4px); box-shadow:0 12px 36px rgba(20,184,166,.08); }
+.pm-approach-card:hover::before { transform:scaleY(1); }
+
 /* RESPONSIVE */
 @media(max-width:1000px) {
   .pm-hero { grid-template-columns:1fr }
-  .pm-lottie-col { display:none }
   .pm-metrics-row { grid-template-columns:1fr }
   .pm-comms { grid-template-columns:1fr }
   .pm-case { grid-template-columns:1fr }
@@ -273,7 +317,7 @@ export default function ProjectManagement() {
                 Project Management
               </span>
             </h1>
-            <p className="lead reveal" style={{ marginTop: 16, maxWidth: 520 }}>
+            <p className="lead reveal" style={{ marginTop: 16, maxWidth: 700, textAlign: "justify" }}>
               Establishing and managing timelines, managing projects to the agreed-to-budget, and assessing and managing risks throughout the process. We document features, fixes, and configurations while maintaining clear communication with stakeholders at every stage.
             </p>
             <div className="reveal" style={{ marginTop: 28, display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -391,7 +435,7 @@ export default function ProjectManagement() {
         <div className="container">
           <div className="kicker reveal">Transparency</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>Communication cadence</h2>
-          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 520 }}>
+          <p className="lead reveal" style={{ marginTop: 10 }}>
             No black boxes. Stakeholders always know the current state — through structured, predictable communication rituals.
           </p>
 
@@ -449,7 +493,7 @@ export default function ProjectManagement() {
         <div className="container">
           <div className="kicker reveal">Our approach</div>
           <h2 className="h2 reveal" style={{ marginTop: 10 }}>How every engagement runs</h2>
-          <p className="lead reveal" style={{ marginTop: 10, maxWidth: 580 }}>
+          <p className="lead reveal" style={{ marginTop: 10 }}>
             Every InionData engagement follows the same proven four-step model — so you always know
             where things stand and what comes next.
           </p>
@@ -461,23 +505,8 @@ export default function ProjectManagement() {
               { n: "03", title: "Build & Implement", desc: "We develop applications, pipelines, integrations, and governance frameworks in structured sprints with weekly stakeholder updates." },
               { n: "04", title: "Optimise & Support", desc: "We monitor, refine, and evolve your solution as your needs grow — with performance tracking, continuous improvement, and post-delivery support." },
             ].map((step, i) => (
-              <div key={step.n} style={{
-                padding: "28px 24px",
-                borderRadius: 20,
-                background: "rgba(255,255,255,.04)",
-                border: "1px solid rgba(255,255,255,.07)",
-                position: "relative",
-                transition: ".25s",
-              }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(20,184,166,.3)"}
-                onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,.07)"}
-              >
-                <div style={{
-                  fontSize: 48, fontWeight: 800, lineHeight: 1,
-                  color: "rgba(20,184,166,.18)",
-                  marginBottom: 16,
-                  letterSpacing: "-0.04em",
-                }}>
+              <div key={step.n} className="pm-approach-card" style={{ "--i": i }}>
+                <div style={{ fontSize: 48, fontWeight: 800, lineHeight: 1, color: "rgba(20,184,166,.18)", marginBottom: 16, letterSpacing: "-0.04em" }}>
                   {step.n}
                 </div>
                 <h3 style={{ margin: "0 0 10px", fontSize: 16, fontWeight: 700 }}>{step.title}</h3>
