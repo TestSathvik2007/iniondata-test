@@ -8,6 +8,7 @@ const links = [
   { to: "/about",        label: "About",         sub: "Our story" },
   { to: "/services",     label: "Services",      sub: "What we do" },
   { to: "/ai-enablement",label: "AI Enablement", sub: "The future" },
+  { to: "/careers",      label: "Careers",       sub: "Join us" },
   { to: "/contact",      label: "Contact",       sub: "Let's talk" },
 ];
 

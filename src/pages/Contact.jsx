@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useReveal, ANIM_CSS } from "../animations";
-import emailjs from '@emailjs/browser';
+import { supabase } from "../lib/supabase";
 
 const topics = ["Data & Analytics", "Web & App Development", "AI Solutions", "Cloud & Modernization", "Other"];
 
@@ -141,32 +141,27 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    // Make sure to replace these with your actual EmailJS credentials
-    // You can set them in a .env file as VITE_EMAILJS_SERVICE_ID etc.
-    const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID";
-    const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID";
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY";
-
-    if (serviceID === "YOUR_SERVICE_ID") {
-      setLoading(false);
-      setError("EmailJS is not configured yet. Please add your credentials in the code or .env file.");
-      return;
-    }
-
-    emailjs.sendForm(serviceID, templateID, formRef.current, publicKey)
-      .then((result) => {
-        setLoading(false);
-        setSubmitted(true);
-      }, (err) => {
-        setLoading(false);
-        setError("Something went wrong. Please try again or email us directly.");
-        console.error("EmailJS Error:", err);
+    try {
+      const { data, error } = await supabase.functions.invoke('send-email', {
+        body: form
       });
+
+      if (error) {
+        throw new Error(error.message || "Failed to send email");
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      console.error("Supabase Edge Function Error:", err);
+      setError("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

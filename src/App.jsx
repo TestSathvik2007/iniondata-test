@@ -22,6 +22,9 @@ const DataEngineering = lazy(() => import("./pages/Services/DataEngineering"));
 const CloudEngineering = lazy(() => import("./pages/Services/CloudEngineering"));
 const DataScience = lazy(() => import("./pages/Services/DataScience"));
 const HumanInTheLoop = lazy(() => import("./pages/Services/HumanInTheLoop"));
+const Careers = lazy(() => import("./pages/Careers"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 
 const pageTransitionStyles = `
   @keyframes pageIn {
@@ -67,6 +70,9 @@ function AnimatedRoutes() {
           <Route path="/services/cloud-engineering" element={<CloudEngineering />} />
           <Route path="/services/data-science" element={<DataScience />} />
           <Route path="/services/human-in-the-loop" element={<HumanInTheLoop />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
