@@ -21,11 +21,15 @@ serve(async (req) => {
       throw new Error('Missing RESEND_API_KEY')
     }
 
-    const { name, email, message, company } = await req.json()
+    const { name, email, message, company, jobTitle, linkedin } = await req.json()
 
     if (!name || !email || !message) {
       throw new Error('Missing required fields')
     }
+
+    const subject = jobTitle 
+      ? `New Job Application: ${jobTitle} from ${name}`
+      : `New Contact Inquiry from ${name}`
 
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -36,12 +40,14 @@ serve(async (req) => {
       body: JSON.stringify({
         from: 'Contact Form <onboarding@resend.dev>', // Change to your verified domain when going to production
         to: ['iniondatasolutions@gmail.com'], // Using the registered Resend email address
-        subject: `New Contact Inquiry from ${name}`,
+        subject: subject,
         html: `
-          <h2>New Contact Inquiry</h2>
+          <h2>${jobTitle ? 'New Job Application' : 'New Contact Inquiry'}</h2>
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Company:</strong> ${company || 'N/A'}</p>
+          ${jobTitle ? `<p><strong>Applying for:</strong> ${jobTitle}</p>` : ''}
+          ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
+          ${linkedin ? `<p><strong>LinkedIn/Portfolio:</strong> ${linkedin}</p>` : ''}
           <p><strong>Message:</strong><br/>${message.replace(/\n/g, '<br/>')}</p>
         `,
       }),
