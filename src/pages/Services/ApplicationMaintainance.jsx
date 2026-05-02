@@ -193,7 +193,6 @@ const styles = `
 /* RESPONSIVE */
 @media(max-width:1000px) {
   .amn-hero { grid-template-columns:1fr }
-  .amn-lottie-wrap { display:none }
 }
 @media(max-width:700px) {
   .amn-lifecycle-row { grid-template-columns:1fr 1fr }

@@ -1,18 +1,19 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/images/logo.png";
 
 const links = [
-  { to: "/",             label: "Home",          sub: "Start here" },
-  { to: "/about",        label: "About",         sub: "Our story" },
-  { to: "/services",     label: "Services",      sub: "What we do" },
-  { to: "/ai-enablement",label: "AI Enablement", sub: "The future" },
-  { to: "/contact",      label: "Contact",       sub: "Let's talk" },
+  { to: "/",              label: "Home",          sub: "Start here" },
+  { to: "/about",         label: "About",         sub: "Our story"  },
+  { to: "/services",      label: "Services",      sub: "What we do" },
+  { to: "/ai-enablement", label: "AI Enablement", sub: "The future" },
+  { to: "/careers",       label: "Careers",       sub: "Join us"    },
+  { to: "/contact",       label: "Contact",       sub: "Let's talk" },
 ];
 
 const navStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
 
   /* ─── HEADER BAR ─── */
   .nav {
@@ -22,7 +23,7 @@ const navStyles = `
     transition: background 0.4s ease, box-shadow 0.4s ease;
   }
   .nav--scrolled {
-    background: rgba(7, 16, 14, 0.82);
+    background: rgba(7,16,14,0.88);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     box-shadow: 0 1px 0 rgba(255,255,255,0.05);
@@ -32,7 +33,7 @@ const navStyles = `
     align-items: center;
     justify-content: space-between;
     height: 64px;
-    padding: 0 clamp(20px, 5vw, 60px);
+    padding: 0 clamp(16px, 5vw, 60px);
     max-width: 1600px;
     margin: 0 auto;
   }
@@ -45,7 +46,6 @@ const navStyles = `
   }
   .brand:hover { opacity: 0.8; }
   .brand__logo { height: 34px; width: auto; display: block; }
-  @media (max-width: 400px) { .brand__logo { height: 28px; } }
 
   /* ─── DESKTOP LINKS ─── */
   .nav__links {
@@ -121,8 +121,8 @@ const navStyles = `
                 opacity 0.25s ease,
                 width 0.3s ease;
     transform-origin: center;
+    position: relative; z-index: 1;
   }
-  /* open state — X */
   .nav__toggle.is-open .ham-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); width: 22px; }
   .nav__toggle.is-open .ham-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
   .nav__toggle.is-open .ham-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); width: 22px; }
@@ -133,17 +133,16 @@ const navStyles = `
     .nav__links   { display: none; }
     .nav__actions { display: none; }
     .nav__inner   { height: 58px; padding: 0 16px; }
+    .brand__logo  { height: 28px; }
   }
   @media (max-width: 1024px) and (min-width: 769px) {
     .navlink { font-size: 13px; padding: 6px 8px; }
     .btn--cta { padding: 7px 14px; font-size: 13px; }
   }
 
-  /* ════════════════════════════════════════════
-     FULL-SCREEN MOBILE MENU — Portal to body
-     Editorial luxury × brutalist data aesthetic
-  ════════════════════════════════════════════ */
-
+  /* ══════════════════════════════════════════
+     FULL-SCREEN MOBILE MENU
+  ══════════════════════════════════════════ */
   .mob-menu {
     position: fixed;
     inset: 0;
@@ -151,24 +150,23 @@ const navStyles = `
     display: flex;
     flex-direction: column;
     overflow: hidden;
-
-    /* clip-path reveal animation */
     clip-path: circle(0% at calc(100% - 38px) 29px);
-    transition: clip-path 0.65s cubic-bezier(0.76, 0, 0.24, 1);
+    transition: clip-path 0.65s cubic-bezier(0.76,0,0.24,1);
     pointer-events: none;
+    visibility: hidden;
   }
   .mob-menu.is-open {
     clip-path: circle(150% at calc(100% - 38px) 29px);
     pointer-events: auto;
+    visibility: visible;
   }
 
-  /* ── Layered background ── */
+  /* Backgrounds */
   .mob-bg {
     position: absolute; inset: 0;
     background: #040d0b;
     z-index: 0;
   }
-  /* Animated mesh blobs */
   .mob-blob {
     position: absolute;
     border-radius: 50%;
@@ -195,93 +193,103 @@ const navStyles = `
     top: 50%; left: 40%;
     animation: blobFloat3 7s ease-in-out infinite alternate;
   }
-  @keyframes blobFloat1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-30px,40px) scale(1.15); } }
-  @keyframes blobFloat2 { from { transform: translate(0,0) scale(1); } to { transform: translate(40px,-30px) scale(1.1); } }
-  @keyframes blobFloat3 { from { transform: translate(0,0) scale(1); } to { transform: translate(-20px,20px) scale(1.2); } }
+  @keyframes blobFloat1 { from{transform:translate(0,0) scale(1)} to{transform:translate(-30px,40px) scale(1.15)} }
+  @keyframes blobFloat2 { from{transform:translate(0,0) scale(1)} to{transform:translate(40px,-30px) scale(1.1)} }
+  @keyframes blobFloat3 { from{transform:translate(0,0) scale(1)} to{transform:translate(-20px,20px) scale(1.2)} }
 
-  /* Noise grain texture */
   .mob-noise {
     position: absolute; inset: 0; z-index: 1;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
     pointer-events: none; opacity: 0.6;
   }
-
-  /* Diagonal rule lines — brutalist grid */
   .mob-grid-lines {
-    position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    overflow: hidden;
+    position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden;
   }
   .mob-grid-lines::before {
     content: '';
     position: absolute;
     top: 0; left: -200px; right: 0; bottom: 0;
-    background:
-      repeating-linear-gradient(
-        -45deg,
-        transparent,
-        transparent 80px,
-        rgba(255,255,255,0.012) 80px,
-        rgba(255,255,255,0.012) 81px
-      );
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent, transparent 80px,
+      rgba(255,255,255,0.012) 80px, rgba(255,255,255,0.012) 81px
+    );
   }
 
-  /* ── Inner layout ── */
+  /* Inner layout */
   .mob-inner {
     position: relative; z-index: 10;
     display: flex; flex-direction: column;
     height: 100%;
-    padding: 0;
   }
 
-  /* Top strip — logo + close hint */
+  /* ── TOP BAR: logo + close button ── */
   .mob-topbar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
     flex-shrink: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
   }
   .mob-topbar-logo {
-    height: 28px; width: auto; opacity: 0.5;
-    transform: translateX(-20px);
+    height: 26px; width: auto;
+    opacity: 0.6;
+    transform: translateX(-16px);
     transition: opacity 0.5s ease 0.3s, transform 0.5s cubic-bezier(0.22,1,0.36,1) 0.3s;
   }
-  .mob-menu.is-open .mob-topbar-logo { opacity: 0.5; transform: translateX(0); }
-
-  .mob-online {
-    display: flex; align-items: center; gap: 7px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
-    text-transform: uppercase; color: rgba(255,255,255,0.35);
-    transform: translateX(20px); opacity: 0;
-    transition: opacity 0.5s ease 0.4s, transform 0.5s cubic-bezier(0.22,1,0.36,1) 0.4s;
-  }
-  .mob-menu.is-open .mob-online { opacity: 1; transform: translateX(0); }
-  .mob-online-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: #10b981;
-    box-shadow: 0 0 0 0 rgba(16,185,129,0.5);
-    animation: pulseOnline 2s ease-in-out infinite;
-  }
-  @keyframes pulseOnline {
-    0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
-    50%      { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+  .mob-menu.is-open .mob-topbar-logo {
+    opacity: 0.6; transform: translateX(0);
   }
 
-  /* ── NAV LINKS — the hero section ── */
+  /* Close button */
+  .mob-close {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 10px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.7);
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    flex-shrink: 0;
+    transform: translateX(16px);
+    opacity: 0;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      color 0.2s,
+      transform 0.45s cubic-bezier(0.22,1,0.36,1) 0.25s,
+      opacity 0.4s ease 0.25s;
+  }
+  .mob-menu.is-open .mob-close {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  .mob-close:hover {
+    background: rgba(239,68,68,0.12);
+    border-color: rgba(239,68,68,0.3);
+    color: #f87171;
+  }
+  .mob-close:active { transform: scale(0.92); }
+
+  /* ── NAV LINKS ── */
   .mob-nav {
     flex: 1; display: flex; flex-direction: column;
     justify-content: center;
     padding: 0 24px;
     gap: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .mob-link-wrap {
     position: relative;
-    display: flex; align-items: baseline; gap: 16px;
-    padding: 14px 0;
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 0;
     border-bottom: 1px solid rgba(255,255,255,0.06);
     overflow: hidden;
     cursor: pointer;
-    /* Staggered slide-in from left */
     transform: translateX(-60px);
     opacity: 0;
     transition:
@@ -289,13 +297,13 @@ const navStyles = `
       opacity   0.45s ease;
     text-decoration: none;
   }
-  /* Each link has a different delay via inline style set in JSX */
   .mob-menu.is-open .mob-link-wrap {
     transform: translateX(0);
     opacity: 1;
   }
+  .mob-link-wrap:last-child { border-bottom: none; }
 
-  /* Hover sweep line */
+  /* Hover sweep */
   .mob-link-wrap::after {
     content: '';
     position: absolute; left: 0; bottom: 0;
@@ -305,7 +313,6 @@ const navStyles = `
   }
   .mob-link-wrap:hover::after { width: 100%; }
 
-  /* Hover background flash */
   .mob-link-wrap::before {
     content: '';
     position: absolute; inset: 0;
@@ -316,7 +323,6 @@ const navStyles = `
   }
   .mob-link-wrap:hover::before { opacity: 1; transform: translateX(0); }
 
-  /* Index number */
   .mob-link-index {
     font-family: 'Syne', sans-serif;
     font-size: 11px; font-weight: 700;
@@ -329,39 +335,35 @@ const navStyles = `
   }
   .mob-link-wrap:hover .mob-link-index { color: #2dd4bf; }
 
-  /* Main label */
   .mob-link-label {
     font-family: 'Syne', sans-serif;
-    font-size: clamp(34px, 9vw, 52px);
+    font-size: clamp(22px, 6vw, 40px);
     font-weight: 800;
     color: rgba(255,255,255,0.88);
-    letter-spacing: -0.03em;
-    line-height: 1;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
     position: relative; z-index: 1;
     transition: color 0.25s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
     flex: 1;
   }
-  .mob-link-wrap:hover .mob-link-label {
-    color: #fff;
-    transform: translateX(6px);
-  }
-  .mob-link-wrap--active .mob-link-label {
-    color: #2dd4bf;
-  }
+  .mob-link-wrap:hover .mob-link-label { color: #fff; transform: translateX(6px); }
+  .mob-link-wrap--active .mob-link-label { color: #2dd4bf; }
 
-  /* Sub-label */
   .mob-link-sub {
     font-family: 'DM Sans', sans-serif;
-    font-size: 11px; font-weight: 400;
+    font-size: 10px; font-weight: 400;
     color: rgba(255,255,255,0.22);
     letter-spacing: 0.06em; text-transform: uppercase;
-    align-self: flex-start; margin-top: 6px;
+    align-self: center;
     position: relative; z-index: 1;
     transition: color 0.25s ease;
+    white-space: nowrap;
   }
   .mob-link-wrap:hover .mob-link-sub { color: rgba(45,212,191,0.6); }
 
-  /* Arrow */
+  /* Hide sub-label on very small screens */
+  @media (max-width: 360px) { .mob-link-sub { display: none; } }
+
   .mob-link-arrow {
     position: relative; z-index: 1;
     color: rgba(255,255,255,0.15);
@@ -369,15 +371,12 @@ const navStyles = `
     transition: color 0.25s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
     flex-shrink: 0;
   }
-  .mob-link-wrap:hover .mob-link-arrow {
-    color: #2dd4bf;
-    transform: translateX(8px) rotate(-35deg);
-  }
+  .mob-link-wrap:hover .mob-link-arrow { color: #2dd4bf; transform: translateX(8px) rotate(-35deg); }
 
-  /* ── BOTTOM STRIP ── */
+  /* ── FOOTER STRIP ── */
   .mob-footer {
     flex-shrink: 0;
-    padding: 20px 24px 32px;
+    padding: 16px 24px 28px;
     border-top: 1px solid rgba(255,255,255,0.06);
     display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 12px;
@@ -406,54 +405,62 @@ const navStyles = `
 
   .mob-footer-cta {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 22px;
-    background: #1D9E75;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
+    padding: 11px 20px;
+    background: #1D9E75; color: #fff;
+    border: none; border-radius: 8px;
     font-family: 'DM Sans', sans-serif;
     font-size: 13px; font-weight: 600;
     text-decoration: none; cursor: pointer;
     transition: background 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    white-space: nowrap;
   }
   .mob-footer-cta:hover { background: #16a34a; transform: scale(1.04); }
   .mob-footer-cta:active { transform: scale(0.97); }
 
-  /* ── Vertical teal rule — decorative ── */
+  /* Vertical teal rule */
   .mob-rule {
     position: absolute;
     left: 16px; top: 20%; bottom: 20%;
     width: 1px;
     background: linear-gradient(to bottom, transparent, rgba(20,184,166,0.25), transparent);
     z-index: 5; pointer-events: none;
-    transform: scaleY(0);
-    transform-origin: top;
+    transform: scaleY(0); transform-origin: top;
     transition: transform 0.6s cubic-bezier(0.22,1,0.36,1) 0.2s;
   }
   .mob-menu.is-open .mob-rule { transform: scaleY(1); }
 
-  /* ── Huge faded number watermark ── */
+  /* Watermark */
   .mob-watermark {
     position: absolute;
     right: -20px; bottom: 60px;
     font-family: 'Syne', sans-serif;
-    font-size: clamp(140px, 35vw, 220px);
+    font-size: clamp(120px, 32vw, 200px);
     font-weight: 800;
     color: rgba(20,184,166,0.04);
     line-height: 1;
-    pointer-events: none;
-    z-index: 2;
-    user-select: none;
-    letter-spacing: -0.05em;
-    transition: opacity 0.5s ease;
+    pointer-events: none; z-index: 2;
+    user-select: none; letter-spacing: -0.05em;
+  }
+
+  /* ── Small phone tweaks ── */
+  @media (max-width: 380px) {
+    .mob-nav { padding: 0 16px; }
+    .mob-topbar { padding: 12px 16px; }
+    .mob-footer { padding: 14px 16px 24px; flex-direction: column; align-items: flex-start; }
+    .mob-footer-cta { width: 100%; justify-content: center; }
+    .mob-link-label { font-size: 20px; }
   }
 `;
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen]         = useState(false);
-  const [watermark, setWatermark] = useState("IN");
+  const [scrolled,   setScrolled]   = useState(false);
+  const [open,       setOpen]       = useState(false);
+  const [watermark,  setWatermark]  = useState("IN");
+  const hamburgerRef = useRef(null);
+  const closeRef     = useRef(null);
+  const menuRef      = useRef(null);
 
+  // Scroll listener
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
@@ -461,28 +468,59 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
+  // Lock body scroll when open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  const closeMenu = () => setOpen(false);
+  // Focus management + Escape key
+  useEffect(() => {
+    if (open) {
+      // Move focus to close button when menu opens
+      setTimeout(() => closeRef.current?.focus(), 100);
+    }
+
+    function onKey(e) {
+      if (e.key === "Escape" && open) closeMenu();
+
+      // Trap focus inside menu while open
+      if (e.key === "Tab" && open && menuRef.current) {
+        const focusable = menuRef.current.querySelectorAll(
+          'a[href], button, [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last?.focus(); }
+        } else {
+          if (document.activeElement === last)  { e.preventDefault(); first?.focus(); }
+        }
+      }
+    }
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    // Return focus to hamburger after menu closes
+    setTimeout(() => hamburgerRef.current?.focus(), 50);
+  }, []);
 
   const mobileMenu = createPortal(
     <>
       <style>{navStyles}</style>
+      {/* Use inert instead of aria-hidden to prevent focus issues */}
       <div
+        ref={menuRef}
+        id="mobile-menu"
         className={`mob-menu${open ? " is-open" : ""}`}
-        aria-hidden={!open}
-        aria-modal="true"
         role="dialog"
+        aria-modal="true"
         aria-label="Navigation menu"
+        {...(!open ? { inert: "" } : {})}
       >
         {/* Layered backgrounds */}
         <div className="mob-bg" />
@@ -491,21 +529,24 @@ export default function Navbar() {
         <div className="mob-blob mob-blob-3" />
         <div className="mob-noise" />
         <div className="mob-grid-lines" />
-
-        {/* Vertical rule accent */}
         <div className="mob-rule" />
-
-        {/* Watermark */}
         <div className="mob-watermark" aria-hidden="true">{watermark}</div>
 
         <div className="mob-inner">
-          {/* Top bar */}
+          {/* Top bar: logo + close button */}
           <div className="mob-topbar">
             <img src={logo} alt="InionData" className="mob-topbar-logo" />
-            <div className="mob-online">
-              <span className="mob-online-dot" />
-              Available now
-            </div>
+
+            <button
+              ref={closeRef}
+              className="mob-close"
+              onClick={closeMenu}
+              aria-label="Close navigation menu"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            </button>
           </div>
 
           {/* Nav links */}
@@ -523,13 +564,13 @@ export default function Navbar() {
                 }
                 style={{
                   transitionDelay: open
-                    ? `${0.08 + i * 0.07}s`
-                    : `${(links.length - 1 - i) * 0.04}s`,
+                    ? `${0.08 + i * 0.065}s`
+                    : `${(links.length - 1 - i) * 0.03}s`,
                 }}
               >
-                <span className="mob-link-index">0{i + 1}</span>
+                <span className="mob-link-index" aria-hidden="true">0{i + 1}</span>
                 <span className="mob-link-label">{l.label}</span>
-                <span className="mob-link-sub">{l.sub}</span>
+                <span className="mob-link-sub" aria-hidden="true">{l.sub}</span>
                 <span className="mob-link-arrow" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                     <path d="M5 19L19 5M19 5H9M19 5V15"
@@ -543,7 +584,7 @@ export default function Navbar() {
 
           {/* Footer strip */}
           <div className="mob-footer">
-            <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
               <div className="mob-footer-contact">
                 <span className="mob-footer-label">Phone</span>
                 <a href="tel:+18048772171" className="mob-footer-val">(804) 877-2171</a>
@@ -598,16 +639,18 @@ export default function Navbar() {
 
           {/* Hamburger */}
           <button
+            ref={hamburgerRef}
             className={`nav__toggle${open ? " is-open" : ""}`}
             aria-expanded={open}
             aria-controls="mobile-menu"
-            aria-label="Toggle navigation menu"
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
             onClick={() => setOpen((v) => !v)}
           >
             <span className="ham-line" />
             <span className="ham-line" />
             <span className="ham-line" />
           </button>
+
         </div>
       </header>
 

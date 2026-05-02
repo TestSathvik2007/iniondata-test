@@ -132,7 +132,6 @@ const styles = `
 /* RESPONSIVE */
 @media(max-width:1000px) {
   .oe-hero { grid-template-columns:1fr }
-  .oe-lottie { display:none }
   .oe-improvements { grid-template-columns:1fr }
 }
 `;

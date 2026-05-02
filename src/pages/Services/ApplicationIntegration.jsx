@@ -261,7 +261,6 @@ const styles = `
 /* RESPONSIVE */
 @media(max-width:1000px) {
   .int-hero { grid-template-columns:1fr }
-  // .int-hero-lottie { display:none }
   .int-what { grid-template-columns:1fr }
   .int-tech-grid { grid-template-columns:1fr 1fr }
 }

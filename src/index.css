@@ -757,10 +757,6 @@ svg {
     max-width: 100% !important;
     width: 100% !important;
   }
-
-  .int-hero-lottie {
-    display: none !important;
-  }
 }
 
 @media (max-width: 480px) {

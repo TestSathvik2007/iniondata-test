@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useReveal, ANIM_CSS } from "../animations";
+import { supabase } from "../lib/supabase";
 
 const topics = ["Data & Analytics", "Web & App Development", "AI Solutions", "Cloud & Modernization", "Other"];
 
@@ -134,18 +135,33 @@ const pageStyles = `
 
 export default function Contact() {
   useReveal();
+  const formRef = useRef();
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", company: "", topic: "", message: "" });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate network request
-    setTimeout(() => {
-      setLoading(false);
+    setError("");
+
+    try {
+      const { data, error } = await supabase.functions.invoke('send-email', {
+        body: form
+      });
+
+      if (error) {
+        throw new Error(error.message || "Failed to send email");
+      }
+
       setSubmitted(true);
-    }, 800);
+    } catch (err) {
+      console.error("Supabase Edge Function Error:", err);
+      setError("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -181,28 +197,28 @@ export default function Contact() {
           {/* LEFT: FORM */}
           <div className="card rv">
             {!submitted ? (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} ref={formRef}>
                 <h2 className="h2" style={{ marginBottom: "32px" }}>Send us a message</h2>
                 
                 <div className="grid-2">
                   <div className="input-group">
                     <label className="input-label">Name</label>
-                    <input required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} className="input" placeholder="Jane Doe" />
+                    <input name="name" required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} className="input" placeholder="Jane Doe" />
                   </div>
                   <div className="input-group">
                     <label className="input-label">Email</label>
-                    <input required type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} className="input" placeholder="jane@company.com" />
+                    <input name="email" required type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} className="input" placeholder="jane@company.com" />
                   </div>
                 </div>
 
                 <div className="grid-2">
                   <div className="input-group">
                     <label className="input-label">Company (Optional)</label>
-                    <input value={form.company} onChange={e=>setForm({...form,company:e.target.value})} className="input" placeholder="Acme Corp" />
+                    <input name="company" value={form.company} onChange={e=>setForm({...form,company:e.target.value})} className="input" placeholder="Acme Corp" />
                   </div>
                   <div className="input-group">
                     <label className="input-label">Topic</label>
-                    <select required value={form.topic} onChange={e=>setForm({...form,topic:e.target.value})} className="input" style={{ appearance: "none" }}>
+                    <select name="topic" required value={form.topic} onChange={e=>setForm({...form,topic:e.target.value})} className="input" style={{ appearance: "none" }}>
                       <option value="" disabled>Select an area of interest...</option>
                       {topics.map(t=><option key={t} value={t}>{t}</option>)}
                     </select>
@@ -211,8 +227,10 @@ export default function Contact() {
 
                 <div className="input-group">
                   <label className="input-label">Project Details</label>
-                  <textarea required value={form.message} onChange={e=>setForm({...form,message:e.target.value})} className="input" placeholder="Tell us about your goals, timeline, or current challenges..." rows={5} style={{ resize: "vertical" }} />
+                  <textarea name="message" required value={form.message} onChange={e=>setForm({...form,message:e.target.value})} className="input" placeholder="Tell us about your goals, timeline, or current challenges..." rows={5} style={{ resize: "vertical" }} />
                 </div>
+
+                {error && <div style={{ color: "#ef4444", fontSize: "13px", marginTop: "4px", marginBottom: "12px", fontWeight: "500" }}>{error}</div>}
 
                 <button type="submit" disabled={loading} className="btn btn--primary btn--full" style={{ marginTop: 12 }}>
                   {loading ? "Sending..." : "Submit Inquiry"}
