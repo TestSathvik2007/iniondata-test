@@ -187,7 +187,7 @@ const pageStyles = `
     --shadow:0 24px 80px rgba(0,0,0,0.55); --shadow-soft:0 8px 32px rgba(0,0,0,0.30);
     --shadow-brand:0 12px 40px rgba(20,184,166,0.30); --shadow-brand-lg:0 20px 60px rgba(20,184,166,0.40);
     --radius:20px; --radius-sm:14px; --radius-xs:10px; --radius-pill:999px;
-    --container:min(1280px,100%); --pad:10px;
+    --container:min(1400px,100%); --pad:10px;
     --font-display:'Inter',system-ui,sans-serif; --font-body:'Inter',system-ui,sans-serif;
     --ease:cubic-bezier(0.22,1,0.36,1); --dur:0.25s; --dur-slow:0.45s;
   }

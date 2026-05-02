@@ -139,7 +139,7 @@ const pageStyles = `
 
   .app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
   .main{flex:1;padding-top:80px}
-  .container{width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,5vw,64px)}
+  .container{width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(20px,5vw,64px)}
   .section{padding:clamp(40px,7vw,90px) 0;position:relative}
   .section--alt{background:rgba(255,255,255,0.015)}
 

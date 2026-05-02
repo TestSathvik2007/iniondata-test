@@ -98,7 +98,7 @@ const pageStyles = `
     --radius: 20px;
     --radius-sm: 14px;
     --radius-pill: 999px;
-    --container: min(1280px,100%);
+    --container: min(1400px,100%);
     --pad: 40px;
     --font: 'Inter', system-ui, sans-serif;
     --ease: cubic-bezier(0.22,1,0.36,1);

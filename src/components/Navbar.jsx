@@ -34,7 +34,7 @@ const navStyles = `
     justify-content: space-between;
     height: 64px;
     padding: 0 clamp(16px, 5vw, 60px);
-    max-width: 1280px;
+    max-width: 1400px;
     margin: 0 auto;
   }
 

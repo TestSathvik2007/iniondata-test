@@ -51,7 +51,7 @@
   --radius-pill: 999px;
 
   /* Layout — FIX 1: 92vw → 100% stops the narrow-strip bug on mobile */
-  --container: min(1280px, 100%);
+  --container: min(1400px, 100%);
   --pad: clamp(20px, 5vw, 80px);
 
   /* Typography */

@@ -95,7 +95,7 @@ const css = `
 
   /* ── Header row ────────────────────────────────────── */
   .svc-header {
-    max-width: min(1280px, 100%);
+    max-width: min(1400px, 100%);
     margin: 0 auto;
     padding: 0 clamp(16px, 4vw, 40px) 36px;
     display: flex;
