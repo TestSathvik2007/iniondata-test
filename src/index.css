@@ -170,7 +170,7 @@ svg {
 .h1 {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(40px, 5.5vw, 72px);
+  font-size: clamp(36px, 4.2vw, 56px);
   line-height: 1.02;
   letter-spacing: -0.04em;
   margin: 0;
@@ -179,7 +179,7 @@ svg {
 .h2 {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(30px, 3.5vw, 48px);
+  font-size: clamp(26px, 2.8vw, 40px);
   line-height: 1.08;
   letter-spacing: -0.03em;
   margin: 0;
