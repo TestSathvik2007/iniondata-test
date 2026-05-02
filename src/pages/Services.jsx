@@ -141,15 +141,15 @@ const pageStyles = `
   .main{flex:1;padding-top:80px}
 
   /* ── CONTAINER ── */
-  .container{width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,5vw,60px)}
+  .container{width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,5vw,60px)}
 
   /* ── SECTIONS ── */
   .section{padding:clamp(56px,8vw,100px) 0;position:relative}
   .section--alt{background:rgba(255,255,255,0.015)}
 
   /* ── TYPOGRAPHY ── */
-  .h1{font-weight:800;font-size:clamp(28px,5vw,60px);line-height:1.05;letter-spacing:-0.035em;margin:0}
-  .h2{font-weight:800;font-size:clamp(22px,3vw,42px);line-height:1.1;letter-spacing:-0.03em;margin:0}
+  .h1{font-weight:800;font-size:clamp(28px,3.8vw,52px);line-height:1.05;letter-spacing:-0.035em;margin:0}
+  .h2{font-weight:800;font-size:clamp(22px,2.8vw,36px);line-height:1.1;letter-spacing:-0.03em;margin:0}
   .h3{font-weight:700;font-size:clamp(15px,1.8vw,20px);line-height:1.25;letter-spacing:-0.02em;margin:0}
   .text-grad{background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
   .lead{font-size:clamp(14px,1.6vw,17px);font-weight:300;color:var(--muted);line-height:1.75;margin:0}

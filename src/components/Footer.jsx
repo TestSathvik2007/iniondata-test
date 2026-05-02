@@ -49,7 +49,7 @@ const footerStyles = `
     gap: clamp(24px, 4vw, 40px) clamp(20px, 3vw, 32px);
     align-items: start;
     padding: clamp(36px, 6vh, 56px) clamp(20px, 5vw, 60px);
-    max-width: 1600px;
+    max-width: 1280px;
     margin: 0 auto;
   }
 
@@ -158,7 +158,7 @@ const footerStyles = `
     flex-wrap: wrap;
     gap: clamp(8px, 2vw, 12px);
     padding: clamp(16px, 3vh, 24px) clamp(20px, 5vw, 60px);
-    max-width: 1600px;
+    max-width: 1280px;
     margin: 0 auto;
     font-size: clamp(10px, 1.6vw, 12px);
     color: rgba(255, 255, 255, 0.3);

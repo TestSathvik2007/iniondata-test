@@ -139,13 +139,13 @@ const pageStyles = `
 
   .app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
   .main{flex:1;padding-top:80px}
-  .container{width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,5vw,64px)}
+  .container{width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,5vw,64px)}
   .section{padding:clamp(40px,7vw,90px) 0;position:relative}
   .section--alt{background:rgba(255,255,255,0.015)}
 
   /* TYPOGRAPHY */
-  .h1{font-weight:800;font-size:clamp(26px,5vw,66px);line-height:1.05;letter-spacing:-0.04em;margin:0}
-  .h2{font-weight:800;font-size:clamp(20px,3.5vw,44px);line-height:1.1;letter-spacing:-0.03em;margin:0}
+  .h1{font-weight:800;font-size:clamp(26px,3.8vw,52px);line-height:1.05;letter-spacing:-0.04em;margin:0}
+  .h2{font-weight:800;font-size:clamp(20px,2.8vw,36px);line-height:1.1;letter-spacing:-0.03em;margin:0}
   .lead{font-size:clamp(12px,1.5vw,16px);color:var(--muted);line-height:1.7;margin:0}
 
   .kicker{display:inline-flex;align-items:center;gap:8px;padding:4px 12px 4px 9px;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text);border:1px solid rgba(255,255,255,0.12);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}

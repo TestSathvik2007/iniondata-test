@@ -187,7 +187,7 @@ const pageStyles = `
     --shadow:0 24px 80px rgba(0,0,0,0.55); --shadow-soft:0 8px 32px rgba(0,0,0,0.30);
     --shadow-brand:0 12px 40px rgba(20,184,166,0.30); --shadow-brand-lg:0 20px 60px rgba(20,184,166,0.40);
     --radius:20px; --radius-sm:14px; --radius-xs:10px; --radius-pill:999px;
-    --container:min(1600px,100%); --pad:10px;
+    --container:min(1280px,100%); --pad:10px;
     --font-display:'Inter',system-ui,sans-serif; --font-body:'Inter',system-ui,sans-serif;
     --ease:cubic-bezier(0.22,1,0.36,1); --dur:0.25s; --dur-slow:0.45s;
   }
@@ -205,8 +205,8 @@ const pageStyles = `
   .section{padding:80px 0;position:relative}
   .section--alt{background:rgba(255,255,255,0.015)}
 
-  .h1{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,5vw,72px);line-height:1.05;letter-spacing:-0.04em;margin:0}
-  .h2{font-family:var(--font-display);font-weight:800;font-size:clamp(22px,3.5vw,48px);line-height:1.08;letter-spacing:-0.03em;margin:0}
+  .h1{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,3.8vw,52px);line-height:1.05;letter-spacing:-0.04em;margin:0}
+  .h2{font-family:var(--font-display);font-weight:800;font-size:clamp(22px,2.8vw,38px);line-height:1.08;letter-spacing:-0.03em;margin:0}
   .h3{font-family:var(--font-display);font-weight:700;font-size:clamp(16px,2vw,26px);line-height:1.2;letter-spacing:-0.02em;margin:0}
   .text-grad{background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
   .lead{font-size:clamp(13px,1.5vw,17px);font-weight:300;color:var(--muted);line-height:1.5;text-align:justify;text-justify:inter-word}

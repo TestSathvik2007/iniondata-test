@@ -48,11 +48,11 @@ const pageStyles = `
   a{color:inherit;text-decoration:none}
   button{font:inherit;cursor:pointer}
   
-  .container{width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,5vw,60px);position:relative;z-index:1}
+  .container{width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,5vw,60px);position:relative;z-index:1}
   .section{padding:clamp(60px,8vw,120px) 0}
 
-  .h1{font-weight:800;font-size:clamp(36px,5vw,64px);line-height:1.05;letter-spacing:-0.03em;margin:0}
-  .h2{font-weight:700;font-size:clamp(22px,3vw,32px);line-height:1.15;letter-spacing:-0.02em;margin:0}
+  .h1{font-weight:800;font-size:clamp(32px,3.8vw,52px);line-height:1.05;letter-spacing:-0.03em;margin:0}
+  .h2{font-weight:700;font-size:clamp(22px,2.8vw,32px);line-height:1.15;letter-spacing:-0.02em;margin:0}
   .lead{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--muted);line-height:1.7}
 
   .kicker{
