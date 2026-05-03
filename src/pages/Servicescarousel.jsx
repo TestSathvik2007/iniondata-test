@@ -522,14 +522,11 @@ export default function ServicesCarousel() {
       const onEnd = (ev) => {
         if (ev.propertyName !== "transform") return;
         track.removeEventListener("transitionend", onEnd);
-        // Defer the transition:none by one rAF so the final frame actually renders
-        requestAnimationFrame(() => {
-          track.style.transition = "none";
-          teleportIfClone(clamped);
-        });
+        track.style.transition = "none";
+        teleportIfClone(clamped);
       };
       track.addEventListener("transitionend", onEnd);
-      track.style.transition = "transform 0.50s cubic-bezier(0.25,1,0.35,1)";
+      track.style.transition = "transform 0.55s cubic-bezier(0.22,1,0.36,1)";
     } else {
       trackRef.current.style.transition = "none";
     }
@@ -614,7 +611,7 @@ export default function ServicesCarousel() {
     const onMouseMove = (e) => {
       if (!dragRef.current.active) return;
       const dx = dragRef.current.startX - e.clientX;
-      applyOffset(dragRef.current.startOffset + dx * 0.85);
+      applyOffset(dragRef.current.startOffset + dx * 0.55);
     };
     const onMouseUp = () => {
       if (!dragRef.current.active) return;
@@ -644,14 +641,11 @@ export default function ServicesCarousel() {
 
     /* Wheel — debounced intent, no accumulator */
     const onWheel = (e) => {
-      // Always prevent page scroll when cursor is over the carousel
       e.preventDefault();
       if (teleportRef.current) return;
       const now = Date.now();
-      // Only debounce horizontal-dominant scrolls; allow immediate vertical intent
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // horizontal trackpad — ignore
-      if (now - lastWheelRef.current < 380) return;
-      if (Math.abs(e.deltaY) < 15) return;
+      if (now - lastWheelRef.current < 420) return;
+      if (Math.abs(e.deltaY) < 30) return;
       lastWheelRef.current = now;
       stopAuto();
       snapStep(e.deltaY > 0 ? 1 : -1);
@@ -695,7 +689,7 @@ export default function ServicesCarousel() {
       stage.removeEventListener("touchstart", onTouchStart);
       stage.removeEventListener("touchmove", onTouchMove);
       stage.removeEventListener("touchend", onTouchEnd);
-      stage.removeEventListener("wheel", onWheel);
+      stage.removeEventListener("wheel", onWheel, { passive: false });
       stage.removeEventListener("mousemove", onMouseMoveStage);
       stage.removeEventListener("mouseleave", onMouseLeaveStage);
     };
