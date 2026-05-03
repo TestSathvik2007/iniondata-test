@@ -39,46 +39,58 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 
-import service1  from "../assets/images/app_development.png";
-import service2  from "../assets/images/application_integration.png";
-import service3  from "../assets/images/application_management.png";
-import service4  from "../assets/images/application_maintenance.png";
-import service5  from "../assets/images/project_management.png";
-import service6  from "../assets/images/consulting_services.png";
-import service7  from "../assets/images/teams_application.png";
-import service8  from "../assets/images/operational_efficiency.png";
+import service1 from "../assets/images/app_development.png";
+import service2 from "../assets/images/application_integration.png";
+import service3 from "../assets/images/application_management.png";
+import service4 from "../assets/images/application_maintenance.png";
+import service5 from "../assets/images/project_management.png";
+import service6 from "../assets/images/consulting_services.png";
+import service7 from "../assets/images/teams_application.png";
+import service8 from "../assets/images/operational_efficiency.png";
+import service9 from "../assets/images/fast_growth.png";
+import service10 from "../assets/images/dataanalytics.jpg";
+import service11 from "../assets/images/dataengineering.jpg";
+import service12 from "../assets/images/cloud.jpg";
+import service13 from "../assets/images/datascience.jpg";
+import service14 from "../assets/images/hitl2.jpg";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DATA
 // ─────────────────────────────────────────────────────────────────────────────
 
 const offerings = [
-  { title: "Application Development",                            desc: "Transforming heritage portfolios to flexible, modular application development.",      badge: "Development",   image: service1,  path: "/services/app-development" },
-  { title: "Application Design, Development and Integration",    desc: "Full range of requirements gathering, prototyping, implementation, and integration.", badge: "Integration",   image: service2,  path: "/services/app-integration" },
-  { title: "Application Management and Support",                 desc: "Providing management and support service for new and existing applications.",         badge: "Support",       image: service3,  path: "/services/app-management" },
-  { title: "Application Maintenance",                            desc: "Conducting reviews and ensuring standards.",                                          badge: "Maintenance",   image: service4,  path: "/services/app-maintenance" },
-  { title: "Project Management",                                 desc: "Establishing and managing timelines to budget.",                                      badge: "Management",    image: service5,  path: "/services/project-management" },
-  { title: "Consulting Services",                                desc: "Assessing needs, requirements, and goals for cross-functional applications.",         badge: "Consulting",    image: service6,  path: "/services/consulting" },
-  { title: "Teams Application Development and Integration",      desc: "Developing bots, message extensions, and Teams integrations.",                        badge: "Teams",         image: service7,  path: "/services/teams-integration" },
-  { title: "Operational Efficiency and Fast Growth",             desc: "Ensure efficient and cost-effective application development.",                        badge: "Efficiency",    image: service8,  path: "/services/operational-efficiency" },
+  { title: "Application Design & Development", desc: "Full-cycle app delivery — from requirements to release — for enterprise-level projects.", badge: "Core", image: service1, path: "/services/app-development" },
+  { title: "Application Integration", desc: "Connect CRMs, cloud platforms, and legacy systems into a unified, real-time ecosystem.", badge: "Integration", image: service2, path: "/services/app-integration" },
+  { title: "Application Management", desc: "24/7 monitoring, incident response, and performance optimisation for your applications.", badge: "Support", image: service3, path: "/services/app-management" },
+  { title: "Application Maintenance", desc: "Proactive bug fixing, security patching, and continuous performance tuning.", badge: "Maintenance", image: service4, path: "/services/app-maintenance" },
+  { title: "Project Management", desc: "End-to-end delivery management — on time, on budget, with full stakeholder transparency.", badge: "Delivery", image: service5, path: "/services/project-management" },
+  { title: "Consulting Services", desc: "Architecture reviews, feasibility studies, and technical roadmaps aligned with your business goals.", badge: "Advisory", image: service6, path: "/services/consulting" },
+  { title: "Teams Integration", desc: "Custom bots, embedded apps, and message extensions that bring your workflows into Microsoft Teams.", badge: "Collaboration", image: service7, path: "/services/teams-integration" },
+  { title: "Operational Efficiency", desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.", badge: "Optimisation", image: service8, path: "/services/operational-efficiency" },
+  { title: "Fast Growth", desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.", badge: "Growth", image: service9, path: "/services/fast-growth" },
+  { title: "Data & Analytics", desc: "Turn raw data into actionable insight with scalable analytics platforms, dashboards, and pipelines.", badge: "Analytics", image: service10, path: "/services/data-analytics" },
+  { title: "Data Engineering Services", desc: "End-to-end data pipelines, lake and warehouse architecture, ETL automation, and stream processing.", badge: "Data", image: service11, path: "/services/data-engineering" },
+  { title: "Cloud Engineering Services", desc: "Cloud-native design, migration, and optimization across Azure, AWS, and GCP for cost-efficient scale.", badge: "Cloud", image: service12, path: "/services/cloud-engineering" },
+  { title: "Data Science Services", desc: "Predictive modelling, machine learning, and AI-driven insights that translate data into business value.", badge: "AI/ML", image: service13, path: "/services/data-science" },
+  { title: "Human-in-the-Loop (HITL) Services", desc: "Combining AI automation with human expertise to validate, annotate, and improve model outputs at scale.", badge: "HITL", image: service14, path: "/services/human-in-the-loop" },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CAROUSEL CONSTANTS
 // ─────────────────────────────────────────────────────────────────────────────
 
-const CARD_W      = 300;   // px — must match CSS .svc-card width
-const GAP         = 20;    // px — must match CSS gap
-const STEP        = CARD_W + GAP;
-const N           = offerings.length;
+const CARD_W = 300;   // px — must match CSS .svc-card width
+const GAP = 20;    // px — must match CSS gap
+const STEP = CARD_W + GAP;
+const N = offerings.length;
 const CLONE_COUNT = 3;
-const TOTAL       = CLONE_COUNT + N + CLONE_COUNT;
+const TOTAL = CLONE_COUNT + N + CLONE_COUNT;
 
 // Build the full cloned items array once (stable reference)
 const allItems = [
   ...offerings.slice(N - CLONE_COUNT).map((s, i) => ({ ...s, _key: `ct-${i}`, _real: N - CLONE_COUNT + i })),
-  ...offerings.map((s, i)                         => ({ ...s, _key: `r-${i}`,  _real: i })),
-  ...offerings.slice(0, CLONE_COUNT).map((s, i)   => ({ ...s, _key: `ch-${i}`, _real: i })),
+  ...offerings.map((s, i) => ({ ...s, _key: `r-${i}`, _real: i })),
+  ...offerings.slice(0, CLONE_COUNT).map((s, i) => ({ ...s, _key: `ch-${i}`, _real: i })),
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -95,7 +107,7 @@ const css = `
 
   /* ── Header row ────────────────────────────────────── */
   .svc-header {
-    max-width: min(1400px, 100%);
+    max-width: min(1600px, 100%);
     margin: 0 auto;
     padding: 0 clamp(16px, 4vw, 40px) 36px;
     display: flex;
@@ -445,20 +457,20 @@ const css = `
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function ServicesCarousel() {
-  const stageRef        = useRef(null);
-  const trackRef        = useRef(null);
-  const padXRef         = useRef(0);          // live padding value (no state lag)
-  const stageRectRef    = useRef(null);       // cached getBoundingClientRect
-  const offsetRef       = useRef(0);          // current track pixel offset
-  const itemIdxRef      = useRef(CLONE_COUNT);// current absolute item index
-  const dragRef         = useRef({ active: false, startX: 0, startOffset: 0 });
-  const teleportRef     = useRef(false);
-  const autoTimerRef    = useRef(null);
+  const stageRef = useRef(null);
+  const trackRef = useRef(null);
+  const padXRef = useRef(0);          // live padding value (no state lag)
+  const stageRectRef = useRef(null);       // cached getBoundingClientRect
+  const offsetRef = useRef(0);          // current track pixel offset
+  const itemIdxRef = useRef(CLONE_COUNT);// current absolute item index
+  const dragRef = useRef({ active: false, startX: 0, startOffset: 0 });
+  const teleportRef = useRef(false);
+  const autoTimerRef = useRef(null);
   const restartTimerRef = useRef(null);
-  const lastWheelRef    = useRef(0);          // for debounced wheel intent
+  const lastWheelRef = useRef(0);          // for debounced wheel intent
 
   const [centerIdx, setCenterIdx] = useState(0);
-  const [padX, setPadX]           = useState(0); // for inline style (track padding)
+  const [padX, setPadX] = useState(0); // for inline style (track padding)
 
   // ── offset → pixel ──────────────────────────────────────────────────────────
   // The track's logical origin sits at -padX so that item[CLONE_COUNT] is
@@ -510,11 +522,14 @@ export default function ServicesCarousel() {
       const onEnd = (ev) => {
         if (ev.propertyName !== "transform") return;
         track.removeEventListener("transitionend", onEnd);
-        track.style.transition = "none";
-        teleportIfClone(clamped);
+        // Defer the transition:none by one rAF so the final frame actually renders
+        requestAnimationFrame(() => {
+          track.style.transition = "none";
+          teleportIfClone(clamped);
+        });
       };
       track.addEventListener("transitionend", onEnd);
-      track.style.transition = "transform 0.55s cubic-bezier(0.22,1,0.36,1)";
+      track.style.transition = "transform 0.50s cubic-bezier(0.25,1,0.35,1)";
     } else {
       trackRef.current.style.transition = "none";
     }
@@ -564,7 +579,7 @@ export default function ServicesCarousel() {
       if (!stageRef.current) return;
       const stageW = stageRef.current.offsetWidth;
       const newPad = Math.max(0, Math.floor((stageW - CARD_W) / 2));
-      padXRef.current  = newPad;
+      padXRef.current = newPad;
       setPadX(newPad);
       stageRectRef.current = stageRef.current.getBoundingClientRect();
       // Re-apply current offset so the card stays centred after resize
@@ -599,7 +614,7 @@ export default function ServicesCarousel() {
     const onMouseMove = (e) => {
       if (!dragRef.current.active) return;
       const dx = dragRef.current.startX - e.clientX;
-      applyOffset(dragRef.current.startOffset + dx * 0.55);
+      applyOffset(dragRef.current.startOffset + dx * 0.85);
     };
     const onMouseUp = () => {
       if (!dragRef.current.active) return;
@@ -629,11 +644,14 @@ export default function ServicesCarousel() {
 
     /* Wheel — debounced intent, no accumulator */
     const onWheel = (e) => {
+      // Always prevent page scroll when cursor is over the carousel
       e.preventDefault();
       if (teleportRef.current) return;
       const now = Date.now();
-      if (now - lastWheelRef.current < 420) return;
-      if (Math.abs(e.deltaY) < 30) return;
+      // Only debounce horizontal-dominant scrolls; allow immediate vertical intent
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // horizontal trackpad — ignore
+      if (now - lastWheelRef.current < 380) return;
+      if (Math.abs(e.deltaY) < 15) return;
       lastWheelRef.current = now;
       stopAuto();
       snapStep(e.deltaY > 0 ? 1 : -1);
@@ -648,10 +666,10 @@ export default function ServicesCarousel() {
       // Re-use cached rect (no layout thrash per frame)
       const r = stageRectRef.current;
       if (!r) return;
-      const mx = (e.clientX - r.left)  / r.width  - 0.5;
-      const my = (e.clientY - r.top)   / r.height - 0.5;
+      const mx = (e.clientX - r.left) / r.width - 0.5;
+      const my = (e.clientY - r.top) / r.height - 0.5;
       card.style.setProperty("--tilt-y", `${mx * -8}deg`);
-      card.style.setProperty("--tilt-x", `${my *  5}deg`);
+      card.style.setProperty("--tilt-x", `${my * 5}deg`);
     };
     const onMouseLeaveStage = () => {
       const card = trackRef.current?.querySelector(".svc-card.pos-center");
@@ -660,39 +678,39 @@ export default function ServicesCarousel() {
       card.style.setProperty("--tilt-x", "0deg");
     };
 
-    stage.addEventListener("mousedown",   onMouseDown);
-    window.addEventListener("mousemove",  onMouseMove);
-    window.addEventListener("mouseup",    onMouseUp);
-    stage.addEventListener("touchstart",  onTouchStart,      { passive: true });
-    stage.addEventListener("touchmove",   onTouchMove,       { passive: true });
-    stage.addEventListener("touchend",    onTouchEnd);
-    stage.addEventListener("wheel",       onWheel,           { passive: false });
-    stage.addEventListener("mousemove",   onMouseMoveStage);
-    stage.addEventListener("mouseleave",  onMouseLeaveStage);
+    stage.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+    stage.addEventListener("touchstart", onTouchStart, { passive: true });
+    stage.addEventListener("touchmove", onTouchMove, { passive: true });
+    stage.addEventListener("touchend", onTouchEnd);
+    stage.addEventListener("wheel", onWheel, { passive: false });
+    stage.addEventListener("mousemove", onMouseMoveStage);
+    stage.addEventListener("mouseleave", onMouseLeaveStage);
 
     return () => {
-      stage.removeEventListener("mousedown",   onMouseDown);
-      window.removeEventListener("mousemove",  onMouseMove);
-      window.removeEventListener("mouseup",    onMouseUp);
-      stage.removeEventListener("touchstart",  onTouchStart);
-      stage.removeEventListener("touchmove",   onTouchMove);
-      stage.removeEventListener("touchend",    onTouchEnd);
-      stage.removeEventListener("wheel",       onWheel);
-      stage.removeEventListener("mousemove",   onMouseMoveStage);
-      stage.removeEventListener("mouseleave",  onMouseLeaveStage);
+      stage.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+      stage.removeEventListener("touchstart", onTouchStart);
+      stage.removeEventListener("touchmove", onTouchMove);
+      stage.removeEventListener("touchend", onTouchEnd);
+      stage.removeEventListener("wheel", onWheel);
+      stage.removeEventListener("mousemove", onMouseMoveStage);
+      stage.removeEventListener("mouseleave", onMouseLeaveStage);
     };
   }, [applyOffset, snapFromRaw, snapStep, stopAuto, scheduleRestart]);
 
   // ── CSS position class (wrap-aware delta) ─────────────────────────────────────
   const posClass = (realIdx) => {
     let d = realIdx - centerIdx;
-    if (d >   N / 2) d -= N;
+    if (d > N / 2) d -= N;
     if (d < -(N / 2)) d += N;
-    if (d ===  0) return "svc-card pos-center";
+    if (d === 0) return "svc-card pos-center";
     if (d === -1) return "svc-card pos-l1";
     if (d === -2) return "svc-card pos-l2";
-    if (d ===  1) return "svc-card pos-r1";
-    if (d ===  2) return "svc-card pos-r2";
+    if (d === 1) return "svc-card pos-r1";
+    if (d === 2) return "svc-card pos-r2";
     return "svc-card";
   };
 
