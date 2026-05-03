@@ -110,7 +110,7 @@ const pageStyles = `
     --radius: 20px;
     --radius-sm: 14px;
     --radius-pill: 999px;
-    --container: min(1600px,100%);
+    --container: min(1400px,100%);
     --pad: 40px;
     --font: 'Inter', system-ui, sans-serif;
     --ease: cubic-bezier(0.22,1,0.36,1);
@@ -135,9 +135,9 @@ const pageStyles = `
   .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
 
   /* TYPOGRAPHY — all clamp */
-  .h1 { font-weight: 800; font-size: clamp(26px, 5vw, 68px); line-height: 1.04; letter-spacing: -0.04em; margin: 0; }
-  .h2 { font-weight: 800; font-size: clamp(20px, 3.5vw, 44px); line-height: 1.08; letter-spacing: -0.03em; margin: 0; }
-  .lead { font-size: clamp(13px, 1.6vw, 16px); font-weight: 300; color: var(--muted); line-height: 1.7; }
+  .h1 { font-weight: 800; font-size: clamp(26px, 3.8vw, 52px); line-height: 1.04; letter-spacing: -0.04em; margin: 0; }
+  .h2 { font-weight: 800; font-size: clamp(20px, 2.8vw, 36px); line-height: 1.08; letter-spacing: -0.03em; margin: 0; }
+  .lead { font-size: clamp(13px, 1.2vw, 15px); font-weight: 300; color: var(--muted); line-height: 1.7; }
 
   .kicker { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; padding: 4px 12px 4px 9px; font-size: clamp(9px,1.1vw,11px); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; border: 1px solid rgba(255,255,255,0.12); clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); color: var(--text); }
   .kicker::before { content: ''; display: block; width: 5px; height: 5px; flex-shrink: 0; background: #1D9E75; clip-path: polygon(50% 0%,100% 100%,0% 100%); }
