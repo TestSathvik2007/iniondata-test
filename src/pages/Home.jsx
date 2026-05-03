@@ -2,14 +2,20 @@ import { Link } from "react-router-dom";
 import { useEffect, useState, useRef, useCallback } from "react";
 
 /* ── SERVICE IMAGES ── */
-import service1  from "../assets/images/app_development.png";
-import service2  from "../assets/images/application_integration.png";
-import service3  from "../assets/images/application_management.png";
-import service4  from "../assets/images/application_maintenance.png";
-import service5  from "../assets/images/project_management.png";
-import service6  from "../assets/images/consulting_services.png";
-import service7  from "../assets/images/teams_application.png";
-import service8  from "../assets/images/operational_efficiency.png";
+import service1 from "../assets/images/app_development.png";
+import service2 from "../assets/images/application_integration.png";
+import service3 from "../assets/images/application_management.png";
+import service4 from "../assets/images/application_maintenance.png";
+import service5 from "../assets/images/project_management.png";
+import service6 from "../assets/images/consulting_services.png";
+import service7 from "../assets/images/teams_application.png";
+import service8 from "../assets/images/operational_efficiency.png";
+import service9 from "../assets/images/fast_growth.png";
+import service10 from "../assets/images/dataanalytics.jpg";
+import service11 from "../assets/images/dataengineering.jpg";
+import service12 from "../assets/images/cloud.jpg";
+import service13 from "../assets/images/datascience.jpg";
+import service14 from "../assets/images/hitl2.jpg";
 
 /* ── HERO CAROUSEL IMAGES ── */
 import heroImg1 from "../assets/images/hero1.jpg";
@@ -17,62 +23,68 @@ import heroImg2 from "../assets/images/hero2.jpg";
 import heroImg3 from "../assets/images/hero3.jpg";
 
 const heroSlides = [
-  { img: heroImg1, title: "Together, We Create Wonders",          sub: "We become an extension of your team and increase productivity." },
+  { img: heroImg1, title: "Together, We Create Wonders", sub: "We become an extension of your team and increase productivity." },
   { img: heroImg2, title: "Professional and Experienced Partners", sub: "Expert partners for reliable, transformative services." },
-  { img: heroImg3, title: "Data-Driven Intelligence",              sub: "Transforming raw data into actionable insights." },
+  { img: heroImg3, title: "Data-Driven Intelligence", sub: "Transforming raw data into actionable insights." },
 ];
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
 const offerings = [
-  { title: "Application Development",                            desc: "Transforming heritage portfolios to flexible, modular application development.",      badge: "Development",   image: service1,  path: "/services/app-development" },
-  { title: "Application Design, Development and Integration",    desc: "Full range of requirements gathering, prototyping, implementation, and integration.", badge: "Integration",   image: service2,  path: "/services/app-integration" },
-  { title: "Application Management and Support",                 desc: "Providing management and support service for new and existing applications.",         badge: "Support",       image: service3,  path: "/services/app-management" },
-  { title: "Application Maintenance",                            desc: "Conducting reviews and ensuring standards.",                                          badge: "Maintenance",   image: service4,  path: "/services/app-maintenance" },
-  { title: "Project Management",                                 desc: "Establishing and managing timelines to budget.",                                      badge: "Management",    image: service5,  path: "/services/project-management" },
-  { title: "Consulting Services",                                desc: "Assessing needs, requirements, and goals for cross-functional applications.",         badge: "Consulting",    image: service6,  path: "/services/consulting" },
-  { title: "Teams Application Development and Integration",      desc: "Developing bots, message extensions, and Teams integrations.",                        badge: "Teams",         image: service7,  path: "/services/teams-integration" },
-  { title: "Operational Efficiency and Fast Growth",             desc: "Ensure efficient and cost-effective application development.",                        badge: "Efficiency",    image: service8,  path: "/services/operational-efficiency" },
+  { title: "Application Design & Development", desc: "Full-cycle app delivery — from requirements to release — for enterprise-level projects.", badge: "Core", image: service1, path: "/services/app-development" },
+  { title: "Application Integration", desc: "Connect CRMs, cloud platforms, and legacy systems into a unified, real-time ecosystem.", badge: "Integration", image: service2, path: "/services/app-integration" },
+  { title: "Application Management", desc: "24/7 monitoring, incident response, and performance optimisation for your applications.", badge: "Support", image: service3, path: "/services/app-management" },
+  { title: "Application Maintenance", desc: "Proactive bug fixing, security patching, and continuous performance tuning.", badge: "Maintenance", image: service4, path: "/services/app-maintenance" },
+  { title: "Project Management", desc: "End-to-end delivery management — on time, on budget, with full stakeholder transparency.", badge: "Delivery", image: service5, path: "/services/project-management" },
+  { title: "Consulting Services", desc: "Architecture reviews, feasibility studies, and technical roadmaps aligned with your business goals.", badge: "Advisory", image: service6, path: "/services/consulting" },
+  { title: "Teams Integration", desc: "Custom bots, embedded apps, and message extensions that bring your workflows into Microsoft Teams.", badge: "Collaboration", image: service7, path: "/services/teams-integration" },
+  { title: "Operational Efficiency", desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.", badge: "Optimisation", image: service8, path: "/services/operational-efficiency" },
+  { title: "Fast Growth", desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.", badge: "Growth", image: service9, path: "/services/fast-growth" },
+  { title: "Data & Analytics", desc: "Turn raw data into actionable insight with scalable analytics platforms, dashboards, and pipelines.", badge: "Analytics", image: service10, path: "/services/data-analytics" },
+  { title: "Data Engineering Services", desc: "End-to-end data pipelines, lake and warehouse architecture, ETL automation, and stream processing.", badge: "Data", image: service11, path: "/services/data-engineering" },
+  { title: "Cloud Engineering Services", desc: "Cloud-native design, migration, and optimisation across Azure, AWS, and GCP for cost-efficient scale.", badge: "Cloud", image: service12, path: "/services/cloud-engineering" },
+  { title: "Data Science Services", desc: "Predictive modelling, machine learning, and AI-driven insights that translate data into business value.", badge: "AI/ML", image: service13, path: "/services/data-science" },
+  { title: "Human-in-the-Loop (HITL) Services", desc: "Combining AI automation with human expertise to validate, annotate, and improve model outputs at scale.", badge: "HITL", image: service14, path: "/services/human-in-the-loop" },
 ];
 
 const staffingItems = [
-  { num: "01", title: "Flexible Hiring Models",   desc: "Contract, contract-to-hire, or direct hire — choose the engagement model that fits your timeline and budget." },
+  { num: "01", title: "Flexible Hiring Models", desc: "Contract, contract-to-hire, or direct hire — choose the engagement model that fits your timeline and budget." },
   { num: "02", title: "Rigorous Vetting Process", desc: "Pre-screened professionals who match your technical requirements and team culture — no guesswork." },
-  { num: "03", title: "Scalable Teams",            desc: "From a single specialist to a full delivery team — scale up or down instantly as your project demands shift." },
+  { num: "03", title: "Scalable Teams", desc: "From a single specialist to a full delivery team — scale up or down instantly as your project demands shift." },
 ];
 
 const consultingItems = [
-  { icon: "◈", title: "Customized Strategies",    desc: "We work closely with you to understand your unique challenges and build tailored solutions aligned with your business goals — not off-the-shelf advice." },
-  { icon: "◈", title: "Experienced Consultants",  desc: "Our consultants bring deep industry expertise across technology and operations, so you get guidance from people who've solved problems like yours before." },
-  { icon: "◈", title: "Comprehensive Solutions",  desc: "From digital transformation to cybersecurity, we cover the full spectrum of IT consulting — one partner for every challenge." },
+  { icon: "◈", title: "Customized Strategies", desc: "We work closely with you to understand your unique challenges and build tailored solutions aligned with your business goals — not off-the-shelf advice." },
+  { icon: "◈", title: "Experienced Consultants", desc: "Our consultants bring deep industry expertise across technology and operations, so you get guidance from people who've solved problems like yours before." },
+  { icon: "◈", title: "Comprehensive Solutions", desc: "From digital transformation to cybersecurity, we cover the full spectrum of IT consulting — one partner for every challenge." },
 ];
 
 const pmItems = [
-  { icon: "▸", title: "Proven Methodologies",      desc: "Structured execution using industry best practices — so your projects run smoothly from kickoff to go-live." },
-  { icon: "▸", title: "Dedicated Support",          desc: "End-to-end project ownership with hands-on management at every stage, from initiation through successful delivery." },
+  { icon: "▸", title: "Proven Methodologies", desc: "Structured execution using industry best practices — so your projects run smoothly from kickoff to go-live." },
+  { icon: "▸", title: "Dedicated Support", desc: "End-to-end project ownership with hands-on management at every stage, from initiation through successful delivery." },
   { icon: "▸", title: "Transparent Communication", desc: "Clear, consistent updates and full visibility at every milestone — so you're never left wondering where things stand." },
 ];
 
 const trust = [
-  { title: "Deep domain expertise",   desc: "Decades of combined leadership experience across Data, SAP, Guidewire, and enterprise application delivery.", lottie: "https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" },
+  { title: "Deep domain expertise", desc: "Decades of combined leadership experience across Data, SAP, Guidewire, and enterprise application delivery.", lottie: "https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" },
   { title: "Flexible delivery model", desc: "Scale your team up or down quickly — contract, contract-to-hire, or direct hire — to address skill gaps without long-term overhead.", lottie: "https://assets4.lottiefiles.com/packages/lf20_tno6cg2w.json" },
-  { title: "AI-driven innovation",    desc: "Vision AI, test automation, risk-based testing, self-healing tests, and performance optimization baked into every engagement.", lottie: "https://assets1.lottiefiles.com/packages/lf20_kkflmtur.json" },
+  { title: "AI-driven innovation", desc: "Vision AI, test automation, risk-based testing, self-healing tests, and performance optimisation baked into every engagement.", lottie: "https://assets1.lottiefiles.com/packages/lf20_kkflmtur.json" },
 ];
 
 const TW_WORDS = ["enterprise applications.", "data & AI solutions.", "digital transformation."];
 
 // ── CAROUSEL CONSTANTS ────────────────────────────────────────────────────────
-const CARD_W      = 300;
-const GAP         = 20;
-const STEP        = CARD_W + GAP;
-const N           = offerings.length;
+const CARD_W = 300;
+const GAP = 20;
+const STEP = CARD_W + GAP;
+const N = offerings.length;
 const CLONE_COUNT = 3;
-const TOTAL       = CLONE_COUNT + N + CLONE_COUNT;
+const TOTAL = CLONE_COUNT + N + CLONE_COUNT;
 
 const allItems = [
   ...offerings.slice(N - CLONE_COUNT).map((s, i) => ({ ...s, _key: `ct-${i}`, _real: N - CLONE_COUNT + i })),
-  ...offerings.map((s, i)                         => ({ ...s, _key: `r-${i}`,  _real: i })),
-  ...offerings.slice(0, CLONE_COUNT).map((s, i)   => ({ ...s, _key: `ch-${i}`, _real: i })),
+  ...offerings.map((s, i) => ({ ...s, _key: `r-${i}`, _real: i })),
+  ...offerings.slice(0, CLONE_COUNT).map((s, i) => ({ ...s, _key: `ch-${i}`, _real: i })),
 ];
 
 // ── STYLES ────────────────────────────────────────────────────────────────────
@@ -98,7 +110,7 @@ const pageStyles = `
     --radius: 20px;
     --radius-sm: 14px;
     --radius-pill: 999px;
-    --container: min(1400px,100%);
+    --container: min(1600px,100%);
     --pad: 40px;
     --font: 'Inter', system-ui, sans-serif;
     --ease: cubic-bezier(0.22,1,0.36,1);
@@ -123,9 +135,9 @@ const pageStyles = `
   .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
 
   /* TYPOGRAPHY — all clamp */
-  .h1 { font-weight: 800; font-size: clamp(26px, 3.8vw, 52px); line-height: 1.04; letter-spacing: -0.04em; margin: 0; }
-  .h2 { font-weight: 800; font-size: clamp(20px, 2.8vw, 36px); line-height: 1.08; letter-spacing: -0.03em; margin: 0; }
-  .lead { font-size: clamp(13px, 1.2vw, 15px); font-weight: 300; color: var(--muted); line-height: 1.7; }
+  .h1 { font-weight: 800; font-size: clamp(26px, 5vw, 68px); line-height: 1.04; letter-spacing: -0.04em; margin: 0; }
+  .h2 { font-weight: 800; font-size: clamp(20px, 3.5vw, 44px); line-height: 1.08; letter-spacing: -0.03em; margin: 0; }
+  .lead { font-size: clamp(13px, 1.6vw, 16px); font-weight: 300; color: var(--muted); line-height: 1.7; }
 
   .kicker { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; padding: 4px 12px 4px 9px; font-size: clamp(9px,1.1vw,11px); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; border: 1px solid rgba(255,255,255,0.12); clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); color: var(--text); }
   .kicker::before { content: ''; display: block; width: 5px; height: 5px; flex-shrink: 0; background: #1D9E75; clip-path: polygon(50% 0%,100% 100%,0% 100%); }
@@ -277,7 +289,7 @@ function useLottieScript() {
   useEffect(() => {
     if (customElements.get("lottie-player") || document.getElementById("lottie-cdn")) return;
     const s = document.createElement("script");
-    s.id  = "lottie-cdn";
+    s.id = "lottie-cdn";
     s.src = "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js";
     document.head.appendChild(s);
   }, []);
@@ -286,7 +298,7 @@ function useLottieScript() {
 function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll(".reveal");
-    const io  = new IntersectionObserver(
+    const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } }),
       { threshold: 0.12 }
     );
@@ -310,7 +322,7 @@ function useBarFillOnScroll(ref) {
 function useTypewriter() {
   const [display, setDisplay] = useState("");
   const [wordIdx, setWordIdx] = useState(0);
-  const [isDeleting, setDel]  = useState(false);
+  const [isDeleting, setDel] = useState(false);
   useEffect(() => {
     const word = TW_WORDS[wordIdx % TW_WORDS.length];
     if (!isDeleting && display === word) { const t = setTimeout(() => setDel(true), 1800); return () => clearTimeout(t); }
@@ -344,10 +356,10 @@ function HeroImageCarousel() {
         <p>{heroSlides[cur].sub}</p>
       </div>
       <button className="hic-arrow hic-arrow-left" onClick={() => go(cur - 1)} aria-label="Previous">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </button>
       <button className="hic-arrow hic-arrow-right" onClick={() => go(cur + 1)} aria-label="Next">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </button>
       <div className="hic-dots">
         {heroSlides.map((_, i) => (
@@ -368,7 +380,7 @@ function ServicesCarousel() {
   const [centerIdx, setCenterIdx] = useState(0);
   const [padX, setPadX] = useState(0);
 
-  const pxFor       = useCallback((i) => i * stepRef.current, []);
+  const pxFor = useCallback((i) => i * stepRef.current, []);
   const applyOffset = useCallback((px) => { if (!trackRef.current) return; trackRef.current.style.transform = `translateX(${-px}px)`; offsetRef.current = px; }, []);
   const teleportIfClone = useCallback((iIdx) => {
     const isHead = iIdx >= CLONE_COUNT + N, isTail = iIdx < CLONE_COUNT;
@@ -390,12 +402,12 @@ function ServicesCarousel() {
     else { trackRef.current.style.transition = "none"; applyOffset(pxFor(c)); requestAnimationFrame(() => teleportIfClone(c)); }
   }, [applyOffset, pxFor, teleportIfClone]);
 
-  const snapToReal      = useCallback((r) => snapToItem(CLONE_COUNT + ((r % N + N) % N)), [snapToItem]);
-  const snapStep        = useCallback((d) => snapToItem(Math.max(0, Math.min(TOTAL - 1, itemIdxRef.current + d))), [snapToItem]);
-  const stopAuto        = useCallback(() => { clearInterval(autoTimerRef.current); clearTimeout(restartTimerRef.current); }, []);
-  const startAuto       = useCallback(() => { clearInterval(autoTimerRef.current); autoTimerRef.current = setInterval(() => snapStep(1), 3600); }, [snapStep]);
+  const snapToReal = useCallback((r) => snapToItem(CLONE_COUNT + ((r % N + N) % N)), [snapToItem]);
+  const snapStep = useCallback((d) => snapToItem(Math.max(0, Math.min(TOTAL - 1, itemIdxRef.current + d))), [snapToItem]);
+  const stopAuto = useCallback(() => { clearInterval(autoTimerRef.current); clearTimeout(restartTimerRef.current); }, []);
+  const startAuto = useCallback(() => { clearInterval(autoTimerRef.current); autoTimerRef.current = setInterval(() => snapStep(1), 3600); }, [snapStep]);
   const scheduleRestart = useCallback((delay = 2000) => { clearTimeout(restartTimerRef.current); restartTimerRef.current = setTimeout(startAuto, delay); }, [startAuto]);
-  const snapFromRaw     = useCallback(() => snapToItem(Math.max(0, Math.min(TOTAL - 1, Math.round(offsetRef.current / stepRef.current)))), [snapToItem]);
+  const snapFromRaw = useCallback(() => snapToItem(Math.max(0, Math.min(TOTAL - 1, Math.round(offsetRef.current / stepRef.current)))), [snapToItem]);
 
   useEffect(() => {
     const upd = () => {
@@ -418,33 +430,33 @@ function ServicesCarousel() {
 
   useEffect(() => {
     const stage = stageRef.current; if (!stage) return;
-    const md  = (e) => { if (teleportRef.current) return; stopAuto(); if (trackRef.current) trackRef.current.style.transition = "none"; dragRef.current = { active:true, startX:e.clientX, startOffset:offsetRef.current }; };
-    const mm  = (e) => { if (!dragRef.current.active) return; applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.clientX)); };
-    const mu  = () => { if (!dragRef.current.active) return; dragRef.current.active = false; snapFromRaw(); scheduleRestart(); };
-    const ts  = (e) => { if (teleportRef.current) return; stopAuto(); if (trackRef.current) trackRef.current.style.transition = "none"; dragRef.current = { active:true, startX:e.touches[0].clientX, startOffset:offsetRef.current }; };
-    const tm  = (e) => { if (!dragRef.current.active) return; applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.touches[0].clientX) * 1.5); };
-    const te  = () => { if (!dragRef.current.active) return; dragRef.current.active = false; snapFromRaw(); scheduleRestart(); };
-    const wh  = (e) => { const isH = Math.abs(e.deltaX) > Math.abs(e.deltaY); if (isH) e.preventDefault(); if (teleportRef.current) return; const now = Date.now(); if (now - lastWheelRef.current < 420) return; const val = isH ? e.deltaX : e.deltaY; if (Math.abs(val) < 15) return; lastWheelRef.current = now; stopAuto(); snapStep(val > 0 ? 1 : -1); scheduleRestart(2000); };
-    const smm = (e) => { if (dragRef.current.active) return; const card = trackRef.current?.children[itemIdxRef.current]; if (!card) return; const r = stageRectRef.current; if (!r) return; card.style.setProperty("--tilt-y", `${((e.clientX - r.left)/r.width - 0.5)*-8}deg`); card.style.setProperty("--tilt-x", `${((e.clientY - r.top)/r.height - 0.5)*5}deg`); };
-    const sml = () => { const card = trackRef.current?.children[itemIdxRef.current]; if (!card) return; card.style.setProperty("--tilt-y","0deg"); card.style.setProperty("--tilt-x","0deg"); };
+    const md = (e) => { if (teleportRef.current) return; stopAuto(); if (trackRef.current) trackRef.current.style.transition = "none"; dragRef.current = { active: true, startX: e.clientX, startOffset: offsetRef.current }; };
+    const mm = (e) => { if (!dragRef.current.active) return; applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.clientX)); };
+    const mu = () => { if (!dragRef.current.active) return; dragRef.current.active = false; snapFromRaw(); scheduleRestart(); };
+    const ts = (e) => { if (teleportRef.current) return; stopAuto(); if (trackRef.current) trackRef.current.style.transition = "none"; dragRef.current = { active: true, startX: e.touches[0].clientX, startOffset: offsetRef.current }; };
+    const tm = (e) => { if (!dragRef.current.active) return; applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.touches[0].clientX) * 1.5); };
+    const te = () => { if (!dragRef.current.active) return; dragRef.current.active = false; snapFromRaw(); scheduleRestart(); };
+    const wh = (e) => { e.preventDefault(); e.stopPropagation(); if (teleportRef.current) return; const now = Date.now(); if (now - lastWheelRef.current < 650) return; const val = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY; if (Math.abs(val) < 15) return; lastWheelRef.current = now; stopAuto(); snapStep(val > 0 ? 1 : -1); scheduleRestart(2000); };
+    const smm = (e) => { if (dragRef.current.active) return; const card = trackRef.current?.children[itemIdxRef.current]; if (!card) return; const r = stageRectRef.current; if (!r) return; card.style.setProperty("--tilt-y", `${((e.clientX - r.left) / r.width - 0.5) * -8}deg`); card.style.setProperty("--tilt-x", `${((e.clientY - r.top) / r.height - 0.5) * 5}deg`); };
+    const sml = () => { const card = trackRef.current?.children[itemIdxRef.current]; if (!card) return; card.style.setProperty("--tilt-y", "0deg"); card.style.setProperty("--tilt-x", "0deg"); };
     stage.addEventListener("mousedown", md); window.addEventListener("mousemove", mm); window.addEventListener("mouseup", mu);
-    stage.addEventListener("touchstart", ts, { passive:true }); stage.addEventListener("touchmove", tm, { passive:true }); stage.addEventListener("touchend", te);
-    stage.addEventListener("wheel", wh, { passive:false }); stage.addEventListener("mousemove", smm); stage.addEventListener("mouseleave", sml);
+    stage.addEventListener("touchstart", ts, { passive: true }); stage.addEventListener("touchmove", tm, { passive: true }); stage.addEventListener("touchend", te);
+    stage.addEventListener("wheel", wh, { passive: false }); stage.addEventListener("mousemove", smm); stage.addEventListener("mouseleave", sml);
     return () => {
       stage.removeEventListener("mousedown", md); window.removeEventListener("mousemove", mm); window.removeEventListener("mouseup", mu);
       stage.removeEventListener("touchstart", ts); stage.removeEventListener("touchmove", tm); stage.removeEventListener("touchend", te);
-      stage.removeEventListener("wheel", wh); stage.removeEventListener("mousemove", smm); stage.removeEventListener("mouseleave", sml);
+      stage.removeEventListener("wheel", wh, { passive: false }); stage.removeEventListener("mousemove", smm); stage.removeEventListener("mouseleave", sml);
     };
   }, [applyOffset, snapFromRaw, snapStep, stopAuto, scheduleRestart]);
 
   const posClass = (ri) => {
     let d = ri - centerIdx;
-    if (d > N/2) d -= N; if (d < -N/2) d += N;
-    if (d===0)  return "svc-card pos-center";
-    if (d===-1) return "svc-card pos-l1";
-    if (d===-2) return "svc-card pos-l2";
-    if (d===1)  return "svc-card pos-r1";
-    if (d===2)  return "svc-card pos-r2";
+    if (d > N / 2) d -= N; if (d < -N / 2) d += N;
+    if (d === 0) return "svc-card pos-center";
+    if (d === -1) return "svc-card pos-l1";
+    if (d === -2) return "svc-card pos-l2";
+    if (d === 1) return "svc-card pos-r1";
+    if (d === 2) return "svc-card pos-r2";
     return "svc-card";
   };
 
@@ -453,19 +465,19 @@ function ServicesCarousel() {
       <div className="svc-header">
         <div>
           <div className="kicker reveal">Services</div>
-          <h2 className="h2 reveal" style={{ marginTop:8 }}>End-to-end solutions, built to scale</h2>
+          <h2 className="h2 reveal" style={{ marginTop: 8 }}>End-to-end solutions, built to scale</h2>
         </div>
-        <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <div className="svc-nav">
             <button className="svc-nav-btn" onClick={() => { stopAuto(); snapStep(-1); scheduleRestart(); }}>←</button>
-            <button className="svc-nav-btn" onClick={() => { stopAuto(); snapStep(1);  scheduleRestart(); }}>→</button>
+            <button className="svc-nav-btn" onClick={() => { stopAuto(); snapStep(1); scheduleRestart(); }}>→</button>
           </div>
           <Link className="btn btn--ghost btn--sm" to="/services">View all</Link>
         </div>
       </div>
       <div className="svc-stage" ref={stageRef}>
         <div className="svc-persp">
-          <div className="svc-track" ref={trackRef} style={{ paddingLeft:padX, paddingRight:padX }}
+          <div className="svc-track" ref={trackRef} style={{ paddingLeft: padX, paddingRight: padX }}
             onTransitionEnd={(ev) => { if (ev.propertyName !== "transform" || ev.target !== trackRef.current) return; trackRef.current.style.transition = "none"; teleportIfClone(itemIdxRef.current); }}
           >
             {allItems.map((s) => (
@@ -481,7 +493,7 @@ function ServicesCarousel() {
                   <div className="svc-card-footer">
                     <Link to={s.path} className="btn btn--ghost btn--sm" onClick={(e) => e.stopPropagation()}>Learn more</Link>
                     <div className="svc-card-arr">
-                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </div>
                   </div>
                 </div>
@@ -492,7 +504,7 @@ function ServicesCarousel() {
       </div>
       <div className="svc-dots">
         {offerings.map((s, i) => (
-          <button key={i} className={`svc-dot${i===centerIdx?" active":""}`} onClick={() => { stopAuto(); snapToReal(i); scheduleRestart(); }} aria-label={s.title} />
+          <button key={i} className={`svc-dot${i === centerIdx ? " active" : ""}`} onClick={() => { stopAuto(); snapToReal(i); scheduleRestart(); }} aria-label={s.title} />
         ))}
       </div>
     </section>
@@ -515,20 +527,20 @@ export default function Home() {
       {/* ══ HERO ══ */}
       <section className="section">
         <div className="container">
-          <div className="grid grid-2 hero-grid" style={{ alignItems:"center", gap:"clamp(24px,4vw,40px)" }}>
+          <div className="grid grid-2 hero-grid" style={{ alignItems: "center", gap: "clamp(24px,4vw,40px)" }}>
             <div>
               <div className="kicker h-anim-1">Enterprise IT services</div>
-              <h1 className="h1 h-anim-2" style={{ marginTop:12 }}>
+              <h1 className="h1 h-anim-2" style={{ marginTop: 12 }}>
                 Build, scale, and transform your technology faster —
                 <span className="tw-word-block">{twWord}<span className="tw-cursor" aria-hidden="true" /></span>
               </h1>
-              <p className="lead h-anim-3" style={{ marginTop:16, maxWidth:"56ch" }}>
+              <p className="lead h-anim-3" style={{ marginTop: 16, maxWidth: "56ch" }}>
                 Flexible consulting, staffing, and data solutions designed to help you deliver results —
                 without long-term overhead. We adapt to your needs, quickly and cost-effectively.
               </p>
-              <div className="h-anim-4 btn-row" style={{ display:"flex", gap:10, marginTop:22, flexWrap:"wrap" }}>
+              <div className="h-anim-4 btn-row" style={{ display: "flex", gap: 10, marginTop: 22, flexWrap: "wrap" }}>
                 <Link className="btn btn--primary" to="/contact">Get in touch</Link>
-                <Link className="btn btn--ghost"   to="/services">View services</Link>
+                <Link className="btn btn--ghost" to="/services">View services</Link>
               </div>
             </div>
             <div className="h-anim-5">
@@ -545,19 +557,19 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="kicker reveal">What we do</div>
-          <h2 className="h2 reveal" style={{ marginTop:8 }}>The right talent, tools, and strategy —<br />exactly when you need them</h2>
+          <h2 className="h2 reveal" style={{ marginTop: 8 }}>The right talent, tools, and strategy —<br />exactly when you need them</h2>
           <div className="section-divider reveal" />
-          <div className="grid content-two-col reveal" style={{ gap:"clamp(24px,5vw,48px)", marginTop:8, alignItems:"stretch" }}>
+          <div className="grid content-two-col reveal" style={{ gap: "clamp(24px,5vw,48px)", marginTop: 8, alignItems: "stretch" }}>
             <div className="intro-band">
               <p>
                 We help businesses solve complex technology challenges by providing the right people and expertise — on demand. Whether you're filling a short-term skill gap or delivering a large-scale transformation, our flexible model adapts to your timeline and budget.
               </p>
-              <p style={{ marginTop:14 }}>
+              <p style={{ marginTop: 14 }}>
                 From critical technical skills to full project delivery — we're ready to become an extension of your team, immediately.
               </p>
             </div>
             <div className="our-svc-strip">
-              <div className="kicker" style={{ marginBottom:14 }}>Our Services</div>
+              <div className="kicker" style={{ marginBottom: 14 }}>Our Services</div>
               <p>
                 From IT staffing to strategic consulting and data engineering, we offer a comprehensive range of services tailored to modern businesses. One partner, every capability — so you can focus on what matters most: delivering results.
               </p>
@@ -569,19 +581,19 @@ export default function Home() {
       {/* ══ STAFFING SOLUTIONS ══ */}
       <section className="section section--alt">
         <div className="container">
-          <div className="grid content-two-col" style={{ gap:"clamp(24px,5vw,64px)", alignItems:"center" }}>
+          <div className="grid content-two-col" style={{ gap: "clamp(24px,5vw,64px)", alignItems: "center" }}>
             <div className="reveal">
               <div className="kicker">Staffing</div>
-              <h2 className="h2" style={{ marginTop:10 }}>Get the right talent — at the right time</h2>
+              <h2 className="h2" style={{ marginTop: 10 }}>Get the right talent — at the right time</h2>
               <div className="section-divider" />
               <p className="lead">
                 Build high-performing teams without the hiring overhead. We provide pre-vetted professionals who are ready to contribute from day one — matched to your technical requirements and team culture.
               </p>
-              <div style={{ marginTop:24 }}>
+              <div style={{ marginTop: 24 }}>
                 <Link className="btn btn--primary" to="/services">Explore staffing</Link>
               </div>
             </div>
-            <div className="reveal-group" style={{ display:"flex", flexDirection:"column", gap:"clamp(10px,2vw,16px)" }}>
+            <div className="reveal-group" style={{ display: "flex", flexDirection: "column", gap: "clamp(10px,2vw,16px)" }}>
               {staffingItems.map((item, i) => (
                 <div key={item.num} className="staffing-card reveal" style={{ "--i": i }}>
                   <div className="staffing-num">{item.num}</div>
@@ -597,7 +609,7 @@ export default function Home() {
       {/* ══ CONSULTING SERVICES ══ */}
       <section className="section">
         <div className="container">
-          <div className="grid content-two-col" style={{ gap:"clamp(24px,5vw,64px)", alignItems:"flex-start" }}>
+          <div className="grid content-two-col" style={{ gap: "clamp(24px,5vw,64px)", alignItems: "flex-start" }}>
             <div className="reveal">
               <div className="icon-list">
                 {consultingItems.map((item) => (
@@ -611,14 +623,14 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="reveal" style={{ position:"sticky", top:120 }}>
+            <div className="reveal" style={{ position: "sticky", top: 120 }}>
               <div className="kicker">Advisory</div>
-              <h2 className="h2" style={{ marginTop:10 }}>Expert guidance for complex technology decisions</h2>
+              <h2 className="h2" style={{ marginTop: 10 }}>Expert guidance for complex technology decisions</h2>
               <div className="section-divider" />
               <p className="lead">
                 Turn technology challenges into strategic advantages. Our consultants bring deep domain expertise and a track record of delivering results across industries.
               </p>
-              <div style={{ marginTop:24 }}>
+              <div style={{ marginTop: 24 }}>
                 <Link className="btn btn--primary" to="/services/consulting">Learn more</Link>
               </div>
             </div>
@@ -629,15 +641,15 @@ export default function Home() {
       {/* ══ PROJECT MANAGEMENT ══ */}
       <section className="section section--alt">
         <div className="container">
-          <div className="grid content-two-col" style={{ gap:"clamp(24px,5vw,64px)", alignItems:"flex-start" }}>
-            <div className="reveal" style={{ position:"sticky", top:120 }}>
+          <div className="grid content-two-col" style={{ gap: "clamp(24px,5vw,64px)", alignItems: "flex-start" }}>
+            <div className="reveal" style={{ position: "sticky", top: 120 }}>
               <div className="kicker">Delivery</div>
-              <h2 className="h2" style={{ marginTop:10 }}>Deliver projects on time — and with confidence</h2>
+              <h2 className="h2" style={{ marginTop: 10 }}>Deliver projects on time — and with confidence</h2>
               <div className="section-divider" />
               <p className="lead">
                 We ensure your projects stay on track, within scope, and aligned with your goals. End-to-end ownership, from kickoff to go-live — so nothing falls through the cracks.
               </p>
-              <div style={{ marginTop:24 }}>
+              <div style={{ marginTop: 24 }}>
                 <Link className="btn btn--primary" to="/services/project-management">Learn more</Link>
               </div>
             </div>
@@ -662,16 +674,16 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="kicker reveal">Why teams trust us</div>
-          <h2 className="h2 reveal" style={{ marginTop:8 }}>Built for enterprise-scale delivery</h2>
-          <div className="reveal trust-banner" style={{ marginTop:20, borderRadius:14, overflow:"hidden", height:"clamp(100px,14vw,170px)", position:"relative" }}>
-            <img style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=75" alt="Team" loading="lazy" onError={(e)=>{e.currentTarget.style.display="none";}} />
-            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to right,rgba(0,0,0,.58) 0%,transparent 65%)", pointerEvents:"none" }} />
-            <div style={{ position:"absolute", bottom:"clamp(10px,3%,18px)", left:"clamp(14px,3%,22px)", color:"#fff" }}>
-              <div style={{ fontSize:"clamp(10px,1.3vw,13px)", opacity:0.8, marginBottom:3 }}>Trusted by enterprises across Financial Services, Healthcare, Retail, Manufacturing &amp; more</div>
-              <div style={{ fontSize:"clamp(13px,1.8vw,18px)", fontWeight:600 }}>Specialised. Scalable. Results-driven.</div>
+          <h2 className="h2 reveal" style={{ marginTop: 8 }}>Built for enterprise-scale delivery</h2>
+          <div className="reveal trust-banner" style={{ marginTop: 20, borderRadius: 14, overflow: "hidden", height: "clamp(100px,14vw,170px)", position: "relative" }}>
+            <img style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=75" alt="Team" loading="lazy" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(0,0,0,.58) 0%,transparent 65%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: "clamp(10px,3%,18px)", left: "clamp(14px,3%,22px)", color: "#fff" }}>
+              <div style={{ fontSize: "clamp(10px,1.3vw,13px)", opacity: 0.8, marginBottom: 3 }}>Trusted by enterprises across Financial Services, Healthcare, Retail, Manufacturing &amp; more</div>
+              <div style={{ fontSize: "clamp(13px,1.8vw,18px)", fontWeight: 600 }}>Specialised. Scalable. Results-driven.</div>
             </div>
           </div>
-          <div className="grid grid-3 trust-grid reveal-group" style={{ marginTop:20 }}>
+          <div className="grid grid-3 trust-grid reveal-group" style={{ marginTop: 20 }}>
             {trust.map((t, i) => (
               <div key={t.title} className="card card-lift trust-card reveal" style={{ "--i": i }}>
                 <div className="trust-lottie-wrap"><lottie-player autoplay loop mode="normal" src={t.lottie} /></div>
@@ -684,30 +696,30 @@ export default function Home() {
 
       {/* ══ CTA ══ */}
       <section className="section section--alt">
-        <div className="container card reveal" style={{ padding:0, overflow:"hidden" }}>
-          <div className="grid grid-2 cta-grid" style={{ alignItems:"stretch", gap:0 }}>
-            <div style={{ padding:"clamp(22px,4vw,40px)" }}>
+        <div className="container card reveal" style={{ padding: 0, overflow: "hidden" }}>
+          <div className="grid grid-2 cta-grid" style={{ alignItems: "stretch", gap: 0 }}>
+            <div style={{ padding: "clamp(22px,4vw,40px)" }}>
               <div className="kicker">Next step</div>
-              <h2 className="h2" style={{ marginTop:10 }}>Tell us what you need to build.</h2>
-              <p className="lead" style={{ marginTop:10 }}>
+              <h2 className="h2" style={{ marginTop: 10 }}>Tell us what you need to build.</h2>
+              <p className="lead" style={{ marginTop: 10 }}>
                 From greenfield projects to post-Go-Live support — we bring speed, precision, and reliability to every engagement. Let's make it happen.
               </p>
-              <div className="btn-row" style={{ display:"flex", gap:10, marginTop:20, flexWrap:"wrap" }}>
+              <div className="btn-row" style={{ display: "flex", gap: 10, marginTop: 20, flexWrap: "wrap" }}>
                 <Link className="btn btn--primary" to="/contact">Contact us</Link>
-                <Link className="btn btn--ghost"   to="/about">About us</Link>
+                <Link className="btn btn--ghost" to="/about">About us</Link>
               </div>
             </div>
-            <div className="cta-photo" ref={ctaRef} style={{ position:"relative", minHeight:220, overflow:"hidden" }}>
-              <img style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=700&q=75" alt="Team" loading="lazy" onError={(e)=>{e.currentTarget.style.display="none";}} />
-              <div style={{ position:"absolute", inset:0, background:"linear-gradient(to left,transparent 35%,rgba(7,16,14,0.96) 100%)", pointerEvents:"none" }} />
-              <div className="card" style={{ position:"absolute", bottom:14, right:14, padding:"clamp(10px,2vw,14px) clamp(12px,2vw,18px)", minWidth:165, backdropFilter:"blur(8px)", WebkitBackdropFilter:"blur(8px)" }}>
-                <div className="kicker" style={{ marginBottom:9 }}>Timeline</div>
-                <div style={{ display:"grid", gap:8 }}>
-                  {[["Discovery",24],["Plan",48],["Deliver",72]].map(([label,pct]) => (
-                    <div key={label} style={{ display:"grid", gridTemplateColumns:"60px 1fr 34px", alignItems:"center", gap:7, fontSize:"clamp(10px,1.3vw,12px)" }}>
-                      <div style={{ fontWeight:600, color:"var(--text)" }}>{label}</div>
+            <div className="cta-photo" ref={ctaRef} style={{ position: "relative", minHeight: 220, overflow: "hidden" }}>
+              <img style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=700&q=75" alt="Team" loading="lazy" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to left,transparent 35%,rgba(7,16,14,0.96) 100%)", pointerEvents: "none" }} />
+              <div className="card" style={{ position: "absolute", bottom: 14, right: 14, padding: "clamp(10px,2vw,14px) clamp(12px,2vw,18px)", minWidth: 165, backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}>
+                <div className="kicker" style={{ marginBottom: 9 }}>Timeline</div>
+                <div style={{ display: "grid", gap: 8 }}>
+                  {[["Discovery", 24], ["Plan", 48], ["Deliver", 72]].map(([label, pct]) => (
+                    <div key={label} style={{ display: "grid", gridTemplateColumns: "60px 1fr 34px", alignItems: "center", gap: 7, fontSize: "clamp(10px,1.3vw,12px)" }}>
+                      <div style={{ fontWeight: 600, color: "var(--text)" }}>{label}</div>
                       <div className="bar-track"><div className="bar-fill-js" data-target-width={`${pct}%`} /></div>
-                      <div style={{ fontWeight:800, color:"var(--muted)", textAlign:"right" }}>{pct}h</div>
+                      <div style={{ fontWeight: 800, color: "var(--muted)", textAlign: "right" }}>{pct}h</div>
                     </div>
                   ))}
                 </div>

@@ -138,7 +138,8 @@ const css = `
     user-select: none;
     -webkit-user-select: none;
     padding: 40px 0 56px;
-    touch-action: pan-y;  /* allow vertical scroll, intercept only horiz */
+    touch-action: pan-y;
+    overscroll-behavior: contain;
   }
   .svc-stage:active { cursor: grabbing; }
 
@@ -639,13 +640,14 @@ export default function ServicesCarousel() {
       scheduleRestart();
     };
 
-    /* Wheel — debounced intent, no accumulator */
+    /* Wheel — carousel-only scroll, page scroll blocked while over stage */
     const onWheel = (e) => {
       e.preventDefault();
+      e.stopPropagation();
       if (teleportRef.current) return;
       const now = Date.now();
-      if (now - lastWheelRef.current < 420) return;
-      if (Math.abs(e.deltaY) < 30) return;
+      if (now - lastWheelRef.current < 650) return;
+      if (Math.abs(e.deltaY) < 20) return;
       lastWheelRef.current = now;
       stopAuto();
       snapStep(e.deltaY > 0 ? 1 : -1);
