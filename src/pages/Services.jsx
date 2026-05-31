@@ -3,10 +3,7 @@ import { useReveal, ANIM_CSS } from "../animations";
 import { useRef } from "react";
 
 /* ── IMAGES ── */
-
 import service2  from "../assets/images/application_integration.png";
-import service3  from "../assets/images/application_management.png";
-import service4  from "../assets/images/application_maintenance.png";
 import service5  from "../assets/images/project_management.png";
 import service6  from "../assets/images/consulting_services.png";
 import service7  from "../assets/images/teams_application.png";
@@ -17,42 +14,40 @@ import service10 from "../assets/images/dataengineering.jpg";
 /* ── DATA ── */
 const offerings = [
   {
-    title: "Application Design, Development and Integration",
-    path: "/services/app-integration",
-    desc: "Full range of requirements gathering, prototyping, implementation, and integration.",
-    bullets: ["Designing Rich UI/UX for applications", "Builds for QA and client UAT", "API, Web services and connectors"],
+    title: "Application Development & Services",
+    path: "/services/app-development",
+    desc: "End-to-end application services — from design and development through to integration, maintenance, and ongoing support.",
+    bullets: [
+      "Rich UI/UX design, prototyping & QA builds",
+      "API, web services & third-party connectors",
+      "Reviews for standards and requirements",
+      "Ensuring systems perform optimally",
+      "Resolving technical & functional issues",
+    ],
     image: service2,
-    slug: "/services/app-integration",
-  },
-  {
-    title: "Application Management and Support",
-    path: "/services/app-management",
-    desc: "Providing management and support service for new and existing applications.",
-    bullets: ["Application management and support", "Resolving technical issues", "Resolving functional issues"],
-    image: service3,
-    slug: "/services/app-management",
+    slug: "/services/app-development",
   },
   {
     title: "Data Engineering",
     path: "/services/data-engineering",
     desc: "Building scalable, secure data pipelines and analytics platforms.",
-    bullets: ["Cloud-native data architecture", "Automated ETL/ELT pipelines", "Data quality, governance, and lineage"],
+    bullets: [
+      "Cloud-native data architecture",
+      "Automated ETL/ELT pipelines",
+      "Data quality, governance, and lineage",
+    ],
     image: service10,
     slug: "/services/data-engineering",
-  },
-  {
-    title: "Application Maintenance",
-    path: "/services/app-maintenance",
-    desc: "Conducting reviews and ensuring standards.",
-    bullets: ["Reviews for standards and requirements", "Ensuring systems perform optimally", "Ongoing support and maintenance"],
-    image: service4,
-    slug: "/services/app-maintenance",
   },
   {
     title: "Project Management",
     path: "/services/project-management",
     desc: "Establishing and managing timelines to budget.",
-    bullets: ["Establishing timelines", "Managing agreed-to-budget", "Assessing and managing risks"],
+    bullets: [
+      "Establishing timelines",
+      "Managing agreed-to-budget",
+      "Assessing and managing risks",
+    ],
     image: service5,
     slug: "/services/project-management",
   },
@@ -60,7 +55,11 @@ const offerings = [
     title: "Consulting Services",
     path: "/services/consulting",
     desc: "Assessing needs, requirements, and goals for cross-functional applications.",
-    bullets: ["Reviewing technical design documents", "Analyzing feasibility & performance", "Addressing security & scalability"],
+    bullets: [
+      "Reviewing technical design documents",
+      "Analyzing feasibility & performance",
+      "Addressing security & scalability",
+    ],
     image: service6,
     slug: "/services/consulting",
   },
@@ -68,39 +67,61 @@ const offerings = [
     title: "Teams Application Development and Integration",
     path: "/services/teams-integration",
     desc: "Developing bots, message extensions, and Teams integrations.",
-    bullets: ["Bots and message extensions", "Integration into Microsoft Teams", "Web app embedded as Tab"],
+    bullets: [
+      "Bots and message extensions",
+      "Integration into Microsoft Teams",
+      "Web app embedded as Tab",
+    ],
     image: service7,
     slug: "/services/teams-integration",
   },
-  {
-    title: "Operational Efficiency and Fast Growth",
+   {
+    title: "Operational Efficiency",
     path: "/services/operational-efficiency",
-    desc: "Ensure efficient and cost-effective application development.",
-    bullets: ["Efficient app development management", "Expand legacy app capabilities", "Boost growth by reinventing applications"],
+    desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.",
+    bullets: [
+      "Efficient application development management",
+      "Expand legacy application capabilities",
+      "Developer workflow optimisation",
+      "Cost reduction & process improvement",
+    ],
     image: service8,
     slug: "/services/operational-efficiency",
+  },
+  {
+    title: "Fast Growth",
+    path: "/services/fast-growth",
+    desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.",
+    bullets: [
+      "Accelerated release cycle planning",
+      "Maintenance debt reduction",
+      "Scalable architecture design",
+      "Reinventing applications for growth",
+    ],
+    image: service9,
+    slug: "/services/fast-growth",
   },
 ];
 
 const processSteps = [
-  { step: "01", title: "Discovery",    desc: "We dive deep into your business objectives, technical constraints, and user needs." },
-  { step: "02", title: "Strategy",     desc: "Drafting a comprehensive roadmap, choosing the right stack, and defining architecture." },
-  { step: "03", title: "Development",  desc: "Agile sprints with continuous integration, ensuring transparent and rapid progress." },
-  { step: "04", title: "Delivery",     desc: "Rigorous QA, secure deployment, and seamless handover with complete documentation." },
+  { step: "01", title: "Discovery",   desc: "We dive deep into your business objectives, technical constraints, and user needs." },
+  { step: "02", title: "Strategy",    desc: "Drafting a comprehensive roadmap, choosing the right stack, and defining architecture." },
+  { step: "03", title: "Development", desc: "Agile sprints with continuous integration, ensuring transparent and rapid progress." },
+  { step: "04", title: "Delivery",    desc: "Rigorous QA, secure deployment, and seamless handover with complete documentation." },
 ];
 
 const techStack = [
-  { category: "Frontend",      tools: "React, Vue, Next.js, TailwindCSS" },
-  { category: "Backend",       tools: "Node.js, Python, Java, Go" },
-  { category: "Cloud & DevOps",tools: "AWS, Azure, GCP, Kubernetes" },
-  { category: "Data & AI",     tools: "PyTorch, TensorFlow, Snowflake, Spark" },
+  { category: "Frontend",       tools: "React, Vue, Next.js, TailwindCSS" },
+  { category: "Backend",        tools: "Node.js, Python, Java, Go" },
+  { category: "Cloud & DevOps", tools: "AWS, Azure, GCP, Kubernetes" },
+  { category: "Data & AI",      tools: "PyTorch, TensorFlow, Snowflake, Spark" },
 ];
 
 const valueProps = [
-  { label: "Agile delivery",   detail: "Weeks to release, not months." },
-  { label: "Fast growth",      detail: "Reinvent apps, boost velocity." },
-  { label: "Clean handover",   detail: "Docs + knowledge transfer included." },
-  { label: "Confidentiality",  detail: "NDA-ready, least-access ops." },
+  { label: "Agile delivery",  detail: "Weeks to release, not months." },
+  { label: "Fast growth",     detail: "Reinvent apps, boost velocity." },
+  { label: "Clean handover",  detail: "Docs + knowledge transfer included." },
+  { label: "Confidentiality", detail: "NDA-ready, least-access ops." },
 ];
 
 /* ── STYLES ── */
@@ -138,8 +159,8 @@ const pageStyles = `
   a{color:inherit;text-decoration:none}
   img{display:block;max-width:100%}
 
-  .container{width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(20px,5vw,60px)}
-  .section{padding:clamp(56px,8vw,100px) 0;position:relative}
+  .container{width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(16px,5vw,60px)}
+  .section{padding:clamp(48px,8vw,100px) 0;position:relative}
   .section--alt{background:rgba(255,255,255,0.015)}
 
   .h1{font-weight:800;font-size:clamp(28px,3.8vw,52px);line-height:1.05;letter-spacing:-0.035em;margin:0}

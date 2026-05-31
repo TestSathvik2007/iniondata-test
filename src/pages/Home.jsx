@@ -1,6 +1,15 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef, useCallback } from "react";
-import ServicesCarousel from "./Servicescarousel";
+
+/* ── SERVICE IMAGES ── */
+import service2  from "../assets/images/application_integration.png";
+import service5  from "../assets/images/project_management.png";
+import service6  from "../assets/images/consulting_services.png";
+import service7  from "../assets/images/teams_application.png";
+import service8  from "../assets/images/operational_efficiency.png";
+import service9  from "../assets/images/fast_growth.png";
+import service11 from "../assets/images/dataengineering.jpg";
+
 
 /* ── HERO CAROUSEL IMAGES ── */
 import heroImg1 from "../assets/images/hero1.jpg";
@@ -14,6 +23,16 @@ const heroSlides = [
 ];
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
+
+const offerings = [
+  { title: "Application Development & Services", desc: "End-to-end app delivery — design, development, integration, maintenance, and ongoing support.", badge: "Development", image: service2, path: "/services/app-development" },
+  { title: "Project Management", desc: "End-to-end delivery management — on time, on budget, with full stakeholder transparency.", badge: "Delivery", image: service5, path: "/services/project-management" },
+  { title: "Consulting Services", desc: "Architecture reviews, feasibility studies, and technical roadmaps aligned with your business goals.", badge: "Advisory", image: service6, path: "/services/consulting" },
+  { title: "Teams Integration", desc: "Custom bots, embedded apps, and message extensions that bring your workflows into Microsoft Teams.", badge: "Collaboration", image: service7, path: "/services/teams-integration" },
+  { title: "Operational Efficiency", desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.", badge: "Optimisation", image: service8, path: "/services/operational-efficiency" },
+  { title: "Fast Growth", desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.", badge: "Growth", image: service9, path: "/services/fast-growth" },
+  { title: "Data Engineering Services", desc: "End-to-end data pipelines, lake and warehouse architecture, ETL automation, and stream processing.", badge: "Data", image: service11, path: "/services/data-engineering" },
+];
 
 const staffingItems = [
   { num: "01", title: "Flexible Hiring Models", desc: "Contract, contract-to-hire, or direct hire — choose the engagement model that fits your timeline and budget." },
@@ -40,6 +59,20 @@ const trust = [
 ];
 
 const TW_WORDS = ["enterprise applications.", "data & AI solutions.", "digital transformation."];
+
+// ── CAROUSEL CONSTANTS ────────────────────────────────────────────────────────
+const CARD_W = 300;
+const GAP = 20;
+const STEP = CARD_W + GAP;
+const N = offerings.length;
+const CLONE_COUNT = 3;
+const TOTAL = CLONE_COUNT + N + CLONE_COUNT;
+
+const allItems = [
+  ...offerings.slice(N - CLONE_COUNT).map((s, i) => ({ ...s, _key: `ct-${i}`, _real: N - CLONE_COUNT + i })),
+  ...offerings.map((s, i) => ({ ...s, _key: `r-${i}`, _real: i })),
+  ...offerings.slice(0, CLONE_COUNT).map((s, i) => ({ ...s, _key: `ch-${i}`, _real: i })),
+];
 
 // ── STYLES ────────────────────────────────────────────────────────────────────
 
@@ -160,6 +193,38 @@ const pageStyles = `
   .reveal.visible { opacity:1; transform:translateY(0); }
   .reveal-group .reveal { transition-delay:calc(var(--i,0) * .09s); }
 
+  /* SERVICES CAROUSEL */
+  .svc-section { padding: clamp(48px,8vw,100px) 0; position: relative; z-index: 1; }
+  .svc-header { max-width: var(--container); margin: 0 auto; padding: 0 clamp(16px,4vw,var(--pad)) clamp(20px,3vw,36px); display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+  .svc-stage { overflow: hidden; mask-image: linear-gradient(to right,transparent 0%,black 9%,black 91%,transparent 100%); -webkit-mask-image: linear-gradient(to right,transparent 0%,black 9%,black 91%,transparent 100%); cursor: grab; user-select: none; -webkit-user-select: none; padding: clamp(20px,4vw,40px) 0 clamp(36px,5vw,56px); touch-action: pan-y; }
+  .svc-stage:active { cursor: grabbing; }
+  .svc-persp { perspective: 1200px; perspective-origin: 50% 40%; }
+  .svc-track { display: flex; gap: ${GAP}px; will-change: transform; }
+  .svc-card { width: ${CARD_W}px; flex-shrink: 0; border-radius: 20px; overflow: hidden; background: #0b1914; border: 1px solid rgba(255,255,255,0.07); cursor: pointer; --tilt-x:0deg; --tilt-y:0deg; opacity: 0.35; filter: brightness(0.55); transform: scale(0.80) rotateY(18deg) translateZ(-80px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); transform-style: preserve-3d; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: opacity .52s cubic-bezier(0.22,1,0.36,1),filter .52s cubic-bezier(0.22,1,0.36,1),transform .52s cubic-bezier(0.22,1,0.36,1),box-shadow .52s cubic-bezier(0.22,1,0.36,1),border-color .35s ease; position: relative; z-index: 1; }
+  .svc-card.pos-center { opacity:1; filter:none; transform:scale(1.02) rotateY(0deg) translateZ(20px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); border-color:rgba(20,184,166,0.50); box-shadow:0 32px 80px rgba(0,0,0,0.60),0 0 0 1px rgba(20,184,166,0.25),0 0 60px rgba(20,184,166,0.08); z-index:10; }
+  .svc-card.pos-l1 { opacity:0.82; filter:brightness(0.78); transform:scale(0.93) rotateY(14deg) translateZ(-28px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); z-index:6; }
+  .svc-card.pos-l2 { opacity:0.52; filter:brightness(0.58); transform:scale(0.84) rotateY(22deg) translateZ(-76px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); z-index:4; }
+  .svc-card.pos-r1 { opacity:0.82; filter:brightness(0.78); transform:scale(0.93) rotateY(-14deg) translateZ(-28px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); z-index:6; }
+  .svc-card.pos-r2 { opacity:0.52; filter:brightness(0.58); transform:scale(0.84) rotateY(-22deg) translateZ(-76px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x)); z-index:4; }
+  .svc-card-img { width:100%; height: clamp(130px,18vw,190px); overflow:hidden; border-bottom:1px solid rgba(255,255,255,0.06); position:relative; background:rgba(20,184,166,0.05); }
+  .svc-card-img img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .55s cubic-bezier(0.22,1,0.36,1),filter .55s cubic-bezier(0.22,1,0.36,1); filter:brightness(0.82) saturate(0.85); pointer-events:none; user-select:none; -webkit-user-select:none; }
+  .svc-card.pos-center .svc-card-img img { transform:scale(1.06); filter:brightness(1) saturate(1); }
+  .svc-card-img-fade { position:absolute; inset:0; background:linear-gradient(to top,rgba(7,16,14,0.60) 0%,transparent 52%); pointer-events:none; }
+  .svc-card-body { padding: clamp(12px,2vw,18px) clamp(14px,2vw,20px) clamp(14px,2vw,22px); }
+  .svc-card-badge { display:inline-flex; align-items:center; padding:3px 10px; font-size:10px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; border-radius:999px; background:rgba(20,184,166,0.12); color:#2dd4bf; border:1px solid rgba(20,184,166,0.24); margin-bottom:9px; }
+  .svc-card-title { font-size: clamp(13px,1.8vw,17px); font-weight:700; letter-spacing:-0.025em; color:#dff0e8; margin:0 0 7px; line-height:1.25; }
+  .svc-card-desc  { font-size: clamp(11px,1.3vw,13px); line-height:1.65; color:#7a9e8e; margin:0; }
+  .svc-card-footer { margin-top: clamp(10px,1.5vw,18px); padding-top: clamp(10px,1.5vw,14px); border-top:1px solid rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .svc-card-arr { width:30px; height:30px; border-radius:50%; border:1px solid rgba(255,255,255,0.11); display:flex; align-items:center; justify-content:center; color:#2dd4bf; flex-shrink:0; transition:background .22s ease,border-color .22s ease,transform .28s cubic-bezier(.34,1.56,.64,1); }
+  .svc-card:hover .svc-card-arr { background:rgba(20,184,166,0.16); border-color:rgba(20,184,166,0.38); transform:translateX(4px); }
+  .svc-dots { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:6px; margin-top:20px; padding:0 clamp(16px,4vw,40px); }
+  .svc-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.15); border:none; padding:0; flex-shrink:0; cursor:pointer; transition:all 0.32s cubic-bezier(0.22,1,0.36,1); }
+  .svc-dot.active { width:24px; border-radius:4px; background:#14b8a6; }
+  .svc-nav { display:flex; gap:8px; }
+  .svc-nav-btn { width:38px; height:38px; border-radius:50%; border:1px solid rgba(255,255,255,0.13); background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; color:#2dd4bf; font-size:16px; line-height:1; transition:background .2s ease,border-color .2s ease,transform .22s cubic-bezier(.34,1.56,.64,1); }
+  .svc-nav-btn:hover  { background:rgba(20,184,166,0.14); border-color:rgba(20,184,166,0.38); transform:scale(1.10); }
+  .svc-nav-btn:active { transform:scale(0.92); }
+
   /* CONTENT SECTIONS */
   .intro-band { border-left: 3px solid var(--teal); padding-left: clamp(14px,3vw,24px); }
   .intro-band p { font-size: clamp(13px,1.5vw,15px); line-height: 1.8; color: var(--muted); margin: 0; }
@@ -193,9 +258,13 @@ const pageStyles = `
     .trust-grid { grid-template-columns: 1fr !important; }
     .kicker { clip-path: none; border-radius: 5px; }
     .btn-row { flex-wrap: wrap !important; }
+    .svc-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .svc-card { width: min(260px, calc(100vw - 88px)); }
+    .svc-stage { mask-image: linear-gradient(to right,transparent 0%,black 5%,black 95%,transparent 100%); -webkit-mask-image: linear-gradient(to right,transparent 0%,black 5%,black 95%,transparent 100%); }
     .cta-photo { display: block !important; min-height: 180px !important; }
   }
   @media(max-width:420px) {
+    .svc-card { width: calc(100vw - 64px); }
     .tw-word-block { min-height: calc(1.04em * 3); }
     .kicker { clip-path: none; border-radius: 6px; }
   }
@@ -285,6 +354,147 @@ function HeroImageCarousel() {
         ))}
       </div>
     </div>
+  );
+}
+
+// ── 3D SERVICES CAROUSEL ─────────────────────────────────────────────────────
+
+function ServicesCarousel() {
+  const stageRef = useRef(null), trackRef = useRef(null), padXRef = useRef(0);
+  const stageRectRef = useRef(null), offsetRef = useRef(0), itemIdxRef = useRef(CLONE_COUNT);
+  const stepRef = useRef(STEP), dragRef = useRef({ active: false, startX: 0, startOffset: 0 });
+  const teleportRef = useRef(false), autoTimerRef = useRef(null), restartTimerRef = useRef(null), lastWheelRef = useRef(0);
+  const [centerIdx, setCenterIdx] = useState(0);
+  const [padX, setPadX] = useState(0);
+
+  const pxFor = useCallback((i) => i * stepRef.current, []);
+  const applyOffset = useCallback((px) => { if (!trackRef.current) return; trackRef.current.style.transform = `translateX(${-px}px)`; offsetRef.current = px; }, []);
+  const teleportIfClone = useCallback((iIdx) => {
+    const isHead = iIdx >= CLONE_COUNT + N, isTail = iIdx < CLONE_COUNT;
+    if (!isHead && !isTail) return;
+    const real = isHead ? iIdx - N : iIdx + N;
+    teleportRef.current = true;
+    if (trackRef.current) trackRef.current.style.transition = "none";
+    applyOffset(pxFor(real)); itemIdxRef.current = real;
+    requestAnimationFrame(() => { teleportRef.current = false; });
+  }, [applyOffset, pxFor]);
+
+  const snapToItem = useCallback((iIdx, smooth = true) => {
+    if (teleportRef.current) return;
+    const c = Math.max(0, Math.min(TOTAL - 1, iIdx));
+    itemIdxRef.current = c; setCenterIdx(allItems[c]._real);
+    if (!trackRef.current) return;
+    for (let i = 0; i < trackRef.current.children.length; i++) { trackRef.current.children[i].style.removeProperty("--tilt-y"); trackRef.current.children[i].style.removeProperty("--tilt-x"); }
+    if (smooth) { trackRef.current.style.transition = "transform 0.55s cubic-bezier(0.22,1,0.36,1)"; applyOffset(pxFor(c)); }
+    else { trackRef.current.style.transition = "none"; applyOffset(pxFor(c)); requestAnimationFrame(() => teleportIfClone(c)); }
+  }, [applyOffset, pxFor, teleportIfClone]);
+
+  const snapToReal = useCallback((r) => snapToItem(CLONE_COUNT + ((r % N + N) % N)), [snapToItem]);
+  const snapStep = useCallback((d) => snapToItem(Math.max(0, Math.min(TOTAL - 1, itemIdxRef.current + d))), [snapToItem]);
+  const stopAuto = useCallback(() => { clearInterval(autoTimerRef.current); clearTimeout(restartTimerRef.current); }, []);
+  const startAuto = useCallback(() => { clearInterval(autoTimerRef.current); autoTimerRef.current = setInterval(() => snapStep(1), 3600); }, [snapStep]);
+  const scheduleRestart = useCallback((delay = 2000) => { clearTimeout(restartTimerRef.current); restartTimerRef.current = setTimeout(startAuto, delay); }, [startAuto]);
+  const snapFromRaw = useCallback(() => snapToItem(Math.max(0, Math.min(TOTAL - 1, Math.round(offsetRef.current / stepRef.current)))), [snapToItem]);
+
+  useEffect(() => {
+    const upd = () => {
+      if (!stageRef.current) return;
+      const cw = trackRef.current?.firstElementChild?.offsetWidth || CARD_W;
+      stepRef.current = cw + GAP;
+      const sw = stageRef.current.getBoundingClientRect().width;
+      const np = Math.max(0, Math.floor((sw - cw) / 2));
+      padXRef.current = np; setPadX(np);
+      stageRectRef.current = stageRef.current.getBoundingClientRect();
+      applyOffset(itemIdxRef.current * stepRef.current);
+    };
+    upd();
+    const ro = new ResizeObserver(upd);
+    if (stageRef.current) ro.observe(stageRef.current);
+    return () => ro.disconnect();
+  }, [applyOffset]);
+
+  useEffect(() => { snapToItem(CLONE_COUNT, false); startAuto(); return () => stopAuto(); }, []); // eslint-disable-line
+
+  useEffect(() => {
+    const stage = stageRef.current; if (!stage) return;
+    const md = (e) => { if (teleportRef.current) return; stopAuto(); if (trackRef.current) trackRef.current.style.transition = "none"; dragRef.current = { active: true, startX: e.clientX, startOffset: offsetRef.current }; };
+    const mm = (e) => { if (!dragRef.current.active) return; applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.clientX)); };
+    const mu = () => { if (!dragRef.current.active) return; dragRef.current.active = false; snapFromRaw(); scheduleRestart(); };
+    const ts = (e) => { if (teleportRef.current) return; stopAuto(); if (trackRef.current) trackRef.current.style.transition = "none"; dragRef.current = { active: true, startX: e.touches[0].clientX, startOffset: offsetRef.current }; };
+    const tm = (e) => { if (!dragRef.current.active) return; applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.touches[0].clientX) * 1.5); };
+    const te = () => { if (!dragRef.current.active) return; dragRef.current.active = false; snapFromRaw(); scheduleRestart(); };
+    const wh = (e) => { e.preventDefault(); e.stopPropagation(); if (teleportRef.current) return; const now = Date.now(); if (now - lastWheelRef.current < 650) return; const val = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY; if (Math.abs(val) < 15) return; lastWheelRef.current = now; stopAuto(); snapStep(val > 0 ? 1 : -1); scheduleRestart(2000); };
+    const smm = (e) => { if (dragRef.current.active) return; const card = trackRef.current?.children[itemIdxRef.current]; if (!card) return; const r = stageRectRef.current; if (!r) return; card.style.setProperty("--tilt-y", `${((e.clientX - r.left) / r.width - 0.5) * -8}deg`); card.style.setProperty("--tilt-x", `${((e.clientY - r.top) / r.height - 0.5) * 5}deg`); };
+    const sml = () => { const card = trackRef.current?.children[itemIdxRef.current]; if (!card) return; card.style.setProperty("--tilt-y", "0deg"); card.style.setProperty("--tilt-x", "0deg"); };
+    stage.addEventListener("mousedown", md); window.addEventListener("mousemove", mm); window.addEventListener("mouseup", mu);
+    stage.addEventListener("touchstart", ts, { passive: true }); stage.addEventListener("touchmove", tm, { passive: true }); stage.addEventListener("touchend", te);
+    stage.addEventListener("wheel", wh, { passive: false }); stage.addEventListener("mousemove", smm); stage.addEventListener("mouseleave", sml);
+    return () => {
+      stage.removeEventListener("mousedown", md); window.removeEventListener("mousemove", mm); window.removeEventListener("mouseup", mu);
+      stage.removeEventListener("touchstart", ts); stage.removeEventListener("touchmove", tm); stage.removeEventListener("touchend", te);
+      stage.removeEventListener("wheel", wh, { passive: false }); stage.removeEventListener("mousemove", smm); stage.removeEventListener("mouseleave", sml);
+    };
+  }, [applyOffset, snapFromRaw, snapStep, stopAuto, scheduleRestart]);
+
+  const posClass = (ri) => {
+    let d = ri - centerIdx;
+    if (d > N / 2) d -= N; if (d < -N / 2) d += N;
+    if (d === 0) return "svc-card pos-center";
+    if (d === -1) return "svc-card pos-l1";
+    if (d === -2) return "svc-card pos-l2";
+    if (d === 1) return "svc-card pos-r1";
+    if (d === 2) return "svc-card pos-r2";
+    return "svc-card";
+  };
+
+  return (
+    <section className="svc-section section--alt">
+      <div className="svc-header">
+        <div>
+          <div className="kicker reveal">Services</div>
+          <h2 className="h2 reveal" style={{ marginTop: 8 }}>End-to-end solutions, built to scale</h2>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div className="svc-nav">
+            <button className="svc-nav-btn" onClick={() => { stopAuto(); snapStep(-1); scheduleRestart(); }}>←</button>
+            <button className="svc-nav-btn" onClick={() => { stopAuto(); snapStep(1); scheduleRestart(); }}>→</button>
+          </div>
+          <Link className="btn btn--ghost btn--sm" to="/services">View all</Link>
+        </div>
+      </div>
+      <div className="svc-stage" ref={stageRef}>
+        <div className="svc-persp">
+          <div className="svc-track" ref={trackRef} style={{ paddingLeft: padX, paddingRight: padX }}
+            onTransitionEnd={(ev) => { if (ev.propertyName !== "transform" || ev.target !== trackRef.current) return; trackRef.current.style.transition = "none"; teleportIfClone(itemIdxRef.current); }}
+          >
+            {allItems.map((s) => (
+              <div key={s._key} className={posClass(s._real)} onClick={() => { stopAuto(); snapToReal(s._real); scheduleRestart(); }}>
+                <div className="svc-card-img">
+                  <img src={s.image} alt={s.title} loading="lazy" draggable={false} />
+                  <div className="svc-card-img-fade" />
+                </div>
+                <div className="svc-card-body">
+                  <div className="svc-card-badge">{s.badge}</div>
+                  <h3 className="svc-card-title">{s.title}</h3>
+                  <p className="svc-card-desc">{s.desc}</p>
+                  <div className="svc-card-footer">
+                    <Link to={s.path} className="btn btn--ghost btn--sm" onClick={(e) => e.stopPropagation()}>Learn more</Link>
+                    <div className="svc-card-arr">
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="svc-dots">
+        {offerings.map((s, i) => (
+          <button key={i} className={`svc-dot${i === centerIdx ? " active" : ""}`} onClick={() => { stopAuto(); snapToReal(i); scheduleRestart(); }} aria-label={s.title} />
+        ))}
+      </div>
+    </section>
   );
 }
 
