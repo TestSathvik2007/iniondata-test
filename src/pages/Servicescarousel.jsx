@@ -16,31 +16,44 @@ import service9 from "../assets/images/dataengineering.jpg";
 // ─────────────────────────────────────────────────────────────────────────────
 
 const offerings = [
-  { title: "Application Development",                            desc: "Transforming heritage portfolios to flexible, modular application development.",      badge: "Development",   image: service1,  path: "/services/app-development" },
-  { title: "Application Design, Development and Integration",    desc: "Full range of requirements gathering, prototyping, implementation, and integration.", badge: "Integration",   image: service2,  path: "/services/app-integration" },
-  { title: "Application Management and Support",                 desc: "Providing management and support service for new and existing applications.",         badge: "Support",       image: service3,  path: "/services/app-management" },
-  { title: "Data Engineering",                                   desc: "Building scalable, secure data pipelines and analytics platforms.",                   badge: "Data",          image: service9,  path: "/services/data-engineering" },
-  { title: "Application Maintenance",                            desc: "Conducting reviews and ensuring standards.",                                          badge: "Maintenance",   image: service4,  path: "/services/app-maintenance" },
-  { title: "Project Management",                                 desc: "Establishing and managing timelines to budget.",                                      badge: "Management",    image: service5,  path: "/services/project-management" },
-  { title: "Consulting Services",                                desc: "Assessing needs, requirements, and goals for cross-functional applications.",         badge: "Consulting",    image: service6,  path: "/services/consulting" },
-  { title: "Teams Application Development and Integration",      desc: "Developing bots, message extensions, and Teams integrations.",                        badge: "Teams",         image: service7,  path: "/services/teams-integration" },
-  { title: "Operational Efficiency and Fast Growth",             desc: "Ensure efficient and cost-effective application development.",                        badge: "Efficiency",    image: service8,  path: "/services/operational-efficiency" },
+  { title: "Application Development",                         desc: "Transforming heritage portfolios to flexible, modular application development.",      badge: "Development", image: service1, path: "/services/app-development" },
+  { title: "Application Design, Development and Integration", desc: "Full range of requirements gathering, prototyping, implementation, and integration.", badge: "Integration", image: service2, path: "/services/app-integration" },
+  { title: "Application Management and Support",              desc: "Providing management and support service for new and existing applications.",         badge: "Support",     image: service3, path: "/services/app-management" },
+  { title: "Data Engineering",                                desc: "Building scalable, secure data pipelines and analytics platforms.",                   badge: "Data",        image: service9, path: "/services/data-engineering" },
+  { title: "Application Maintenance",                         desc: "Conducting reviews and ensuring standards.",                                          badge: "Maintenance", image: service4, path: "/services/app-maintenance" },
+  { title: "Project Management",                              desc: "Establishing and managing timelines to budget.",                                      badge: "Management",  image: service5, path: "/services/project-management" },
+  { title: "Consulting Services",                             desc: "Assessing needs, requirements, and goals for cross-functional applications.",         badge: "Consulting",  image: service6, path: "/services/consulting" },
+  { title: "Teams Application Development and Integration",   desc: "Developing bots, message extensions, and Teams integrations.",                       badge: "Teams",       image: service7, path: "/services/teams-integration" },
+  { title: "Operational Efficiency and Fast Growth",          desc: "Ensure efficient and cost-effective application development.",                        badge: "Efficiency",  image: service8, path: "/services/operational-efficiency" },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CAROUSEL CONSTANTS
+// CONSTANTS
 // ─────────────────────────────────────────────────────────────────────────────
 
-const GAP = 20;
-const N = offerings.length;
+const GAP         = 16;
+const N           = offerings.length;
 const CLONE_COUNT = 3;
-const TOTAL = CLONE_COUNT + N + CLONE_COUNT;
+const TOTAL       = CLONE_COUNT + N + CLONE_COUNT;
 
+// Infinite loop item list: [tail clones] [real items] [head clones]
 const allItems = [
   ...offerings.slice(N - CLONE_COUNT).map((s, i) => ({ ...s, _key: `ct-${i}`, _real: N - CLONE_COUNT + i })),
-  ...offerings.map((s, i) => ({ ...s, _key: `r-${i}`, _real: i })),
-  ...offerings.slice(0, CLONE_COUNT).map((s, i) => ({ ...s, _key: `ch-${i}`, _real: i })),
+  ...offerings.map((s, i)             => ({ ...s, _key: `r-${i}`,  _real: i })),
+  ...offerings.slice(0, CLONE_COUNT).map((s, i)  => ({ ...s, _key: `ch-${i}`, _real: i })),
 ];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Card width is purely JS-driven — no CSS width rules for .svc-card
+function calcCardWidth(stageW) {
+  if (stageW <= 400) return stageW - 56;          // ~full width, 28px peek each side
+  if (stageW <= 640) return Math.round(stageW * 0.78); // ~78% on small mobile
+  if (stageW <= 960) return 280;
+  return 300;
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // STYLES
@@ -48,271 +61,287 @@ const allItems = [
 
 const css = `
   .svc-section {
-    padding: clamp(48px,8vw,100px) 0;
+    padding: clamp(40px,7vw,100px) 0;
     position: relative;
     z-index: 1;
   }
 
   .svc-header {
-    max-width: min(1400px, 100%);
+    max-width: min(1400px,100%);
     margin: 0 auto;
-    padding: 0 clamp(16px, 4vw, 40px) clamp(20px,3vw,36px);
+    padding: 0 clamp(16px,4vw,40px) clamp(16px,3vw,32px);
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 14px;
+    gap: 12px;
   }
 
+  /* Stage: overflow hidden, NO touch-action so JS can capture horizontal swipes */
   .svc-stage {
     overflow: hidden;
-    mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
-    cursor: grab;
-    user-select: none;
-    -webkit-user-select: none;
-    padding: 40px 0 56px;
-    touch-action: pan-y;
-    overscroll-behavior: contain;
+    position: relative;
+    padding: 36px 0 52px;
+    /* Soft fade edges */
+    mask-image: linear-gradient(to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%);
+    -webkit-mask-image: linear-gradient(to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%);
   }
-  .svc-stage:active { cursor: grabbing; }
 
   .svc-persp {
-    perspective: 1200px;
-    perspective-origin: 50% 40%;
+    perspective: 1400px;
+    perspective-origin: 50% 38%;
   }
 
   .svc-track {
     display: flex;
     gap: ${GAP}px;
     will-change: transform;
+    /* transition applied by JS only during snap, never CSS-only */
   }
 
-  /* Card base — width is set via JS on the element directly so it's always in sync */
+  /* ── Cards ── */
   .svc-card {
     flex-shrink: 0;
-    border-radius: 20px;
+    border-radius: 18px;
     overflow: hidden;
     background: #0b1914;
     border: 1px solid rgba(255,255,255,0.07);
     cursor: pointer;
     --tilt-x: 0deg;
     --tilt-y: 0deg;
-    opacity: 0.35;
-    filter: brightness(0.55);
+    opacity: 0.30;
+    filter: brightness(0.50);
     transform:
-      scale(0.80)
-      rotateY(18deg)
-      translateZ(-80px)
+      scale(0.78)
+      rotateY(20deg)
+      translateZ(-90px)
       rotateY(var(--tilt-y))
       rotateX(var(--tilt-x));
     transform-style: preserve-3d;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     transition:
-      opacity      0.52s cubic-bezier(0.22,1,0.36,1),
-      filter       0.52s cubic-bezier(0.22,1,0.36,1),
-      transform    0.52s cubic-bezier(0.22,1,0.36,1),
-      box-shadow   0.52s cubic-bezier(0.22,1,0.36,1),
-      border-color 0.35s ease;
+      opacity      0.48s cubic-bezier(0.22,1,0.36,1),
+      filter       0.48s cubic-bezier(0.22,1,0.36,1),
+      transform    0.48s cubic-bezier(0.22,1,0.36,1),
+      box-shadow   0.48s cubic-bezier(0.22,1,0.36,1),
+      border-color 0.32s ease;
     position: relative;
     z-index: 1;
   }
 
   .svc-card.pos-center {
-    opacity: 1;
-    filter: none;
+    opacity: 1; filter: none;
     transform:
-      scale(1.02)
-      rotateY(0deg)
-      translateZ(20px)
-      rotateY(var(--tilt-y))
-      rotateX(var(--tilt-x));
+      scale(1.02) rotateY(0deg) translateZ(18px)
+      rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
     border-color: rgba(20,184,166,0.50);
     box-shadow:
-      0 32px 80px rgba(0,0,0,0.60),
-      0 0 0 1px rgba(20,184,166,0.25),
-      0 0 60px rgba(20,184,166,0.08);
+      0 28px 70px rgba(0,0,0,0.55),
+      0 0 0 1px rgba(20,184,166,0.22),
+      0 0 48px rgba(20,184,166,0.07);
     z-index: 10;
   }
   .svc-card.pos-l1 {
-    opacity: 0.82; filter: brightness(0.78);
-    transform: scale(0.93) rotateY(14deg) translateZ(-28px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
+    opacity: 0.80; filter: brightness(0.76);
+    transform: scale(0.92) rotateY(13deg) translateZ(-26px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
     z-index: 6;
   }
   .svc-card.pos-l2 {
-    opacity: 0.52; filter: brightness(0.58);
-    transform: scale(0.84) rotateY(22deg) translateZ(-76px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
+    opacity: 0.48; filter: brightness(0.55);
+    transform: scale(0.83) rotateY(22deg) translateZ(-72px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
     z-index: 4;
   }
   .svc-card.pos-r1 {
-    opacity: 0.82; filter: brightness(0.78);
-    transform: scale(0.93) rotateY(-14deg) translateZ(-28px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
+    opacity: 0.80; filter: brightness(0.76);
+    transform: scale(0.92) rotateY(-13deg) translateZ(-26px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
     z-index: 6;
   }
   .svc-card.pos-r2 {
-    opacity: 0.52; filter: brightness(0.58);
-    transform: scale(0.84) rotateY(-22deg) translateZ(-76px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
+    opacity: 0.48; filter: brightness(0.55);
+    transform: scale(0.83) rotateY(-22deg) translateZ(-72px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
     z-index: 4;
   }
 
+  /* ── Card internals ── */
   .svc-card-img {
-    width: 100%;
-    height: clamp(130px,18vw,190px);
+    width: 100%; height: 160px;
     overflow: hidden;
     border-bottom: 1px solid rgba(255,255,255,0.06);
     position: relative;
     background: rgba(20,184,166,0.05);
   }
+  @media(min-width:641px) { .svc-card-img { height: 175px; } }
+  @media(min-width:961px) { .svc-card-img { height: 190px; } }
+
   .svc-card-img img {
     width: 100%; height: 100%; object-fit: cover; display: block;
-    transition: transform 0.55s cubic-bezier(0.22,1,0.36,1), filter 0.55s cubic-bezier(0.22,1,0.36,1);
-    filter: brightness(0.82) saturate(0.85);
+    transition: transform 0.55s cubic-bezier(0.22,1,0.36,1),
+                filter    0.55s cubic-bezier(0.22,1,0.36,1);
+    filter: brightness(0.80) saturate(0.82);
     pointer-events: none; user-select: none; -webkit-user-select: none;
   }
-  .svc-card.pos-center .svc-card-img img { transform: scale(1.06); filter: brightness(1) saturate(1); }
+  .svc-card.pos-center .svc-card-img img {
+    transform: scale(1.06);
+    filter: brightness(1) saturate(1);
+  }
   .svc-card-img-fade {
     position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(7,16,14,0.60) 0%, transparent 52%);
+    background: linear-gradient(to top, rgba(7,16,14,0.58) 0%, transparent 52%);
     pointer-events: none;
   }
 
-  .svc-card-body { padding: clamp(12px,2vw,18px) clamp(14px,2vw,20px) clamp(14px,2vw,22px); }
+  .svc-card-body { padding: 14px 16px 18px; }
 
   .svc-card-badge {
     display: inline-flex; align-items: center;
     padding: 3px 10px; font-size: 10px; font-weight: 700;
-    letter-spacing: 0.13em; text-transform: uppercase; border-radius: 999px;
+    letter-spacing: 0.12em; text-transform: uppercase; border-radius: 999px;
     background: rgba(20,184,166,0.12); color: #2dd4bf;
-    border: 1px solid rgba(20,184,166,0.24); margin-bottom: 9px;
+    border: 1px solid rgba(20,184,166,0.22); margin-bottom: 8px;
   }
 
   .svc-card-title {
-    font-size: clamp(13px,1.8vw,17px); font-weight: 700;
-    letter-spacing: -0.025em; color: #dff0e8;
-    margin: 0 0 7px; line-height: 1.25;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: -0.022em; color: #dff0e8;
+    margin: 0 0 6px; line-height: 1.25;
   }
-  .svc-card-desc { font-size: clamp(11px,1.3vw,13px); line-height: 1.65; color: #7a9e8e; margin: 0; }
+  .svc-card-desc {
+    font-size: 12px; line-height: 1.65; color: #7a9e8e; margin: 0;
+  }
 
   .svc-card-footer {
-    margin-top: clamp(10px,1.5vw,18px);
-    padding-top: clamp(10px,1.5vw,14px);
+    margin-top: 14px; padding-top: 12px;
     border-top: 1px solid rgba(255,255,255,0.07);
     display: flex; align-items: center; justify-content: space-between; gap: 8px;
   }
 
   .svc-card-arr {
-    width: 30px; height: 30px; border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.11);
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.10);
     display: flex; align-items: center; justify-content: center;
     color: #2dd4bf; flex-shrink: 0;
-    transition: background 0.22s ease, border-color 0.22s ease, transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
+    transition: background 0.2s ease, border-color 0.2s ease,
+                transform 0.26s cubic-bezier(0.34,1.56,0.64,1);
   }
   .svc-card:hover .svc-card-arr {
-    background: rgba(20,184,166,0.16);
-    border-color: rgba(20,184,166,0.38);
-    transform: translateX(4px);
+    background: rgba(20,184,166,0.15);
+    border-color: rgba(20,184,166,0.36);
+    transform: translateX(3px);
   }
 
+  /* ── Dots ── */
   .svc-dots {
     display: flex; align-items: center; justify-content: center;
     flex-wrap: wrap; gap: 6px;
-    margin-top: 20px; padding: 0 clamp(16px,4vw,40px);
+    margin-top: 18px; padding: 0 16px;
   }
   .svc-dot {
     width: 7px; height: 7px; border-radius: 50%;
     background: rgba(255,255,255,0.15);
     border: none; padding: 0; flex-shrink: 0; cursor: pointer;
-    transition: all 0.32s cubic-bezier(0.22,1,0.36,1);
+    transition: all 0.30s cubic-bezier(0.22,1,0.36,1);
   }
-  .svc-dot.active { width: 24px; border-radius: 4px; background: #14b8a6; }
+  .svc-dot.active { width: 22px; border-radius: 4px; background: #14b8a6; }
 
+  /* ── Nav buttons ── */
   .svc-nav { display: flex; gap: 8px; }
   .svc-nav-btn {
-    width: 38px; height: 38px; border-radius: 50%;
+    width: 36px; height: 36px; border-radius: 50%;
     border: 1px solid rgba(255,255,255,0.13);
     background: rgba(255,255,255,0.05);
     display: flex; align-items: center; justify-content: center;
-    color: #2dd4bf; font-size: 16px; line-height: 1;
-    transition: background 0.2s ease, border-color 0.2s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
+    color: #2dd4bf; font-size: 15px; line-height: 1;
+    transition: background 0.18s ease, border-color 0.18s ease,
+                transform  0.20s cubic-bezier(0.34,1.56,0.64,1);
   }
-  .svc-nav-btn:hover  { background: rgba(20,184,166,0.14); border-color: rgba(20,184,166,0.38); transform: scale(1.10); }
-  .svc-nav-btn:active { transform: scale(0.92); }
+  .svc-nav-btn:hover  { background: rgba(20,184,166,0.13); border-color: rgba(20,184,166,0.36); transform: scale(1.08); }
+  .svc-nav-btn:active { transform: scale(0.93); }
 
-  @media(max-width:640px) {
+  /* ── Mobile header stacks ── */
+  @media(max-width:600px) {
     .svc-header { flex-direction: column; align-items: flex-start; gap: 10px; }
-    .svc-stage {
-      padding: 28px 0 44px;
-      mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-    }
-    .svc-card-img { height: 160px; }
+    .svc-stage  { padding: 24px 0 40px; }
   }
 `;
-
-// ─────────────────────────────────────────────────────────────────────────────
-// HELPERS — compute card width from viewport, matching what CSS would render
-// ─────────────────────────────────────────────────────────────────────────────
-
-function getCardWidth(stageW) {
-  if (stageW <= 420)  return stageW - 64;          // ~full width with 32px gutters each side
-  if (stageW <= 640)  return Math.min(260, stageW - 88); // mobile
-  if (stageW <= 960)  return 280;                  // tablet
-  return 300;                                       // desktop
-}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // COMPONENT
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function ServicesCarousel() {
-  const stageRef    = useRef(null);
-  const trackRef    = useRef(null);
-  const padXRef     = useRef(0);
-  const cardWRef    = useRef(300);   // live card width, updated on resize
-  const stepRef     = useRef(320);   // cardW + GAP, updated on resize
+  const stageRef     = useRef(null);
+  const trackRef     = useRef(null);
+  const padXRef      = useRef(0);
+  const cardWRef     = useRef(300);
+  const stepRef      = useRef(316);
   const stageRectRef = useRef(null);
-  const offsetRef   = useRef(0);
-  const itemIdxRef  = useRef(CLONE_COUNT);
-  const dragRef     = useRef({ active: false, startX: 0, startOffset: 0 });
-  const teleportRef = useRef(false);
-  const autoTimerRef   = useRef(null);
+
+  // Current pixel offset (what iIdx * step the track is sitting at)
+  const offsetRef  = useRef(0);
+  const itemIdxRef = useRef(CLONE_COUNT);
+
+  // Drag / touch state — all in one ref to avoid stale closures
+  const pointerRef = useRef({
+    active:      false,
+    startX:      0,
+    startOffset: 0,
+    lastX:       0,
+    lastT:       0,
+    velocityX:   0,
+    isTouchLocked: false, // true once we've decided this is a horizontal gesture
+    isVertLocked:  false, // true once we've decided this is a vertical scroll
+  });
+
+  const teleportRef     = useRef(false);
+  const autoTimerRef    = useRef(null);
   const restartTimerRef = useRef(null);
-  const lastWheelRef = useRef(0);
+  const rafRef          = useRef(null);
+  const lastWheelRef    = useRef(0);
 
   const [centerIdx, setCenterIdx] = useState(0);
   const [trackIdx,  setTrackIdx]  = useState(CLONE_COUNT);
 
-  const pxFor = useCallback((iIdx) => iIdx * stepRef.current, []);
+  // ── Low-level transform ─────────────────────────────────────────────────────
 
-  const applyOffset = useCallback((rawPx) => {
+  const setTranslate = useCallback((rawPx) => {
     if (!trackRef.current) return;
-    const tx = padXRef.current - rawPx;
-    trackRef.current.style.transform = `translateX(${tx}px)`;
+    trackRef.current.style.transform = `translateX(${padXRef.current - rawPx}px)`;
     offsetRef.current = rawPx;
   }, []);
 
-  // Apply card widths to all DOM children so JS and CSS stay in sync
-  const applyCardWidths = useCallback(() => {
+  // ── Card width sync ─────────────────────────────────────────────────────────
+
+  const syncCardWidths = useCallback(() => {
     if (!trackRef.current) return;
-    const w = cardWRef.current;
-    Array.from(trackRef.current.children).forEach((el) => {
-      el.style.width = `${w}px`;
-    });
+    const w = `${cardWRef.current}px`;
+    Array.from(trackRef.current.children).forEach((el) => { el.style.width = w; });
   }, []);
+
+  // ── Teleport for infinite loop ──────────────────────────────────────────────
 
   const teleportIfClone = useCallback((iIdx) => {
     const isHead = iIdx >= CLONE_COUNT + N;
     const isTail = iIdx < CLONE_COUNT;
     if (!isHead && !isTail) return;
-    const realIIdx = isHead ? iIdx - N : iIdx + N;
+    const target = isHead ? iIdx - N : iIdx + N;
     teleportRef.current = true;
     if (trackRef.current) trackRef.current.style.transition = "none";
-    applyOffset(pxFor(realIIdx));
-    itemIdxRef.current = realIIdx;
-    setTrackIdx(realIIdx);
+    setTranslate(target * stepRef.current);
+    itemIdxRef.current = target;
+    setTrackIdx(target);
     requestAnimationFrame(() => { teleportRef.current = false; });
-  }, [applyOffset, pxFor]);
+  }, [setTranslate]);
+
+  // ── Snap to item index ──────────────────────────────────────────────────────
 
   const snapToItem = useCallback((iIdx, smooth = true) => {
     if (teleportRef.current) return;
@@ -324,6 +353,7 @@ export default function ServicesCarousel() {
 
     if (smooth) {
       const track = trackRef.current;
+      track.style.transition = "transform 0.50s cubic-bezier(0.22,1,0.36,1)";
       const onEnd = (ev) => {
         if (ev.propertyName !== "transform") return;
         track.removeEventListener("transitionend", onEnd);
@@ -331,23 +361,34 @@ export default function ServicesCarousel() {
         teleportIfClone(clamped);
       };
       track.addEventListener("transitionend", onEnd);
-      track.style.transition = "transform 0.55s cubic-bezier(0.22,1,0.36,1)";
     } else {
       trackRef.current.style.transition = "none";
     }
-    applyOffset(pxFor(clamped));
+
+    setTranslate(clamped * stepRef.current);
     if (!smooth) teleportIfClone(clamped);
-  }, [applyOffset, pxFor, teleportIfClone]);
+  }, [setTranslate, teleportIfClone]);
 
   const snapToReal = useCallback((realIdx) => {
-    const r = ((realIdx % N) + N) % N;
-    snapToItem(CLONE_COUNT + r);
+    snapToItem(CLONE_COUNT + (((realIdx % N) + N) % N));
   }, [snapToItem]);
 
   const snapStep = useCallback((delta) => {
-    const next = Math.max(0, Math.min(TOTAL - 1, itemIdxRef.current + delta));
-    snapToItem(next);
+    snapToItem(Math.max(0, Math.min(TOTAL - 1, itemIdxRef.current + delta)));
   }, [snapToItem]);
+
+  // ── Snap from raw pixel offset (used after drag/momentum ends) ──────────────
+
+  const snapFromOffset = useCallback((currentOffset) => {
+    const raw     = Math.round((currentOffset - padXRef.current) / stepRef.current) + CLONE_COUNT;
+    const nearest = Math.round(currentOffset / stepRef.current);
+    // prefer nearest-to-current which accounts for padding correctly
+    const best = Math.round((currentOffset) / stepRef.current);
+    const clamped = Math.max(CLONE_COUNT, Math.min(CLONE_COUNT + N - 1, best));
+    snapToItem(clamped);
+  }, [snapToItem]);
+
+  // ── Auto-advance ────────────────────────────────────────────────────────────
 
   const stopAuto = useCallback(() => {
     clearInterval(autoTimerRef.current);
@@ -356,144 +397,253 @@ export default function ServicesCarousel() {
 
   const startAuto = useCallback(() => {
     clearInterval(autoTimerRef.current);
-    autoTimerRef.current = setInterval(() => snapStep(1), 3600);
+    autoTimerRef.current = setInterval(() => snapStep(1), 3800);
   }, [snapStep]);
 
-  const scheduleRestart = useCallback((delay = 2000) => {
+  const scheduleRestart = useCallback((delay = 2200) => {
     clearTimeout(restartTimerRef.current);
     restartTimerRef.current = setTimeout(startAuto, delay);
   }, [startAuto]);
 
-  const snapFromRaw = useCallback(() => {
-    // Use live stepRef so snap math matches actual rendered card size
-    const nearest = Math.round((offsetRef.current - padXRef.current) / stepRef.current) + CLONE_COUNT;
-    const clamped = Math.max(CLONE_COUNT, Math.min(CLONE_COUNT + N - 1, nearest));
-    snapToItem(clamped);
-  }, [snapToItem]);
+  // ── Resize: recalculate card width, step, padding, re-center ───────────────
 
-  // Master resize handler — recalculates card width, step, pad, then re-centers
   useEffect(() => {
     const update = () => {
       if (!stageRef.current) return;
-      const stageW = stageRef.current.offsetWidth;
-
-      const newCardW = getCardWidth(stageW);
+      const stageW   = stageRef.current.offsetWidth;
+      const newCardW = calcCardWidth(stageW);
       const newStep  = newCardW + GAP;
 
       cardWRef.current = newCardW;
       stepRef.current  = newStep;
-      padXRef.current  = Math.max(0, Math.floor((stageW - newCardW) / 2));
+      padXRef.current  = Math.floor((stageW - newCardW) / 2);
 
       stageRectRef.current = stageRef.current.getBoundingClientRect();
-
-      applyCardWidths();
-      applyOffset(itemIdxRef.current * newStep);
+      syncCardWidths();
+      // Re-center current card without animation
+      if (trackRef.current) trackRef.current.style.transition = "none";
+      setTranslate(itemIdxRef.current * newStep);
     };
 
     update();
     const ro = new ResizeObserver(update);
     if (stageRef.current) ro.observe(stageRef.current);
     return () => ro.disconnect();
-  }, [applyCardWidths, applyOffset]);
+  }, [syncCardWidths, setTranslate]);
 
+  // Initial position + auto-start
   useEffect(() => {
     snapToItem(CLONE_COUNT, false);
     startAuto();
-    return () => { stopAuto(); };
+    return () => {
+      stopAuto();
+      cancelAnimationFrame(rafRef.current);
+    };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Pointer / touch events ──────────────────────────────────────────────────
 
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
 
+    // ── MOUSE ──
+
     const onMouseDown = (e) => {
       if (teleportRef.current) return;
+      cancelAnimationFrame(rafRef.current);
       stopAuto();
       if (trackRef.current) trackRef.current.style.transition = "none";
-      dragRef.current = { active: true, startX: e.clientX, startOffset: offsetRef.current };
+      pointerRef.current = {
+        ...pointerRef.current,
+        active:      true,
+        startX:      e.clientX,
+        startOffset: offsetRef.current,
+        lastX:       e.clientX,
+        lastT:       Date.now(),
+        velocityX:   0,
+        isTouchLocked: true,
+        isVertLocked:  false,
+      };
+      e.preventDefault();
     };
+
     const onMouseMove = (e) => {
-      if (!dragRef.current.active) return;
-      applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.clientX));
+      const p = pointerRef.current;
+      if (!p.active) return;
+      const now  = Date.now();
+      const dt   = now - p.lastT || 16;
+      const dx   = e.clientX - p.lastX;
+      p.velocityX  = dx / dt;   // px/ms
+      p.lastX      = e.clientX;
+      p.lastT      = now;
+      setTranslate(p.startOffset + (p.startX - e.clientX));
     };
+
     const onMouseUp = () => {
-      if (!dragRef.current.active) return;
-      dragRef.current.active = false;
-      snapFromRaw();
+      const p = pointerRef.current;
+      if (!p.active) return;
+      p.active = false;
+      applyMomentum(p.velocityX);
       scheduleRestart();
     };
 
+    // ── TOUCH ──
+
     const onTouchStart = (e) => {
-      if (teleportRef.current) return;
+      if (teleportRef.current || e.touches.length !== 1) return;
+      cancelAnimationFrame(rafRef.current);
       stopAuto();
       if (trackRef.current) trackRef.current.style.transition = "none";
-      dragRef.current = { active: true, startX: e.touches[0].clientX, startOffset: offsetRef.current };
+      const t = e.touches[0];
+      pointerRef.current = {
+        active:        true,
+        startX:        t.clientX,
+        startY:        t.clientY,
+        startOffset:   offsetRef.current,
+        lastX:         t.clientX,
+        lastT:         Date.now(),
+        velocityX:     0,
+        isTouchLocked: false,  // undecided
+        isVertLocked:  false,
+      };
     };
+
     const onTouchMove = (e) => {
-      if (!dragRef.current.active) return;
-      applyOffset(dragRef.current.startOffset + (dragRef.current.startX - e.touches[0].clientX));
+      const p = pointerRef.current;
+      if (!p.active) return;
+
+      const t  = e.touches[0];
+      const dx = t.clientX - p.startX;
+      const dy = t.clientY - p.startY;
+
+      // Decide axis on first significant move (>4px)
+      if (!p.isTouchLocked && !p.isVertLocked) {
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 4) {
+          p.isTouchLocked = true;   // horizontal — we own this gesture
+        } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 4) {
+          p.isVertLocked = true;    // vertical — let browser scroll
+          p.active = false;
+          return;
+        }
+      }
+
+      if (!p.isTouchLocked) return; // not decided yet
+
+      // We own it — prevent page scroll
+      e.preventDefault();
+
+      const now = Date.now();
+      const dt  = now - p.lastT || 16;
+      const vx  = (t.clientX - p.lastX) / dt;
+      p.velocityX = vx;
+      p.lastX     = t.clientX;
+      p.lastT     = now;
+
+      setTranslate(p.startOffset + (p.startX - t.clientX));
     };
+
     const onTouchEnd = () => {
-      if (!dragRef.current.active) return;
-      dragRef.current.active = false;
-      snapFromRaw();
+      const p = pointerRef.current;
+      if (!p.active) return;
+      p.active = false;
+      if (p.isTouchLocked) {
+        applyMomentum(p.velocityX);
+      }
       scheduleRestart();
     };
+
+    // ── MOMENTUM ──
+
+    function applyMomentum(velocityX) {
+      // velocityX is px/ms, positive = moved right = dragged right = offset decreased
+      const FRICTION   = 0.92;        // per frame decay
+      const MIN_V      = 0.05;        // px/ms threshold to stop
+      const SNAP_BOOST = 340;         // amplify to cross at least one card on a quick flick
+
+      let v = -velocityX * SNAP_BOOST * 0.01; // convert to per-frame offset delta
+
+      // If swipe was strong enough to skip a card, just step ±1
+      if (Math.abs(v) > stepRef.current * 0.35) {
+        snapStep(v > 0 ? 1 : -1);
+        return;
+      }
+
+      // Otherwise momentum-scroll then snap
+      let current = offsetRef.current;
+
+      const tick = () => {
+        v *= FRICTION;
+        current += v;
+        setTranslate(current);
+        if (Math.abs(v) > MIN_V) {
+          rafRef.current = requestAnimationFrame(tick);
+        } else {
+          snapFromOffset(current);
+        }
+      };
+      rafRef.current = requestAnimationFrame(tick);
+    }
+
+    // ── WHEEL ──
 
     const onWheel = (e) => {
       e.preventDefault();
-      e.stopPropagation();
       if (teleportRef.current) return;
       const now = Date.now();
-      if (now - lastWheelRef.current < 650) return;
+      if (now - lastWheelRef.current < 600) return;
       const val = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(val) < 15) return;
+      if (Math.abs(val) < 12) return;
       lastWheelRef.current = now;
       stopAuto();
       snapStep(val > 0 ? 1 : -1);
-      scheduleRestart(2000);
+      scheduleRestart(2200);
     };
 
-    const onMouseMoveStage = (e) => {
-      if (dragRef.current.active) return;
+    // ── MOUSE TILT (desktop only) ──
+
+    const onMouseMoveTilt = (e) => {
+      if (pointerRef.current.active) return;
       const card = trackRef.current?.children[itemIdxRef.current];
-      if (!card) return;
+      if (!card || !stageRectRef.current) return;
       const r = stageRectRef.current;
-      if (!r) return;
-      card.style.setProperty("--tilt-y", `${((e.clientX - r.left) / r.width - 0.5) * -8}deg`);
-      card.style.setProperty("--tilt-x", `${((e.clientY - r.top) / r.height - 0.5) * 5}deg`);
+      card.style.setProperty("--tilt-y", `${((e.clientX - r.left) / r.width - 0.5) * -7}deg`);
+      card.style.setProperty("--tilt-x", `${((e.clientY - r.top)  / r.height - 0.5) * 5}deg`);
     };
-    const onMouseLeaveStage = () => {
+    const onMouseLeave = () => {
       const card = trackRef.current?.children[itemIdxRef.current];
       if (!card) return;
       card.style.setProperty("--tilt-y", "0deg");
       card.style.setProperty("--tilt-x", "0deg");
     };
 
-    stage.addEventListener("mousedown", onMouseDown);
+    // Register — touchmove must be NON-passive so we can preventDefault
+    stage.addEventListener("mousedown",  onMouseDown,  { passive: false });
     window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("mouseup",   onMouseUp);
     stage.addEventListener("touchstart", onTouchStart, { passive: true });
-    stage.addEventListener("touchmove", onTouchMove, { passive: true });
-    stage.addEventListener("touchend", onTouchEnd);
-    stage.addEventListener("wheel", onWheel, { passive: false });
-    stage.addEventListener("mousemove", onMouseMoveStage);
-    stage.addEventListener("mouseleave", onMouseLeaveStage);
+    stage.addEventListener("touchmove",  onTouchMove,  { passive: false }); // ← critical
+    stage.addEventListener("touchend",   onTouchEnd,   { passive: true });
+    stage.addEventListener("wheel",      onWheel,      { passive: false });
+    stage.addEventListener("mousemove",  onMouseMoveTilt);
+    stage.addEventListener("mouseleave", onMouseLeave);
 
     return () => {
-      stage.removeEventListener("mousedown", onMouseDown);
+      stage.removeEventListener("mousedown",  onMouseDown);
       window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("mouseup",   onMouseUp);
       stage.removeEventListener("touchstart", onTouchStart);
-      stage.removeEventListener("touchmove", onTouchMove);
-      stage.removeEventListener("touchend", onTouchEnd);
-      stage.removeEventListener("wheel", onWheel, { passive: false });
-      stage.removeEventListener("mousemove", onMouseMoveStage);
-      stage.removeEventListener("mouseleave", onMouseLeaveStage);
+      stage.removeEventListener("touchmove",  onTouchMove);
+      stage.removeEventListener("touchend",   onTouchEnd);
+      stage.removeEventListener("wheel",      onWheel);
+      stage.removeEventListener("mousemove",  onMouseMoveTilt);
+      stage.removeEventListener("mouseleave", onMouseLeave);
     };
-  }, [applyOffset, snapFromRaw, snapStep, stopAuto, scheduleRestart]);
+  }, [setTranslate, snapStep, snapFromOffset, stopAuto, scheduleRestart]);
 
-  const getPositionClass = (idx) => {
+  // ── Position class ──────────────────────────────────────────────────────────
+
+  const getPosClass = (idx) => {
     const d = idx - trackIdx;
     if (d === 0)  return "svc-card pos-center";
     if (d === -1) return "svc-card pos-l1";
@@ -502,6 +652,8 @@ export default function ServicesCarousel() {
     if (d === 2)  return "svc-card pos-r2";
     return "svc-card";
   };
+
+  // ── Render ──────────────────────────────────────────────────────────────────
 
   return (
     <section className="svc-section section--alt">
@@ -512,10 +664,12 @@ export default function ServicesCarousel() {
           <div className="kicker reveal">Services</div>
           <h2 className="h2 reveal" style={{ marginTop: 8 }}>End-to-end solutions, built to scale</h2>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div className="svc-nav">
-            <button className="svc-nav-btn" aria-label="Previous" onClick={() => { stopAuto(); snapStep(-1); scheduleRestart(); }}>←</button>
-            <button className="svc-nav-btn" aria-label="Next"     onClick={() => { stopAuto(); snapStep(1);  scheduleRestart(); }}>→</button>
+            <button className="svc-nav-btn" aria-label="Previous"
+              onClick={() => { stopAuto(); snapStep(-1); scheduleRestart(); }}>←</button>
+            <button className="svc-nav-btn" aria-label="Next"
+              onClick={() => { stopAuto(); snapStep(1);  scheduleRestart(); }}>→</button>
           </div>
           <Link className="btn btn--ghost btn--sm" to="/services">View all</Link>
         </div>
@@ -523,12 +677,11 @@ export default function ServicesCarousel() {
 
       <div className="svc-stage" ref={stageRef}>
         <div className="svc-persp">
-          {/* No paddingLeft/Right — centering is pure translateX via padXRef */}
           <div className="svc-track" ref={trackRef}>
             {allItems.map((s, idx) => (
               <div
                 key={s._key}
-                className={getPositionClass(idx)}
+                className={getPosClass(idx)}
                 onClick={() => { stopAuto(); snapToReal(s._real); scheduleRestart(); }}
               >
                 <div className="svc-card-img">
@@ -540,10 +693,17 @@ export default function ServicesCarousel() {
                   <h3 className="svc-card-title">{s.title}</h3>
                   <p className="svc-card-desc">{s.desc}</p>
                   <div className="svc-card-footer">
-                    <Link to={s.path} className="btn btn--ghost btn--sm" onClick={(e) => e.stopPropagation()}>Learn more</Link>
+                    <Link
+                      to={s.path}
+                      className="btn btn--ghost btn--sm"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Learn more
+                    </Link>
                     <div className="svc-card-arr" aria-hidden="true">
-                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7"
+                          strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
