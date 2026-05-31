@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef, useCallback } from "react";
-import ServicesCarousel from "./ServicesCarousel";
+import ServicesCarousel from "./Servicescarousel";
 
 /* ── HERO CAROUSEL IMAGES ── */
 import heroImg1 from "../assets/images/hero1.jpg";
