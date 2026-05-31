@@ -11,7 +11,7 @@ const AIEnablement           = lazy(() => import("./pages/AIEnablement"));
 const AppDevelopment         = lazy(() => import("./pages/Services/ApplicationDevelopment"));
 const ApplicationIntegration = lazy(() => import("./pages/Services/ApplicationIntegration"));
 const ApplicationManagement = lazy(() => import("./pages/Services/ApplicationManagement"));
-const ApplicationMaintainance = lazy(() => import("./pages/Services/ApplicationMaintainance"));
+const ApplicationMaintenance = lazy(() => import("./pages/Services/ApplicationMaintenance"));
 const ProjectManagement = lazy(() => import("./pages/Services/ProjectManagement"));
 const ConsultingServices = lazy(() => import("./pages/Services/ConsultingServices"));
 const TeamsIntegration = lazy(() => import("./pages/Services/TeamsIntegration"));
@@ -58,7 +58,7 @@ function AnimatedRoutes() {
           <Route path="/services/app-development" element={<AppDevelopment />} />
           <Route path="/services/app-integration" element={<ApplicationIntegration />} />
           <Route path="/services/app-management" element={<ApplicationManagement />} />
-          <Route path="/services/app-maintenance" element={<ApplicationMaintainance />} />
+          <Route path="/services/app-maintenance" element={<ApplicationMaintenance />} />
           <Route path="/services/project-management" element={<ProjectManagement />} />
           <Route path="/services/consulting" element={<ConsultingServices />} />
           <Route path="/services/teams-integration" element={<TeamsIntegration />} />

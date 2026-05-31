@@ -3,15 +3,16 @@ import { useReveal, ANIM_CSS } from "../animations";
 import { useRef } from "react";
 
 /* ── IMAGES ── */
-import service1 from "../assets/images/app_development.png";
-import service2 from "../assets/images/application_integration.png";
-import service3 from "../assets/images/application_management.png";
-import service4 from "../assets/images/application_maintenance.png";
-import service5 from "../assets/images/project_management.png";
-import service6 from "../assets/images/consulting_services.png";
-import service7 from "../assets/images/teams_application.png";
-import service8 from "../assets/images/operational_efficiency.png";
-import service9 from "../assets/images/fast_growth.png";
+import service1  from "../assets/images/app_development.png";
+import service2  from "../assets/images/application_integration.png";
+import service3  from "../assets/images/application_management.png";
+import service4  from "../assets/images/application_maintenance.png";
+import service5  from "../assets/images/project_management.png";
+import service6  from "../assets/images/consulting_services.png";
+import service7  from "../assets/images/teams_application.png";
+import service8  from "../assets/images/operational_efficiency.png";
+import service9  from "../assets/images/fast_growth.png";
+import service10 from "../assets/images/dataengineering.jpg";
 
 /* ── DATA ── */
 const offerings = [
@@ -38,6 +39,14 @@ const offerings = [
     bullets: ["Application management and support", "Resolving technical issues", "Resolving functional issues"],
     image: service3,
     slug: "/services/app-management",
+  },
+  {
+    title: "Data Engineering",
+    path: "/services/data-engineering",
+    desc: "Building scalable, secure data pipelines and analytics platforms.",
+    bullets: ["Cloud-native data architecture", "Automated ETL/ELT pipelines", "Data quality, governance, and lineage"],
+    image: service10,
+    slug: "/services/data-engineering",
   },
   {
     title: "Application Maintenance",
@@ -82,24 +91,24 @@ const offerings = [
 ];
 
 const processSteps = [
-  { step: "01", title: "Discovery", desc: "We dive deep into your business objectives, technical constraints, and user needs." },
-  { step: "02", title: "Strategy", desc: "Drafting a comprehensive roadmap, choosing the right stack, and defining architecture." },
-  { step: "03", title: "Development", desc: "Agile sprints with continuous integration, ensuring transparent and rapid progress." },
-  { step: "04", title: "Delivery", desc: "Rigorous QA, secure deployment, and seamless handover with complete documentation." },
+  { step: "01", title: "Discovery",    desc: "We dive deep into your business objectives, technical constraints, and user needs." },
+  { step: "02", title: "Strategy",     desc: "Drafting a comprehensive roadmap, choosing the right stack, and defining architecture." },
+  { step: "03", title: "Development",  desc: "Agile sprints with continuous integration, ensuring transparent and rapid progress." },
+  { step: "04", title: "Delivery",     desc: "Rigorous QA, secure deployment, and seamless handover with complete documentation." },
 ];
 
 const techStack = [
-  { category: "Frontend", tools: "React, Vue, Next.js, TailwindCSS" },
-  { category: "Backend", tools: "Node.js, Python, Java, Go" },
-  { category: "Cloud & DevOps", tools: "AWS, Azure, GCP, Kubernetes" },
-  { category: "Data & AI", tools: "PyTorch, TensorFlow, Snowflake, Spark" }
+  { category: "Frontend",      tools: "React, Vue, Next.js, TailwindCSS" },
+  { category: "Backend",       tools: "Node.js, Python, Java, Go" },
+  { category: "Cloud & DevOps",tools: "AWS, Azure, GCP, Kubernetes" },
+  { category: "Data & AI",     tools: "PyTorch, TensorFlow, Snowflake, Spark" },
 ];
 
 const valueProps = [
-  { label: "Agile delivery", detail: "Weeks to release, not months." },
-  { label: "Fast growth", detail: "Reinvent apps, boost velocity." },
-  { label: "Clean handover", detail: "Docs + knowledge transfer included." },
-  { label: "Confidentiality", detail: "NDA-ready, least-access ops." },
+  { label: "Agile delivery",   detail: "Weeks to release, not months." },
+  { label: "Fast growth",      detail: "Reinvent apps, boost velocity." },
+  { label: "Clean handover",   detail: "Docs + knowledge transfer included." },
+  { label: "Confidentiality",  detail: "NDA-ready, least-access ops." },
 ];
 
 /* ── STYLES ── */
@@ -137,17 +146,10 @@ const pageStyles = `
   a{color:inherit;text-decoration:none}
   img{display:block;max-width:100%}
 
-  .app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
-  .main{flex:1;padding-top:80px}
-
-  /* ── CONTAINER ── */
   .container{width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(20px,5vw,60px)}
-
-  /* ── SECTIONS ── */
   .section{padding:clamp(56px,8vw,100px) 0;position:relative}
   .section--alt{background:rgba(255,255,255,0.015)}
 
-  /* ── TYPOGRAPHY ── */
   .h1{font-weight:800;font-size:clamp(28px,3.8vw,52px);line-height:1.05;letter-spacing:-0.035em;margin:0}
   .h2{font-weight:800;font-size:clamp(22px,2.8vw,36px);line-height:1.1;letter-spacing:-0.03em;margin:0}
   .h3{font-weight:700;font-size:clamp(15px,1.8vw,20px);line-height:1.25;letter-spacing:-0.02em;margin:0}
@@ -163,7 +165,6 @@ const pageStyles = `
   }
   .kicker::before{content:'';display:block;width:5px;height:5px;background:#1D9E75;clip-path:polygon(50% 0%,100% 100%,0% 100%);flex-shrink:0}
 
-  /* ── BUTTONS ── */
   .btn--primary{
     display:inline-flex;align-items:center;gap:8px;
     padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;
@@ -182,10 +183,9 @@ const pageStyles = `
   }
   .btn--ghost:hover{background:rgba(20,184,166,0.08);border-color:rgba(20,184,166,0.40)}
 
-  /* ── ACCENT ── */
   .accent-bar{width:28px;height:3px;border-radius:2px;background:var(--grad-brand);margin-bottom:12px}
 
-  /* ── HERO ── */
+  /* HERO */
   .hero__inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);align-items:stretch}
   .hero__left{display:flex;flex-direction:column;justify-content:center}
   .hero__img{border-radius:16px;overflow:hidden;position:relative;box-shadow:var(--shadow);min-height:320px}
@@ -195,7 +195,7 @@ const pageStyles = `
   @keyframes kenBurns{from{transform:scale(1)}to{transform:scale(1.06) translateX(-10px)}}
   .ken-burns{animation:kenBurns 9s ease-in-out infinite alternate;will-change:transform}
 
-  /* ── VALUE PROPS ── */
+  /* VALUE PROPS */
   .value-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1.5vw,14px)}
   .value-card{
     background:rgba(255,255,255,0.04);border:1px solid var(--border);
@@ -206,7 +206,7 @@ const pageStyles = `
   .value-card__label{font-weight:800;font-size:clamp(12px,1.2vw,14px);color:var(--text);margin-bottom:5px}
   .value-card__detail{font-size:clamp(11px,1vw,12px);color:var(--muted);line-height:1.55}
 
-  /* ── OFFERINGS GRID: 3 cols ── */
+  /* OFFERINGS GRID */
   .offerings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,24px)}
 
   .offering-cell{
@@ -240,7 +240,7 @@ const pageStyles = `
 
   .offering-cell__footer{display:flex;gap:8px;flex-wrap:wrap;padding-top:12px;border-top:1px solid rgba(255,255,255,0.07);margin-top:4px}
 
-  /* ── CTA BAND ── */
+  /* CTA BAND */
   .cta-band{
     background:var(--grad-brand);border-radius:var(--radius);
     padding:clamp(28px,5vw,48px) clamp(20px,4vw,40px);
@@ -251,7 +251,7 @@ const pageStyles = `
   .cta-band__btn{background:#fff;color:var(--teal-d);border:none;font-weight:700;padding:10px 22px;border-radius:var(--radius-pill);font-size:14px;cursor:pointer;transition:opacity .2s}
   .cta-band__btn:hover{opacity:.9}
 
-  /* ── PROCESS & TECH GRIDS ── */
+  /* PROCESS & TECH GRIDS */
   .process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,2vw,24px)}
   .process-card{
     background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);
@@ -273,24 +273,20 @@ const pageStyles = `
   .tech-card__cat{font-size:13px;font-weight:700;color:var(--teal-2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px}
   .tech-card__tools{font-size:15px;font-weight:600;color:var(--text)}
 
-  /* ── RESPONSIVE ── */
-  @media(max-width:1100px){
-    .offerings-grid{grid-template-columns:repeat(2,1fr)}
-  }
+  /* RESPONSIVE */
+  @media(max-width:1100px){ .offerings-grid{grid-template-columns:repeat(2,1fr)} }
   @media(max-width:900px){
     .hero__inner{grid-template-columns:1fr}
     .hero__img{min-height:240px;aspect-ratio:16/9}
     .value-grid{grid-template-columns:repeat(2,1fr)}
-    .process-grid, .tech-grid{grid-template-columns:repeat(2,1fr)}
+    .process-grid,.tech-grid{grid-template-columns:repeat(2,1fr)}
   }
   @media(max-width:600px){
     .value-grid{grid-template-columns:1fr 1fr}
     .cta-band{flex-direction:column;align-items:flex-start}
-    .process-grid, .tech-grid{grid-template-columns:1fr}
+    .process-grid,.tech-grid{grid-template-columns:1fr}
   }
-  @media(max-width:480px){
-    .offerings-grid{grid-template-columns:1fr}
-  }
+  @media(max-width:480px){ .offerings-grid{grid-template-columns:1fr} }
 `;
 
 /* ── COMPONENT ── */
@@ -306,7 +302,6 @@ export default function Services() {
       <section className="section">
         <div className="container">
           <div className="hero__inner">
-            {/* Left: copy */}
             <div className="hero__left ha ha-1">
               <div style={{ marginBottom: 14 }}>
                 <span className="kicker">Services</span>
@@ -320,11 +315,10 @@ export default function Services() {
               </p>
               <div style={{ marginTop: 24, display: "flex", gap: 10, flexWrap: "wrap" }}>
                 <Link className="btn--primary" to="/contact">Book a discovery call</Link>
-                <Link className="btn--ghost" to="/about">How we work</Link>
+                <Link className="btn--ghost"   to="/about">How we work</Link>
               </div>
             </div>
 
-            {/* Right: image — stretches to match left column height */}
             <div className="hero__img ha ha-2">
               <img
                 className="ken-burns"
@@ -341,7 +335,7 @@ export default function Services() {
       {/* ── 2. WHAT YOU GET ── */}
       <section className="section section--alt">
         <div className="container">
-          <div className="rv" style={{ marginBottom: clamp(20, 28) }}>
+          <div className="rv" style={{ marginBottom: "clamp(20px,3vw,28px)" }}>
             <span className="kicker">Every engagement</span>
             <h2 className="h2" style={{ marginTop: 10, fontSize: "clamp(18px,2.5vw,28px)" }}>What you get by default</h2>
           </div>
@@ -363,28 +357,20 @@ export default function Services() {
             <span className="kicker">Offerings</span>
             <h2 className="h2" style={{ marginTop: 10 }}>Choose what you need</h2>
             <p className="lead" style={{ marginTop: 10, maxWidth: "56ch" }}>
-              From application development to data science and AI — we cover the full spectrum of enterprise technology needs.
+              From data engineering and application development to data science and AI — we cover the full spectrum of enterprise technology needs.
             </p>
           </div>
-
           <div className="offerings-grid rv-group">
             {offerings.map((o) => (
-              <div
-                key={o.title}
-                className="offering-cell rv"
-              >
-                {/* Image */}
+              <div key={o.title} className="offering-cell rv">
                 <div className="offering-cell__img">
                   <Link to={o.slug} style={{ display: "block", width: "100%", height: "100%" }}>
                     <img src={o.image} alt={o.title} loading="lazy" />
                   </Link>
                 </div>
-
-                {/* Body */}
                 <div className="offering-cell__body">
                   <Link to={o.slug} className="offering-cell__title">{o.title}</Link>
                   <p className="offering-cell__desc">{o.desc}</p>
-
                   <ul className="offering-cell__bullets">
                     {o.bullets.map((b) => (
                       <li key={b} className="offering-cell__bullet">
@@ -393,10 +379,9 @@ export default function Services() {
                       </li>
                     ))}
                   </ul>
-
                   <div className="offering-cell__footer">
                     <Link className="btn--primary" to={o.slug} style={{ fontSize: 12, padding: "7px 14px" }}>Explore</Link>
-                    <Link className="btn--ghost" to="/contact" style={{ fontSize: 12, padding: "7px 14px" }}>Enquire</Link>
+                    <Link className="btn--ghost"   to="/contact" style={{ fontSize: 12, padding: "7px 14px" }}>Enquire</Link>
                   </div>
                 </div>
               </div>
@@ -405,7 +390,7 @@ export default function Services() {
         </div>
       </section>
 
-      {/* ── 4. HOW WE WORK (PROCESS) ── */}
+      {/* ── 4. PROCESS ── */}
       <section className="section section--alt">
         <div className="container">
           <div className="rv" style={{ marginBottom: "clamp(20px,4vw,36px)" }}>
@@ -469,6 +454,3 @@ export default function Services() {
     </div>
   );
 }
-
-// tiny helper used inline in JSX (not imported)
-function clamp(min, max) { return `clamp(${min}px,3vw,${max}px)`; }

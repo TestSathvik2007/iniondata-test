@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 /**
- * Shared animation utilities for InonData site.
+ * Shared animation utilities for InionData site.
  * Import useReveal() in any page component.
  */
 

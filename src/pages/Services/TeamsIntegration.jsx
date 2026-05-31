@@ -24,7 +24,7 @@ const buildTypes = [
   },
   {
     title: "Meeting Integrations",
-    desc: "In-meeting apps, pre/post-meeting sidepanels, and automated meeting summaries. Surface the right data at the right moment in every call.",
+    desc: "In-meeting apps, pre/post-meeting side panels, and automated meeting summaries. Surface the right data at the right moment in every call.",
     icon: "🎥",
     example: "e.g. Live agenda panel, action item capture, CRM lookup",
   },

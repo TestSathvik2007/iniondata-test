@@ -6,7 +6,7 @@ import { supabase } from "../lib/supabase";
 const topics = ["Data & Analytics", "Web & App Development", "AI Solutions", "Cloud & Modernization", "Other"];
 
 const details = [
-  { label: "Location", value: "Richmond, VA" },
+  { label: "Location", value: "Suite 473, 7950 Legacy Drive, Plano, TX" },
   { label: "Phone",    value: "(804) 877-2171" },
   { label: "Email",    value: "hello@iniondata.com" },
   { label: "Hours",    value: "Mon–Fri, 9am–6pm EST" },
@@ -268,7 +268,7 @@ export default function Contact() {
               
               <div className="map-container">
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d101235.61746237255!2d-77.53123891460361!3d37.524673891396264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b111095799c9ed%3A0xbfd83e6de060a8b4!2sRichmond%2C%20VA!5e0!3m2!1sen!2sus!4v1714081044321!5m2!1sen!2sus" 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3347.4783195891433!2d-96.82310572357!3d33.07313687341!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x864c3c633c16b9b9%3A0x2f7d88eb8e0f2b63!2s7950%20Legacy%20Dr%2C%20Plano%2C%20TX%2075024!5e0!3m2!1sen!2sus!4v1714081044321!5m2!1sen!2sus" 
                   style={{ border: 0 }} 
                   allowFullScreen="" 
                   loading="lazy" 
