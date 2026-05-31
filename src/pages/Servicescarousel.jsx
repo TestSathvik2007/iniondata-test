@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 
-import service1 from "../assets/images/app_development.png";
 import service2 from "../assets/images/application_integration.png";
 import service3 from "../assets/images/application_management.png";
 import service4 from "../assets/images/application_maintenance.png";
@@ -16,7 +15,6 @@ import service9 from "../assets/images/dataengineering.jpg";
 // ─────────────────────────────────────────────────────────────────────────────
 
 const offerings = [
-  { title: "Application Development",                         desc: "Transforming heritage portfolios to flexible, modular application development.",      badge: "Development", image: service1, path: "/services/app-development" },
   { title: "Application Design, Development and Integration", desc: "Full range of requirements gathering, prototyping, implementation, and integration.", badge: "Integration", image: service2, path: "/services/app-integration" },
   { title: "Application Management and Support",              desc: "Providing management and support service for new and existing applications.",         badge: "Support",     image: service3, path: "/services/app-management" },
   { title: "Data Engineering",                                desc: "Building scalable, secure data pipelines and analytics platforms.",                   badge: "Data",        image: service9, path: "/services/data-engineering" },

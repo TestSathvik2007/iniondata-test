@@ -3,7 +3,7 @@ import { useReveal, ANIM_CSS } from "../animations";
 import { useRef } from "react";
 
 /* ── IMAGES ── */
-import service1  from "../assets/images/app_development.png";
+
 import service2  from "../assets/images/application_integration.png";
 import service3  from "../assets/images/application_management.png";
 import service4  from "../assets/images/application_maintenance.png";
@@ -16,14 +16,6 @@ import service10 from "../assets/images/dataengineering.jpg";
 
 /* ── DATA ── */
 const offerings = [
-  {
-    title: "Application Development",
-    path: "/services/app-development",
-    desc: "Transforming heritage portfolios to flexible, modular application development.",
-    bullets: ["Agile methods for rapid deployment", "Automation & business integration", "Enhance digital transformation & CX"],
-    image: service1,
-    slug: "/services/app-development",
-  },
   {
     title: "Application Design, Development and Integration",
     path: "/services/app-integration",
