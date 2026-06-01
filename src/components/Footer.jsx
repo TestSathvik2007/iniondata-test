@@ -8,21 +8,22 @@ const nav = [
       { label: "Home",    to: "/" },
       { label: "About",   to: "/about" },
       { label: "Careers", to: "/careers" },
-      { label: "Contact", to: "/contact" },
     ],
   },
   {
     title: "Services",
     links: [
       { label: "AI Enablement", to: "/ai-enablement" },
-      { label: "All Services",    to: "/services" },
+      { label: "Consulting",    to: "/services" },
+      { label: "Staffing",      to: "/services" },
+      { label: "Analytics",     to: "/services" },
     ],
   },
   {
     title: "Contact",
     items: [
-      { text: "Suite 473, 7950 Legacy Drive, Plano, TX",       href: null },
-      { text: "(804) 877-2171",     href: "tel:+18048772171" },
+      { text: "7950 Legacy Dr, Suite 473, Plano, TX 75024",       href: null },
+      { text: "(424) 425-6499",     href: "tel:+14244256499" },
       { text: "contact@iniondata.com",href: "mailto:contact@iniondata.com" },
       { text: "Mon–Fri, 9am–6pm",   href: null },
     ],

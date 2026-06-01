@@ -5,11 +5,10 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import service2  from "../assets/images/application_integration.png";
 import service5  from "../assets/images/project_management.png";
 import service6  from "../assets/images/consulting_services.png";
-import service7  from "../assets/images/teams_application.png";
 import service8  from "../assets/images/operational_efficiency.png";
 import service9  from "../assets/images/fast_growth.png";
 import service11 from "../assets/images/dataengineering.jpg";
-
+import service12 from "../assets/images/staffing.png";
 
 /* ── HERO CAROUSEL IMAGES ── */
 import heroImg1 from "../assets/images/hero1.jpg";
@@ -25,13 +24,13 @@ const heroSlides = [
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
 const offerings = [
-  { title: "Application Development & Services", desc: "End-to-end app delivery — design, development, integration, maintenance, and ongoing support.", badge: "Development", image: service2, path: "/services/app-development" },
+  { title: "Application Development & Services", desc: "End-to-end app delivery — design, development, Teams integration, maintenance, and ongoing support.", badge: "Development", image: service2, path: "/services/app-development" },
   { title: "Project Management", desc: "End-to-end delivery management — on time, on budget, with full stakeholder transparency.", badge: "Delivery", image: service5, path: "/services/project-management" },
   { title: "Consulting Services", desc: "Architecture reviews, feasibility studies, and technical roadmaps aligned with your business goals.", badge: "Advisory", image: service6, path: "/services/consulting" },
-  { title: "Teams Integration", desc: "Custom bots, embedded apps, and message extensions that bring your workflows into Microsoft Teams.", badge: "Collaboration", image: service7, path: "/services/teams-integration" },
   { title: "Operational Efficiency", desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.", badge: "Optimisation", image: service8, path: "/services/operational-efficiency" },
   { title: "Fast Growth", desc: "Accelerate release cycles, reduce maintenance debt, and scale architecture to match your ambition.", badge: "Growth", image: service9, path: "/services/fast-growth" },
   { title: "Data Engineering Services", desc: "End-to-end data pipelines, lake and warehouse architecture, ETL automation, and stream processing.", badge: "Data", image: service11, path: "/services/data-engineering" },
+  { title: "IT Staffing Solutions", desc: "Pre-vetted professionals placed fast — contract, contract-to-hire, or direct hire — matched to your stack and team culture.", badge: "Staffing", image: service12, path: "/services/staffing" },
 ];
 
 const staffingItems = [
@@ -577,7 +576,7 @@ export default function Home() {
                 Build high-performing teams without the hiring overhead. We provide pre-vetted professionals who are ready to contribute from day one — matched to your technical requirements and team culture.
               </p>
               <div style={{ marginTop: 24 }}>
-                <Link className="btn btn--primary" to="/services">Explore staffing</Link>
+                <Link className="btn btn--primary" to="/services/staffing">Explore staffing</Link>
               </div>
             </div>
             <div className="reveal-group" style={{ display: "flex", flexDirection: "column", gap: "clamp(10px,2vw,16px)" }}>

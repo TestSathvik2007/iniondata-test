@@ -587,11 +587,11 @@ export default function Navbar() {
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
               <div className="mob-footer-contact">
                 <span className="mob-footer-label">Phone</span>
-                <a href="tel:+18048772171" className="mob-footer-val">(804) 877-2171</a>
+                <a href="tel:+14244256499" className="mob-footer-val">(424) 425-6499</a>
               </div>
               <div className="mob-footer-contact">
                 <span className="mob-footer-label">Email</span>
-                <a href="mailto:hello@iniondata.com" className="mob-footer-val">hello@iniondata.com</a>
+                <a href="mailto:contact@iniondata.com" className="mob-footer-val">contact@iniondata.com</a>
               </div>
             </div>
             <Link to="/contact" className="mob-footer-cta" onClick={closeMenu}>

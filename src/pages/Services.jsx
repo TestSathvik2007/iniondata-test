@@ -10,6 +10,7 @@ import service7  from "../assets/images/teams_application.png";
 import service8  from "../assets/images/operational_efficiency.png";
 import service9  from "../assets/images/fast_growth.png";
 import service10 from "../assets/images/dataengineering.jpg";
+import service11 from "../assets/images/staffing.png";
 
 /* ── DATA ── */
 const offerings = [
@@ -20,6 +21,7 @@ const offerings = [
     bullets: [
       "Rich UI/UX design, prototyping & QA builds",
       "API, web services & third-party connectors",
+      "Teams integration, custom plugins, and workflow automation",
       "Reviews for standards and requirements",
       "Ensuring systems perform optimally",
       "Resolving technical & functional issues",
@@ -38,6 +40,20 @@ const offerings = [
     ],
     image: service10,
     slug: "/services/data-engineering",
+  },
+  {
+    title: "IT Staffing Solutions",
+    path: "/services/staffing",
+    desc: "Pre-vetted professionals placed fast — contract, contract-to-hire, or direct hire — matched to your stack and team culture.",
+    bullets: [
+      "Contract, contract-to-hire & direct hire",
+      "Rigorous technical vetting process",
+      "SAP, Data, Guidewire, Cloud & more",
+      "Scale teams up or down instantly",
+      "Domain expertise, not just job titles",
+    ],
+    image: service11,
+    slug: "/services/staffing",
   },
   {
     title: "Project Management",
@@ -63,19 +79,8 @@ const offerings = [
     image: service6,
     slug: "/services/consulting",
   },
+
   {
-    title: "Teams Application Development and Integration",
-    path: "/services/teams-integration",
-    desc: "Developing bots, message extensions, and Teams integrations.",
-    bullets: [
-      "Bots and message extensions",
-      "Integration into Microsoft Teams",
-      "Web app embedded as Tab",
-    ],
-    image: service7,
-    slug: "/services/teams-integration",
-  },
-   {
     title: "Operational Efficiency",
     path: "/services/operational-efficiency",
     desc: "Cut cloud costs, modernise legacy systems, and optimise developer workflows for measurable gains.",
@@ -370,7 +375,7 @@ export default function Services() {
             <span className="kicker">Offerings</span>
             <h2 className="h2" style={{ marginTop: 10 }}>Choose what you need</h2>
             <p className="lead" style={{ marginTop: 10, maxWidth: "56ch" }}>
-              From data engineering and application development to data science and AI — we cover the full spectrum of enterprise technology needs.
+              From data engineering and application development to staffing and AI — we cover the full spectrum of enterprise technology needs.
             </p>
           </div>
           <div className="offerings-grid rv-group">
