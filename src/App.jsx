@@ -21,6 +21,7 @@ const DataAnalytics = lazy(() => import("./pages/Services/DataAnalytics"));
 const DataEngineering = lazy(() => import("./pages/Services/DataEngineering"));
 const CloudEngineering = lazy(() => import("./pages/Services/CloudEngineering"));
 const DataScience = lazy(() => import("./pages/Services/DataScience"));
+const Staffing = lazy(() => import("./pages/Services/Staffing"));
 const HumanInTheLoop = lazy(() => import("./pages/Services/HumanInTheLoop"));
 const Careers = lazy(() => import("./pages/Careers"));
 const JobApplication = lazy(() => import("./pages/JobApplication")); // ✅ new
@@ -69,6 +70,7 @@ function AnimatedRoutes() {
           <Route path="/services/data-analytics" element={<DataAnalytics />} />
           <Route path="/services/data-engineering" element={<DataEngineering />} />
           <Route path="/services/cloud-engineering" element={<CloudEngineering />} />
+          <Route path="/services/staffing" element={<Staffing />} />
           <Route path="/services/data-science" element={<DataScience />} />
           <Route path="/services/human-in-the-loop" element={<HumanInTheLoop />} />
           <Route path="/careers" element={<Careers />} />

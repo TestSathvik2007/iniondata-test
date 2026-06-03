@@ -9,7 +9,6 @@ const details = [
   { label: "Location", value: "7950 Legacy Dr, Suite 473, Plano, TX 75024" },
   { label: "Phone",    value: "(424) 425-6499" },
   { label: "Email",    value: "contact@iniondata.com" },
-  { label: "Hours",    value: "Mon–Fri, 9am–6pm EST" },
 ];
 
 const pageStyles = `

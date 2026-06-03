@@ -14,9 +14,13 @@ const nav = [
     title: "Services",
     links: [
       { label: "AI Enablement", to: "/ai-enablement" },
-      { label: "Consulting",    to: "/services" },
-      { label: "Staffing",      to: "/services" },
-      { label: "Analytics",     to: "/services" },
+      { label: "App Development & Services", to: "/services/app-development" },
+      { label: "Project Management", to: "/services/project-management" },
+      { label: "Consulting Services", to: "/services/consulting" },
+      { label: "Fast Growth", to: "/services/fast-growth" },
+      { label: "Operational Efficiency", to: "/services/operational-efficiency" },
+      { label: "Data Engineering", to: "/services/data-engineering" },
+      { label: "IT Staffing Solutions", to: "/services/staffing" },
     ],
   },
   {
@@ -25,7 +29,6 @@ const nav = [
       { text: "7950 Legacy Dr, Suite 473, Plano, TX 75024",       href: null },
       { text: "(424) 425-6499",     href: "tel:+14244256499" },
       { text: "contact@iniondata.com",href: "mailto:contact@iniondata.com" },
-      { text: "Mon–Fri, 9am–6pm",   href: null },
     ],
   },
 ];
